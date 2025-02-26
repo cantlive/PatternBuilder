@@ -27,7 +27,7 @@ namespace PatternBuilder.Core.Builders
             if (string.IsNullOrWhiteSpace(_returnType) || string.IsNullOrWhiteSpace(_name))
                 throw new InvalidOperationException("The method was not initialized.");
 
-            return new PatternMethod(_returnType, _name, _parameters);
+            return new PatternMethod(_returnType, _name, new List<PatternParameter>(_parameters));
         }
 
         public void Clear()
@@ -36,6 +36,8 @@ namespace PatternBuilder.Core.Builders
             _name = string.Empty;
             _parameters.Clear();
         }
+
+        public IPatternMethodBuilder SetVoidMethod(string name) => SetMethod("void", name);
 
         public IPatternMethodBuilder SetMethod(string returnType, string name)
         {

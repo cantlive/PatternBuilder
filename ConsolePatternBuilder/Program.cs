@@ -29,7 +29,45 @@ IPatternClass patternClass = classBuilder
     .AddMethod(method2)
     .Build();
 
+methodBuilder.Clear();
+
+IPatternMethod interfaceMethod1 = methodBuilder
+    .SetMethod("IPatternMethodBuilder", "AddParameter")
+    .AddParameter("string", "returnType")
+    .AddParameter("string", "name")
+    .Build();
+
+methodBuilder.Clear();
+
+IPatternMethod interfaceMethod2 = methodBuilder
+    .SetMethod("IPatternMethodBuilder", "AddParameter")
+    .AddParameter("string", "parameterType")
+    .AddParameter("string", "parameterName")
+    .Build();
+
+methodBuilder.Clear();
+
+IPatternMethod interfaceMethod3 = methodBuilder
+    .SetVoidMethod("Build")
+    .Build();
+
+methodBuilder.Clear();
+
+IPatternMethod interfaceMethod4 = methodBuilder
+    .SetVoidMethod("Clear")
+    .Build();
+
+var interfaceBuilder = new PatternInterfaceBuilder();
+IPatternInterface patternInterface = interfaceBuilder
+    .SetInterface("IPatternMethodBuilder")
+    .AddMethod(interfaceMethod1)
+    .AddMethod(interfaceMethod2)
+    .AddMethod(interfaceMethod3)
+    .AddMethod(interfaceMethod4)
+    .Build();
+
 IPatternConverter converter = new PatternConverter();
 
 Console.WriteLine(converter.ConvertToString(patternClass));
+Console.WriteLine(converter.ConvertToString(patternInterface));
 Console.ReadLine();
