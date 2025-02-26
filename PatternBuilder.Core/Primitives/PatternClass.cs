@@ -4,36 +4,30 @@ namespace PatternBuilder.Core.Primitives
 {
     public class PatternClass : IPatternClass
     {
-        public string Name => _name;
+        public string Name { get; private set; }
 
         public IEnumerable<PatternParameter> Fields => _fields;
 
         public IEnumerable<IPatternMethod> Methods => _methods;
 
-        public bool IsAbstract => _isAbstract;
+        public bool IsAbstract { get; private set; }
 
-        public string ParentClass => _parentClass;
-
-        private readonly string _name;
-
-        private bool _isAbstract;
-
-        private string _parentClass;
+        public string ParentClass { get; private set; }
 
         private readonly List<PatternParameter> _fields;
 
         private readonly List<IPatternMethod> _methods;
 
-        public PatternClass(string name)
+        internal PatternClass(string name)
         {
-            _name = name;
+            Name = name;
             _fields = new List<PatternParameter>();
             _methods = new List<IPatternMethod>();
         }
 
         internal void SetAbstract()
         {
-            _isAbstract = true;
+            IsAbstract = true;
 
             foreach (IPatternMethod patternMethod in Methods)
                 patternMethod.IsAbstract = true;
@@ -41,23 +35,11 @@ namespace PatternBuilder.Core.Primitives
 
         internal void SetParentClass(string parentClass)
         {
-            _parentClass = parentClass;
+            ParentClass = parentClass;
         }
 
-        internal void AddField(PatternParameter field)
-        {
-            if (field == null)
-                throw new ArgumentNullException("field");
+        internal void AddField(PatternParameter field) => _fields.Add(field);
 
-            _fields.Add(field);
-        }
-
-        internal void AddMethod(IPatternMethod method)
-        {
-            if (method == null)
-                throw new ArgumentNullException("method");
-
-            _methods.Add(method);
-        }
+        internal void AddMethod(IPatternMethod method) => _methods.Add(method);
     }
 }

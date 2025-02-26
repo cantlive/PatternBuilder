@@ -48,6 +48,21 @@ namespace PatternBuilder.Core.Converters
             return _classStringBuilder.ToString();
         }
 
+        public string ConvertToString(IPatternInterface patternInterface)
+        {
+            _classStringBuilder.Clear();
+
+            _classStringBuilder.Append($"public interface {patternInterface.Name}");
+            _classStringBuilder.AppendLine();
+            _classStringBuilder.AppendLine("{");
+
+            AddMethodsToInterface(patternInterface);
+
+            _classStringBuilder.AppendLine("}");
+
+            return _classStringBuilder.ToString();
+        }
+
         private void AddFieldsToClass(IPatternClass patternClass)
         {
             foreach (PatternParameter field in patternClass.Fields)
@@ -67,6 +82,18 @@ namespace PatternBuilder.Core.Converters
             foreach (IPatternMethod method in patternClass.Methods)
             {
                 _classStringBuilder.AppendLine(ConvertToString(method));
+            }
+        }
+
+        private void AddMethodsToInterface(IPatternInterface patternInterface)
+        {
+            foreach (IPatternMethod method in patternInterface.Methods)
+            {
+                _classStringBuilder.Append("\t");
+                _classStringBuilder.Append($"{method.ReturnType} {method.Name}(");
+                AddParametersToMethod(method);
+                _classStringBuilder.Append(");");
+                _classStringBuilder.AppendLine();
             }
         }
 

@@ -15,6 +15,10 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder AddMethod(IPatternMethod method)
         {
+            ThrowIfClassWasNotInitialized();
+            if (method == null)
+                throw new ArgumentNullException("method");
+
             _patternClass.AddMethod(method);
 
             return this;
@@ -22,8 +26,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClass Build()
         {
-            if (_patternClass == null)
-                throw new InvalidOperationException("The class was not initialized.");
+            ThrowIfClassWasNotInitialized();
 
             return _patternClass;
         }
@@ -35,6 +38,8 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder SetAbstractClass()
         {
+            ThrowIfClassWasNotInitialized();
+
             _patternClass.SetAbstract();
 
             return this;
@@ -49,6 +54,8 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder SetParentClass(string parentClass)
         {
+            ThrowIfClassWasNotInitialized();
+
             _patternClass.SetParentClass(parentClass);
 
             return this;
@@ -56,9 +63,20 @@ namespace PatternBuilder.Core.Builders
 
         private IPatternClassBuilder AddField(PatternParameter field)
         {
+            ThrowIfClassWasNotInitialized();
+
+            if (field == null)
+                throw new ArgumentNullException("field");
+
             _patternClass.AddField(field);
 
             return this;
+        }
+
+        private void ThrowIfClassWasNotInitialized()
+        {
+            if (_patternClass == null)
+                throw new InvalidOperationException("The class was not initialized.");
         }
     }
 }
