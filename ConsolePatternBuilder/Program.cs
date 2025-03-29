@@ -3,11 +3,16 @@ using PatternBuilder.Core.Converters;
 using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Primitives;
 
-var methodBuilder = new PatternMethodBuilder();
+string body = @"_returnType = returnType;
+_name = name;
+
+return this;";
+
+var methodBuilder = new PatternMethodBuilder("IPatternMethodBuilder", "SetMethod");
 IPatternMethod method1 = methodBuilder
-    .SetMethod("IPatternMethodBuilder", "SetMethod")
     .AddParameter("string", "returnType")
     .AddParameter("string", "name")
+    .SetBody(body)
     .Build();
 
 methodBuilder.Clear();
@@ -18,9 +23,8 @@ IPatternMethod method2 = methodBuilder
     .AddParameter("string", "parameterName")
     .Build();
 
-var classBuilder = new PatternClassBuilder();
+var classBuilder = new PatternClassBuilder("PatternMethodBuilder");
 IPatternClass patternClass = classBuilder
-    .SetClass("PatternMethodBuilder")
     .SetParentClass("IPatternMethodBuilder")
     .AddField("string", "_returnType")
     .AddField("string", "_name")

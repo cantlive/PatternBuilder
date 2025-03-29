@@ -8,8 +8,10 @@ namespace PatternBuilder.Core.Interfaces.Primitives
 
         string ReturnType { get; }
 
-        bool IsAbstract { get; internal set; }
+        bool IsAbstract { get; set; }
 
         IEnumerable<PatternParameter> Parameters { get; }
+
+        string Body { get; set; }
     }
 }

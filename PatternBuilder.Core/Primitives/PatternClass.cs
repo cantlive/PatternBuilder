@@ -4,42 +4,38 @@ namespace PatternBuilder.Core.Primitives
 {
     public class PatternClass : IPatternClass
     {
-        public string Name { get; private set; }
+        public string Name { get; internal set; }
 
-        public IEnumerable<PatternParameter> Fields => _fields;
+        public IEnumerable<PatternParameter> Fields => FieldsByName.Values;
 
-        public IEnumerable<IPatternMethod> Methods => _methods;
+        public IEnumerable<IPatternMethod> Methods => MethodsByName.Values;
 
-        public bool IsAbstract { get; private set; }
-
-        public string ParentClass { get; private set; }
-
-        private readonly List<PatternParameter> _fields;
-
-        private readonly List<IPatternMethod> _methods;
-
-        internal PatternClass(string name)
+        public bool IsAbstract
         {
-            Name = name;
-            _fields = new List<PatternParameter>();
-            _methods = new List<IPatternMethod>();
+            get => _isAbstract;
+            internal set
+            {
+                _isAbstract = value;
+
+                foreach (IPatternMethod patternMethod in Methods)
+                {
+                    patternMethod.IsAbstract = value;
+                    if (value)
+                        patternMethod.Body = string.Empty;
+                }
+            }
         }
 
-        internal void SetAbstract()
-        {
-            IsAbstract = true;
+        public string ParentClass { get; internal set; }
 
-            foreach (IPatternMethod patternMethod in Methods)
-                patternMethod.IsAbstract = true;
-        }
+        internal Dictionary<string, PatternParameter> FieldsByName = new Dictionary<string, PatternParameter>();
 
-        internal void SetParentClass(string parentClass)
-        {
-            ParentClass = parentClass;
-        }
+        internal Dictionary<string, IPatternMethod> MethodsByName = new Dictionary<string, IPatternMethod>();
 
-        internal void AddField(PatternParameter field) => _fields.Add(field);
+        private bool _isAbstract;
 
-        internal void AddMethod(IPatternMethod method) => _methods.Add(method);
+        internal void RemoveField(string name) => FieldsByName.Remove(name);
+
+        internal void RemoveMethod(string name) => MethodsByName.Remove(name);
     }
 }

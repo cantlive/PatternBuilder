@@ -1,15 +1,18 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Interfaces.Builders
 {
     public interface IPatternClassBuilder
     {
-        IPatternClassBuilder SetClass(string name);
+        IPatternClassBuilder SetName(string name);
+
+        IPatternClassBuilder SetClass(IPatternClass patternClass);
 
         IPatternClassBuilder SetAbstractClass();
 
         IPatternClassBuilder SetParentClass(string parent);
+
+        IPatternClassBuilder RemoveParentClass();
 
         IPatternClassBuilder AddField(string parameterType, string parameterName);
 

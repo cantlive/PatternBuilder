@@ -6,13 +6,22 @@ namespace PatternBuilder.Core.Builders
 {
     public class PatternMethodBuilder : IPatternMethodBuilder
     {
+        private PatternMethod _patternMethod;
+
         private string _returnType;
         private string _name;
-        private readonly List<PatternParameter> _parameters;
+        private readonly List<PatternParameter> _parameters = new List<PatternParameter>();
+        private string _body;
 
-        public PatternMethodBuilder()
+        public PatternMethodBuilder(string returnType, string name)
         {
-            _parameters = new List<PatternParameter>();
+            SetReturnType(returnType);
+            SetName(name);
+        }
+
+        public PatternMethodBuilder(IPatternMethod patternMethod)
+        {
+            SetMethod(patternMethod);
         }
 
         public IPatternMethodBuilder AddParameter(string parameterType, string parameterName)
@@ -27,13 +36,23 @@ namespace PatternBuilder.Core.Builders
             if (string.IsNullOrWhiteSpace(_returnType) || string.IsNullOrWhiteSpace(_name))
                 throw new InvalidOperationException("The method was not initialized.");
 
-            return new PatternMethod(_returnType, _name, new List<PatternParameter>(_parameters));
+            if (_patternMethod == null)
+                _patternMethod = new PatternMethod();
+
+            _patternMethod.ReturnType = _returnType;
+            _patternMethod.Name = _name;
+            _patternMethod.Parameters = new List<PatternParameter>(_parameters);
+            _patternMethod.Body = _body;
+
+            return _patternMethod;
         }
 
         public void Clear()
         {
+            _patternMethod = null;
             _returnType = string.Empty;
             _name = string.Empty;
+            _body = string.Empty;
             _parameters.Clear();
         }
 
@@ -44,6 +63,33 @@ namespace PatternBuilder.Core.Builders
             _returnType = returnType;
             _name = name;
 
+            return this;
+        }
+
+        public IPatternMethodBuilder SetMethod(IPatternMethod patternMethod)
+        {
+            if (patternMethod == null)
+                throw new ArgumentNullException(nameof(patternMethod));
+
+            _patternMethod = (PatternMethod)patternMethod;
+            return this;
+        }
+
+        public IPatternMethodBuilder SetName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
+        public IPatternMethodBuilder SetReturnType(string returnType)
+        {
+            _returnType = returnType;
+            return this;
+        }
+
+        public IPatternMethodBuilder SetBody(string body)
+        {
+            _body = body;
             return this;
         }
     }
