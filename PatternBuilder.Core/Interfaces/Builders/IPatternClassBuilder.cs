@@ -8,7 +8,9 @@ namespace PatternBuilder.Core.Interfaces.Builders
 
         IPatternClassBuilder SetClass(IPatternClass patternClass);
 
-        IPatternClassBuilder SetAbstractClass();
+        IPatternClassBuilder SetAbstract();
+
+        IPatternClassBuilder SetNonAbstract();
 
         IPatternClassBuilder SetParentClass(string parent);
 
@@ -17,6 +19,10 @@ namespace PatternBuilder.Core.Interfaces.Builders
         IPatternClassBuilder AddField(string parameterType, string parameterName);
 
         IPatternClassBuilder AddMethod(IPatternMethod method);
+
+        IPatternClassBuilder RemoveField(string name);
+
+        IPatternClassBuilder RemoveMethod(string name);
 
         IPatternClass Build();
 

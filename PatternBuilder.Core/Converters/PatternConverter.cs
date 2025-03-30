@@ -9,28 +9,25 @@ namespace PatternBuilder.Core.Converters
     {
         private StringBuilder _classStringBuilder = new StringBuilder();
         private StringBuilder _interfaceStringBuilder = new StringBuilder();
-        private StringBuilder _methodsStringBuilder = new StringBuilder();
+        private StringBuilder _methodStringBuilder = new StringBuilder();
 
         public string ConvertToString(IPatternMethod patternMethod)
         {
-            _methodsStringBuilder.Clear();
-
             AddTabToMethod();
-            _methodsStringBuilder.Append($"public {patternMethod.ReturnType} {patternMethod.Name}(");
+            AddMethodSignature(patternMethod);
             AddParametersToMethod(patternMethod);
-            _methodsStringBuilder.Append(")");
-
             AddClassMethodBody(patternMethod);
             AddSemicolonToMethod(patternMethod);
 
-            return _methodsStringBuilder.ToString();
+            return ClearAndGetResult(_methodStringBuilder);
         }
 
         public string ConvertToString(IPatternClass patternClass)
         {
-            _classStringBuilder.Append($"public class {patternClass.Name}");
-            if (!string.IsNullOrWhiteSpace(patternClass.ParentClass))
-                _classStringBuilder.Append($" : {patternClass.ParentClass}");
+            string abstractClassDefinition = patternClass.IsAbstract ? " abstract" : string.Empty;
+            _classStringBuilder.Append($"public{abstractClassDefinition} class {patternClass.Name}");
+            AddParentClassToClass(patternClass);
+
             _classStringBuilder.AppendLine();
             _classStringBuilder.AppendLine("{");
 
@@ -40,10 +37,7 @@ namespace PatternBuilder.Core.Converters
 
             _classStringBuilder.AppendLine("}");
 
-            string result = _classStringBuilder.ToString();
-            _classStringBuilder.Clear();
-
-            return result;
+            return ClearAndGetResult(_classStringBuilder);
         }
 
         public string ConvertToString(IPatternInterface patternInterface)
@@ -56,10 +50,77 @@ namespace PatternBuilder.Core.Converters
 
             _interfaceStringBuilder.AppendLine("}");
 
-            string result = _interfaceStringBuilder.ToString();
-            _interfaceStringBuilder.Clear();
+            return ClearAndGetResult(_interfaceStringBuilder);
+        }
 
-            return result;
+        private void AddMethodSignature(IPatternMethod patternMethod)
+        {
+            string abstractMethodDefinition = patternMethod.IsAbstract ? " abstract" : string.Empty;
+            _methodStringBuilder.Append($"public{abstractMethodDefinition} {patternMethod.ReturnType} {patternMethod.Name}");
+        }
+
+        private void AddParametersToMethod(IPatternMethod patternMethod)
+        {
+            int iterator = 0;
+            int parametersCount = patternMethod.Parameters.Count();
+
+            _methodStringBuilder.Append("(");
+            foreach (PatternParameter patternParam in patternMethod.Parameters)
+            {
+                _methodStringBuilder.Append($"{patternParam.Type} {patternParam.Name}");
+                iterator++;
+                if (parametersCount > iterator)
+                    _methodStringBuilder.Append(", ");
+            }
+            _methodStringBuilder.Append(")");
+        }
+
+        private void AddClassMethodBody(IPatternMethod patternMethod)
+        {
+            if (_classStringBuilder.Length == 0 || patternMethod.IsAbstract)
+                return;
+
+            _methodStringBuilder.AppendLine();
+            AddTabToMethod();
+            _methodStringBuilder.AppendLine("{");
+            AddMethodBody(patternMethod);
+            AddTabToMethod();
+            _methodStringBuilder.AppendLine("}");
+            _methodStringBuilder.AppendLine();
+        }
+
+        private void AddMethodBody(IPatternMethod patternMethod)
+        {
+            if (string.IsNullOrWhiteSpace(patternMethod.Body))
+                return;
+
+            foreach (string row in patternMethod.Body.Split(Environment.NewLine))
+            {
+                AddTabToMethod();
+                AddTabToMethod();
+                _methodStringBuilder.AppendLine(row);
+            }
+        }
+
+        private void AddSemicolonToMethod(IPatternMethod patternMethod)
+        {
+            if (_interfaceStringBuilder.Length == 0 && !patternMethod.IsAbstract)
+                return;
+
+            _methodStringBuilder.Append(";");
+            _methodStringBuilder.AppendLine();
+        }
+
+        private void AddTabToMethod()
+        {
+            if (_classStringBuilder.Length > 0 || _interfaceStringBuilder.Length > 0)
+                _methodStringBuilder.Append("\t");
+        }
+
+        private void AddParentClassToClass(IPatternClass patternClass)
+        {
+            if (!string.IsNullOrWhiteSpace(patternClass.ParentClass))
+                _classStringBuilder.Append($" : {patternClass.ParentClass}");
         }
 
         private void AddFieldsToClass(IPatternClass patternClass)
@@ -92,59 +153,12 @@ namespace PatternBuilder.Core.Converters
             }
         }
 
-        private void AddParametersToMethod(IPatternMethod patternMethod)
+        private string ClearAndGetResult(StringBuilder stringBuilder)
         {
-            int iterator = 0;
-            int parametersCount = patternMethod.Parameters.Count();
-            foreach (PatternParameter patternParam in patternMethod.Parameters)
-            {
-                _methodsStringBuilder.Append($"{patternParam.Type} {patternParam.Name}");
-                iterator++;
-                if (parametersCount > iterator)
-                    _methodsStringBuilder.Append(", ");
-            }
-        }
+            string result = stringBuilder.ToString();
+            stringBuilder.Clear();
 
-        private void AddClassMethodBody(IPatternMethod patternMethod)
-        {
-            if (_classStringBuilder.Length == 0 || patternMethod.IsAbstract)
-                return;
-
-            _methodsStringBuilder.AppendLine();
-            AddTabToMethod();
-            _methodsStringBuilder.AppendLine("{");
-            AddMethodBody(patternMethod);
-            AddTabToMethod();
-            _methodsStringBuilder.AppendLine("}");
-            _methodsStringBuilder.AppendLine();
-        }
-
-        private void AddMethodBody(IPatternMethod patternMethod)
-        {
-            if (string.IsNullOrWhiteSpace(patternMethod.Body))
-                return;
-
-            foreach (string row in patternMethod.Body.Split(Environment.NewLine))
-            {
-                AddTabToMethod();
-                AddTabToMethod();
-                _methodsStringBuilder.AppendLine(row);
-            }
-        }
-
-        private void AddSemicolonToMethod(IPatternMethod patternMethod)
-        {
-            if (_interfaceStringBuilder.Length == 0 && !patternMethod.IsAbstract)
-                return;
-
-            _methodsStringBuilder.Append(";");
-            _methodsStringBuilder.AppendLine();
-        }
-
-        private void AddTabToMethod()
-        {
-            if (_classStringBuilder.Length > 0 || _interfaceStringBuilder.Length > 0)
-                _methodsStringBuilder.Append("\t");
+            return result;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace PatternBuilder.Core.Builders
 
         private string _returnType;
         private string _name;
-        private readonly List<PatternParameter> _parameters = new List<PatternParameter>();
+        private readonly Dictionary<string, PatternParameter> _parametersByName = new Dictionary<string, PatternParameter>();
         private string _body;
 
         public PatternMethodBuilder(string returnType, string name)
@@ -26,7 +26,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternMethodBuilder AddParameter(string parameterType, string parameterName)
         {
-            _parameters.Add(new PatternParameter(parameterType, parameterName));
+            _parametersByName.Add(parameterName, new PatternParameter(parameterType, parameterName));
 
             return this;
         }
@@ -41,7 +41,7 @@ namespace PatternBuilder.Core.Builders
 
             _patternMethod.ReturnType = _returnType;
             _patternMethod.Name = _name;
-            _patternMethod.Parameters = new List<PatternParameter>(_parameters);
+            _patternMethod.ParametersByName = new Dictionary<string, PatternParameter>(_parametersByName);
             _patternMethod.Body = _body;
 
             return _patternMethod;
@@ -53,7 +53,7 @@ namespace PatternBuilder.Core.Builders
             _returnType = string.Empty;
             _name = string.Empty;
             _body = string.Empty;
-            _parameters.Clear();
+            _parametersByName.Clear();
         }
 
         public IPatternMethodBuilder SetVoidMethod(string name) => SetMethod("void", name);
@@ -90,6 +90,16 @@ namespace PatternBuilder.Core.Builders
         public IPatternMethodBuilder SetBody(string body)
         {
             _body = body;
+            return this;
+        }
+
+        public IPatternMethodBuilder RemoveParameter(string name)
+        {
+            if (_patternMethod == null)
+                _parametersByName.Remove(name);
+            else
+                _patternMethod.RemoveParameter(name);
+
             return this;
         }
     }

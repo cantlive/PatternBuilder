@@ -14,7 +14,9 @@ namespace PatternBuilder.Core.Interfaces.Builders
 
         IPatternMethodBuilder SetBody(string body);
 
-        IPatternMethodBuilder AddParameter(string parameterType, string parameterName);
+        IPatternMethodBuilder AddParameter(string type, string name);
+
+        IPatternMethodBuilder RemoveParameter(string name);
 
         IPatternMethod Build();
 
