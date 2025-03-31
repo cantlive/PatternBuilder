@@ -31,7 +31,9 @@ namespace PatternBuilder.Core.Builders
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            method.HasImplementation = false;
+            if (method.HasImplementation)
+                throw new InvalidOperationException($"Method '{method.Name}' must be without implementation.");
+
             _methodsBySignature.Add(method.GetSignature(), method);
 
             return this;

@@ -37,6 +37,7 @@ methodBuilder.Clear();
 
 IPatternMethod interfaceMethod1 = methodBuilder
     .SetMethod("IPatternMethodBuilder", "AddParameter")
+    .HasNoImplementation()
     .AddParameter("string", "returnType")
     .AddParameter("string", "name")
     .Build();
@@ -45,6 +46,7 @@ methodBuilder.Clear();
 
 IPatternMethod interfaceMethod2 = methodBuilder
     .SetMethod("IPatternMethodBuilder", "AddParameter")
+    .HasNoImplementation()
     .AddParameter("string", "parameterType")
     .AddParameter("string", "parameterName")
     .Build();
@@ -53,12 +55,14 @@ methodBuilder.Clear();
 
 IPatternMethod interfaceMethod3 = methodBuilder
     .SetVoidMethod("Build")
+    .HasNoImplementation()
     .Build();
 
 methodBuilder.Clear();
 
 IPatternMethod interfaceMethod4 = methodBuilder
     .SetVoidMethod("Clear")
+    .HasNoImplementation()
     .Build();
 
 var interfaceBuilder = new PatternInterfaceBuilder("IPatternMethodBuilder");

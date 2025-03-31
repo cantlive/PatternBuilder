@@ -11,6 +11,8 @@ namespace PatternBuilder.Core.Builders
         private string _returnType;
         private string _name;
         private readonly Dictionary<string, PatternParameter> _parametersByName = new Dictionary<string, PatternParameter>();
+        private bool _isAbstract;
+        private bool _hasImplementation = true;
         private string _body;
 
         public PatternMethodBuilder(string returnType, string name)
@@ -42,6 +44,8 @@ namespace PatternBuilder.Core.Builders
             _patternMethod.ReturnType = _returnType;
             _patternMethod.Name = _name;
             _patternMethod.ParametersByName = new Dictionary<string, PatternParameter>(_parametersByName);
+            _patternMethod.IsAbstract = _isAbstract;
+            _patternMethod.HasImplementation = _hasImplementation;
             _patternMethod.Body = _body;
 
             return _patternMethod;
@@ -52,6 +56,8 @@ namespace PatternBuilder.Core.Builders
             _patternMethod = null;
             _returnType = string.Empty;
             _name = string.Empty;
+            _isAbstract = false;
+            _hasImplementation = true;
             _body = string.Empty;
             _parametersByName.Clear();
         }
@@ -99,6 +105,28 @@ namespace PatternBuilder.Core.Builders
                 _parametersByName.Remove(name);
             else
                 _patternMethod.RemoveParameter(name);
+
+            return this;
+        }
+
+        public IPatternMethodBuilder HasNoImplementation()
+        {
+            _hasImplementation = false;
+            return this;
+        }
+
+        public IPatternMethodBuilder SetAbstarct()
+        {
+            _isAbstract = true;
+            _hasImplementation = false;
+
+            return this;
+        }
+
+        public IPatternMethodBuilder SetNonAbstarct()
+        {
+            _isAbstract = false;
+            _hasImplementation = true;
 
             return this;
         }

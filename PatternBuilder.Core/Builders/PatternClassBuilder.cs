@@ -34,6 +34,9 @@ namespace PatternBuilder.Core.Builders
             if (method == null)
                 throw new ArgumentNullException("method");
 
+            if (_isAbstract && !method.IsAbstract)
+                throw new InvalidOperationException($"Method '{method.Name}' must be abstract.");
+
             _methodsBySignature.Add(method.GetSignature(), method);
 
             return this;
@@ -93,11 +96,7 @@ namespace PatternBuilder.Core.Builders
         {
             _isAbstract = true;
             foreach (IPatternMethod method in _methodsBySignature.Values)
-            {
-                method.IsAbstract = true;
-                method.HasImplementation = false;
-                method.Body = string.Empty;
-            }
+                method.SetAbstract();
 
             return this;
         }
@@ -106,7 +105,7 @@ namespace PatternBuilder.Core.Builders
         {
             _isAbstract = false;
             foreach (IPatternMethod method in _methodsBySignature.Values)
-                method.IsAbstract = false;
+                method.SetNonAbstract();
 
             return this;
         }

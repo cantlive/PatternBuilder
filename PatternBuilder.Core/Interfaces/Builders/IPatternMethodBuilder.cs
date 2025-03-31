@@ -14,6 +14,12 @@ namespace PatternBuilder.Core.Interfaces.Builders
 
         IPatternMethodBuilder SetBody(string body);
 
+        IPatternMethodBuilder SetAbstarct();
+
+        IPatternMethodBuilder SetNonAbstarct();
+
+        IPatternMethodBuilder HasNoImplementation();
+
         IPatternMethodBuilder AddParameter(string type, string name);
 
         IPatternMethodBuilder RemoveParameter(string name);
