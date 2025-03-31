@@ -61,9 +61,8 @@ IPatternMethod interfaceMethod4 = methodBuilder
     .SetVoidMethod("Clear")
     .Build();
 
-var interfaceBuilder = new PatternInterfaceBuilder();
+var interfaceBuilder = new PatternInterfaceBuilder("IPatternMethodBuilder");
 IPatternInterface patternInterface = interfaceBuilder
-    .SetInterface("IPatternMethodBuilder")
     .AddMethod(interfaceMethod1)
     .AddMethod(interfaceMethod2)
     .AddMethod(interfaceMethod3)

@@ -10,8 +10,12 @@ namespace PatternBuilder.Core.Interfaces.Primitives
 
         bool IsAbstract { get; set; }
 
+        bool HasImplementation { get; set; }
+
         IEnumerable<PatternParameter> Parameters { get; }
 
         string Body { get; set; }
+
+        string GetSignature();
     }
 }

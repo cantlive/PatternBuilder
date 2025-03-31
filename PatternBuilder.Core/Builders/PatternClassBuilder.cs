@@ -11,7 +11,7 @@ namespace PatternBuilder.Core.Builders
         private string _name;
         private string _parentClass;
         private bool _isAbstract;
-        private Dictionary<string, IPatternMethod> _methodsByName = new Dictionary<string, IPatternMethod>();
+        private Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
         private Dictionary<string, PatternParameter> _fieldsByName = new Dictionary<string, PatternParameter>();
 
         public PatternClassBuilder(string name)
@@ -34,7 +34,7 @@ namespace PatternBuilder.Core.Builders
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            _methodsByName.Add(method.Name, method);
+            _methodsBySignature.Add(method.GetSignature(), method);
 
             return this;
         }
@@ -48,7 +48,7 @@ namespace PatternBuilder.Core.Builders
             _patternClass.ParentClass = _parentClass;
             _patternClass.IsAbstract = _isAbstract;
             _patternClass.FieldsByName = new Dictionary<string, PatternParameter>(_fieldsByName);
-            _patternClass.MethodsByName = new Dictionary<string, IPatternMethod>(_methodsByName);
+            _patternClass.MethodsBySignature = new Dictionary<string, IPatternMethod>(_methodsBySignature);
 
             return _patternClass;
         }
@@ -59,7 +59,7 @@ namespace PatternBuilder.Core.Builders
             _name = string.Empty;
             _parentClass = string.Empty;
             _isAbstract = false;
-            _methodsByName.Clear();
+            _methodsBySignature.Clear();
             _fieldsByName.Clear();
         }
 
@@ -73,12 +73,12 @@ namespace PatternBuilder.Core.Builders
             return this;
         }
 
-        public IPatternClassBuilder RemoveMethod(string name)
+        public IPatternClassBuilder RemoveMethod(string signature)
         {
             if (_patternClass == null)
-                _methodsByName.Remove(name);
+                _methodsBySignature.Remove(signature);
             else
-                _patternClass.RemoveMethod(name);
+                _patternClass.RemoveMethod(signature);
 
             return this;
         }
@@ -92,9 +92,10 @@ namespace PatternBuilder.Core.Builders
         public IPatternClassBuilder SetAbstract()
         {
             _isAbstract = true;
-            foreach (IPatternMethod method in _methodsByName.Values)
+            foreach (IPatternMethod method in _methodsBySignature.Values)
             {
                 method.IsAbstract = true;
+                method.HasImplementation = false;
                 method.Body = string.Empty;
             }
 
@@ -104,7 +105,7 @@ namespace PatternBuilder.Core.Builders
         public IPatternClassBuilder SetNonAbstract()
         {
             _isAbstract = false;
-            foreach (IPatternMethod method in _methodsByName.Values)
+            foreach (IPatternMethod method in _methodsBySignature.Values)
                 method.IsAbstract = false;
 
             return this;

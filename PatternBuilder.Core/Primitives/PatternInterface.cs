@@ -4,18 +4,23 @@ namespace PatternBuilder.Core.Primitives
 {
     public class PatternInterface : IPatternInterface
     {
-        public string Name { get; private set; }        
+        public string Name { get; internal set; }        
 
-        public IEnumerable<IPatternMethod> Methods => _methods;
+        public IEnumerable<IPatternMethod> Methods => MethodsBySignature.Values;
 
-        private List<IPatternMethod> _methods;
+        public IEnumerable<PatternParameter> Properties => PropertiesByName.Values;
 
-        internal PatternInterface(string name)
+        internal Dictionary<string, PatternParameter> PropertiesByName = new Dictionary<string, PatternParameter>();
+
+        internal Dictionary<string, IPatternMethod> MethodsBySignature = new Dictionary<string, IPatternMethod>();
+
+        internal PatternInterface()
         {
-            Name = name;
-            _methods = new List<IPatternMethod>();
+            
         }
 
-        internal void AddMethod(IPatternMethod method) => _methods.Add(method);
+        internal void RemoveProperty(string name) => PropertiesByName.Remove(name);
+
+        internal void RemoveMethod(string signature) => MethodsBySignature.Remove(signature);
     }
 }

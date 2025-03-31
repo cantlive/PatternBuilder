@@ -8,7 +8,7 @@ namespace PatternBuilder.Core.Primitives
 
         public IEnumerable<PatternParameter> Fields => FieldsByName.Values;
 
-        public IEnumerable<IPatternMethod> Methods => MethodsByName.Values;
+        public IEnumerable<IPatternMethod> Methods => MethodsBySignature.Values;
 
         public bool IsAbstract { get; internal set; }
 
@@ -16,10 +16,15 @@ namespace PatternBuilder.Core.Primitives
 
         internal Dictionary<string, PatternParameter> FieldsByName = new Dictionary<string, PatternParameter>();
 
-        internal Dictionary<string, IPatternMethod> MethodsByName = new Dictionary<string, IPatternMethod>();
+        internal Dictionary<string, IPatternMethod> MethodsBySignature = new Dictionary<string, IPatternMethod>();
+
+        internal PatternClass()
+        {
+            
+        }
 
         internal void RemoveField(string name) => FieldsByName.Remove(name);
 
-        internal void RemoveMethod(string name) => MethodsByName.Remove(name);
+        internal void RemoveMethod(string signature) => MethodsBySignature.Remove(signature);
     }
 }
