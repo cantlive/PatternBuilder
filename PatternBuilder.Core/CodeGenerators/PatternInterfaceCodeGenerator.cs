@@ -1,13 +1,13 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.Converters
+namespace PatternBuilder.Core.CodeGenerators
 {
-    internal class InterfaceConverter : BaseConverter
+    internal class PatternInterfaceCodeGenerator : BasePatternCodeGenerator
     {
-        private readonly MethodConverter _methodConverter;
+        private readonly PatternMethodCodeGenerator _methodConverter;
 
-        public InterfaceConverter(MethodConverter methodConverter)
+        public PatternInterfaceCodeGenerator(PatternMethodCodeGenerator methodConverter)
         {
             _methodConverter = methodConverter;
         }
@@ -43,7 +43,7 @@ namespace PatternBuilder.Core.Converters
         {
             foreach (IPatternMethod method in patternInterface.Methods)
             {
-                AddLine(_methodConverter.ConvertToString(method));
+                AddLine(_methodConverter.Generate(method));
                 AddLine();
             }
         }

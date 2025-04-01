@@ -1,5 +1,5 @@
 ﻿using PatternBuilder.Core.Builders;
-using PatternBuilder.Core.Converters;
+using PatternBuilder.Core.CodeGenerators;
 using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Primitives;
 
@@ -73,8 +73,8 @@ IPatternInterface patternInterface = interfaceBuilder
     .AddMethod(interfaceMethod4)
     .Build();
 
-IPatternConverter converter = new PatternConverter();
+IPatternCodeGenerator converter = new PatternCodeGenerator();
 
-Console.WriteLine(converter.ConvertToString(patternClass));
-Console.WriteLine(converter.ConvertToString(patternInterface));
+Console.WriteLine(converter.Generate(patternClass));
+Console.WriteLine(converter.Generate(patternInterface));
 Console.ReadLine();

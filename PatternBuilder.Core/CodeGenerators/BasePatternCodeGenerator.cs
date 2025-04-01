@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace PatternBuilder.Core.Converters
+namespace PatternBuilder.Core.CodeGenerators
 {
-    internal class BaseConverter
+    internal class BasePatternCodeGenerator
     {
         protected StringBuilder _stringBuilder = new StringBuilder();
 

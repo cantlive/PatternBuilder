@@ -1,49 +1,40 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 
-namespace PatternBuilder.Core.Converters
+namespace PatternBuilder.Core.CodeGenerators
 {
-    internal class MethodConverter  :BaseConverter
+    internal sealed class PatternMethodCodeGenerator : BaseMethodCodeGenerator
     {
-        public string ConvertToString(IPatternMethod patternMethod)
+        protected override void AddSignature(IPatternMethod patternMethod)
         {
-            Clear();
-
             AddTab();
-            AddSignature(patternMethod);
-            AddParameters(patternMethod);
-            AddClassMethodBody(patternMethod);
-            AddSemicolon(patternMethod);
-
-            return GetResult();
-        }
-
-        private void AddSignature(IPatternMethod patternMethod)
-        {
             string abstractMethodDefinition = patternMethod.IsAbstract ? " abstract" : string.Empty;
             AddString($"public{abstractMethodDefinition} {patternMethod.ReturnType} {patternMethod.Name}");
         }
 
-        private void AddParameters(IPatternMethod patternMethod)
+        protected override void AddParameters(IPatternMethod patternMethod)
         {
             AddString("(");
             AddString(string.Join(", ", patternMethod.Parameters.Select(p => $"{p.Type} {p.Name}")));
             AddString(")");
         }
 
-        private void AddClassMethodBody(IPatternMethod patternMethod)
+        protected override void AddBody(IPatternMethod patternMethod)
         {
             if (!patternMethod.HasImplementation)
+            {
+                AddString(";");
                 return;
+            }
 
             AddLine();
             AddTab();
             AddLine("{");
-            AddMethodBody(patternMethod);
+            AddBodyContent(patternMethod);
             AddTab();
             AddLine("}");
         }
 
-        private void AddMethodBody(IPatternMethod patternMethod)
+        private void AddBodyContent(IPatternMethod patternMethod)
         {
             if (string.IsNullOrWhiteSpace(patternMethod.Body))
                 return;
@@ -54,12 +45,6 @@ namespace PatternBuilder.Core.Converters
                 AddTab();
                 AddLine(row);
             }
-        }
-
-        private void AddSemicolon(IPatternMethod patternMethod)
-        {
-            if (!patternMethod.HasImplementation)
-                AddString(";");
         }
 
         private void AddTab()
