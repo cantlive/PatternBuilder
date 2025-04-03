@@ -11,6 +11,7 @@ namespace PatternBuilder.Core.CodeGenerators
         public string Generate(IPatternMethod method)
         {
             Clear();
+
             AddSignature(method);
             AddParameters(method);
             AddBody(method);

@@ -4,27 +4,16 @@ using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Builders
 {
-    public class PatternMethodBuilder : IPatternMethodBuilder
+    public sealed class PatternMethodBuilder : IPatternMethodBuilder
     {
         private PatternMethod _patternMethod;
 
         private string _returnType;
         private string _name;
-        private readonly Dictionary<string, PatternParameter> _parametersByName = new Dictionary<string, PatternParameter>();
+        private Dictionary<string, PatternParameter> _parametersByName = new Dictionary<string, PatternParameter>();
         private bool _isAbstract;
         private bool _hasImplementation = true;
         private string _body;
-
-        public PatternMethodBuilder(string returnType, string name)
-        {
-            SetReturnType(returnType);
-            SetName(name);
-        }
-
-        public PatternMethodBuilder(IPatternMethod patternMethod)
-        {
-            SetMethod(patternMethod);
-        }
 
         public IPatternMethodBuilder AddParameter(string parameterType, string parameterName)
         {
@@ -64,10 +53,11 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternMethodBuilder SetVoidMethod(string name) => SetMethod("void", name);
 
-        public IPatternMethodBuilder SetMethod(string returnType, string name)
+        public IPatternMethodBuilder SetMethod(string returnType, string name, params PatternParameter[] parameters)
         {
             _returnType = returnType;
             _name = name;
+            _parametersByName = parameters.ToDictionary(p => p.Name);
 
             return this;
         }

@@ -4,7 +4,7 @@ using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Builders
 {
-    public class PatternClassBuilder : IPatternClassBuilder
+    public sealed class PatternClassBuilder : IPatternClassBuilder
     {
         private PatternClass _patternClass;
 
@@ -14,16 +14,6 @@ namespace PatternBuilder.Core.Builders
         private Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
         private Dictionary<string, PatternParameter> _fieldsByName = new Dictionary<string, PatternParameter>();
 
-        public PatternClassBuilder(string name)
-        {
-            _name = name;
-        }
-
-        public PatternClassBuilder(IPatternClass patternClass)
-        {
-            SetClass(patternClass);
-        }
-
         public IPatternClassBuilder AddField(string parameterType, string parameterName)
         {
             return AddField(new PatternParameter(parameterType, parameterName));
@@ -31,8 +21,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder AddMethod(IPatternMethod method)
         {
-            if (method == null)
-                throw new ArgumentNullException("method");
+            ArgumentNullException.ThrowIfNull(method);
 
             if (_isAbstract && !method.IsAbstract)
                 throw new InvalidOperationException($"Method '{method.Name}' must be abstract.");
@@ -118,10 +107,14 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder SetClass(IPatternClass patternClass)
         {
-            if (patternClass == null)
-                throw new ArgumentNullException(nameof(patternClass));
+            ArgumentNullException.ThrowIfNull(patternClass);
 
             _patternClass = (PatternClass)patternClass;
+            _name = _patternClass.Name;
+            _parentClass = _patternClass.ParentClass;
+            _isAbstract = _patternClass.IsAbstract;
+            _fieldsByName = new Dictionary<string, PatternParameter>(_patternClass.FieldsByName);
+            _methodsBySignature = new Dictionary<string, IPatternMethod>(_patternClass.MethodsBySignature);
 
             return this;
         }
@@ -132,10 +125,9 @@ namespace PatternBuilder.Core.Builders
             return this;
         }
 
-        private IPatternClassBuilder AddField(PatternParameter field)
+        private PatternClassBuilder AddField(PatternParameter field)
         {
-            if (field == null)
-                throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(field);
 
             _fieldsByName.Add(field.Name, field);
 

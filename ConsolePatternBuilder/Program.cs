@@ -8,8 +8,9 @@ _name = name;
 
 return this;";
 
-var methodBuilder = new PatternMethodBuilder("IPatternMethodBuilder", "SetMethod");
+var methodBuilder = new PatternMethodBuilder();
 IPatternMethod method1 = methodBuilder
+    .SetMethod("IPatternMethodBuilder", "SetMethod")
     .AddParameter("string", "returnType")
     .AddParameter("string", "name")
     .SetBody(body)
@@ -23,8 +24,9 @@ IPatternMethod method2 = methodBuilder
     .AddParameter("string", "parameterName")
     .Build();
 
-var classBuilder = new PatternClassBuilder("PatternMethodBuilder");
+var classBuilder = new PatternClassBuilder();
 IPatternClass patternClass = classBuilder
+    .SetName("PatternMethodBuilder")
     .SetParentClass("IPatternMethodBuilder")
     .AddField("string", "_returnType")
     .AddField("string", "_name")
@@ -65,8 +67,9 @@ IPatternMethod interfaceMethod4 = methodBuilder
     .HasNoImplementation()
     .Build();
 
-var interfaceBuilder = new PatternInterfaceBuilder("IPatternMethodBuilder");
+var interfaceBuilder = new PatternInterfaceBuilder();
 IPatternInterface patternInterface = interfaceBuilder
+    .SetName("IPatternMethodBuilder")
     .AddMethod(interfaceMethod1)
     .AddMethod(interfaceMethod2)
     .AddMethod(interfaceMethod3)

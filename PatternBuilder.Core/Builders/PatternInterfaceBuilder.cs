@@ -3,23 +3,13 @@ using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 namespace PatternBuilder.Core.Builders
 {
-    public class PatternInterfaceBuilder : IPatternInterfaceBuilder
+    public sealed class PatternInterfaceBuilder : IPatternInterfaceBuilder
     {
         private PatternInterface _patternInterface;
 
         private string _name;
         private Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
         private Dictionary<string, PatternParameter> _propertiesByName = new Dictionary<string, PatternParameter>();
-
-        public PatternInterfaceBuilder(string name)
-        {
-            _name = name;
-        }
-
-        public PatternInterfaceBuilder(IPatternInterface patternInterface)
-        {
-            SetInterface(patternInterface);
-        }
 
         public IPatternInterfaceBuilder AddField(string parameterType, string parameterName)
         {
@@ -28,8 +18,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternInterfaceBuilder AddMethod(IPatternMethod method)
         {
-            if (method == null)
-                throw new ArgumentNullException("method");
+            ArgumentNullException.ThrowIfNull(method);
 
             if (method.HasImplementation)
                 throw new InvalidOperationException($"Method '{method.Name}' must be without implementation.");
@@ -87,18 +76,19 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternInterfaceBuilder SetInterface(IPatternInterface patternInterface)
         {
-            if (patternInterface == null)
-                throw new ArgumentNullException(nameof(patternInterface));
+            ArgumentNullException.ThrowIfNull(patternInterface);
 
             _patternInterface = (PatternInterface)patternInterface;
+            _name = _patternInterface.Name;
+            _propertiesByName = new Dictionary<string, PatternParameter>(_patternInterface.PropertiesByName);
+            _methodsBySignature = new Dictionary<string, IPatternMethod>(_patternInterface.MethodsBySignature);
 
             return this;
         }
 
-        private IPatternInterfaceBuilder AddProperty(PatternParameter field)
+        private PatternInterfaceBuilder AddProperty(PatternParameter field)
         {
-            if (field == null)
-                throw new ArgumentNullException("field");
+            ArgumentNullException.ThrowIfNull(field);
 
             _propertiesByName.Add(field.Name, field);
 

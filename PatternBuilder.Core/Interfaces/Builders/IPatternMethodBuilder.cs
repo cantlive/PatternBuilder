@@ -1,10 +1,11 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
+using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Interfaces.Builders
 {
     public interface IPatternMethodBuilder
     {
-        IPatternMethodBuilder SetMethod(string returnType, string name);
+        IPatternMethodBuilder SetMethod(string returnType, string name, params PatternParameter[] parameters);
 
         IPatternMethodBuilder SetMethod(IPatternMethod patternMethod);
 

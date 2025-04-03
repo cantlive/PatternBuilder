@@ -1,8 +1,8 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators
+namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
 {
-    internal sealed class PatternMethodCodeGenerator : BaseMethodCodeGenerator
+    internal sealed class CSharpMethodCodeGenerator : BaseMethodCodeGenerator
     {
         protected override void AddSignature(IPatternMethod patternMethod)
         {
