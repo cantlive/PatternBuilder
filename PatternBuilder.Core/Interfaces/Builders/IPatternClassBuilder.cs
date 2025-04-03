@@ -6,8 +6,6 @@ namespace PatternBuilder.Core.Interfaces.Builders
     {
         IPatternClassBuilder SetName(string name);
 
-        IPatternClassBuilder SetClass(IPatternClass patternClass);
-
         IPatternClassBuilder SetAbstract();
 
         IPatternClassBuilder SetNonAbstract();

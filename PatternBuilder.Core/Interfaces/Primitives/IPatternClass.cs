@@ -13,5 +13,21 @@ namespace PatternBuilder.Core.Interfaces.Primitives
         IEnumerable<IPatternMethod> Methods { get; }
 
         string ParentClass { get; }
+
+        void SetName(string name);
+
+        void SetParentClass(string parentClass);
+
+        void SetAbstract();
+
+        void SetNonAbstract();
+
+        void AddField(PatternParameter field);
+
+        void RemoveField(string name);
+
+        void AddMethod(IPatternMethod method);
+
+        void RemoveMethod(string name);
     }
 }

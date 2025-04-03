@@ -1,19 +1,10 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
+using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Primitives
 {
     public class PatternClass : IPatternClass
     {
-        public string Name { get; internal set; }
-
-        public IEnumerable<PatternParameter> Fields => FieldsByName.Values;
-
-        public IEnumerable<IPatternMethod> Methods => MethodsBySignature.Values;
-
-        public bool IsAbstract { get; internal set; }
-
-        public string ParentClass { get; internal set; }
-
         internal Dictionary<string, PatternParameter> FieldsByName = new Dictionary<string, PatternParameter>();
 
         internal Dictionary<string, IPatternMethod> MethodsBySignature = new Dictionary<string, IPatternMethod>();
@@ -23,8 +14,51 @@ namespace PatternBuilder.Core.Primitives
             
         }
 
-        internal void RemoveField(string name) => FieldsByName.Remove(name);
+        public string Name { get; private set; }
 
-        internal void RemoveMethod(string signature) => MethodsBySignature.Remove(signature);
+        public IEnumerable<PatternParameter> Fields => FieldsByName.Values;
+
+        public IEnumerable<IPatternMethod> Methods => MethodsBySignature.Values;
+
+        public bool IsAbstract { get; private set; }
+
+        public string ParentClass { get; private set; }
+
+        public void SetName(string name)
+        {
+            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
+            Name = name;
+        }
+
+        public void SetParentClass(string parentClass)
+        {
+            ParentClass = parentClass;
+        }
+
+        public void SetAbstract()
+        {
+            foreach (IPatternMethod method in Methods)
+                method.SetAbstract();
+        }
+
+        public void SetNonAbstract()
+        {
+            foreach (IPatternMethod method in Methods)
+                method.SetNonAbstract();
+        }
+
+        public void AddField(PatternParameter field)
+        {
+            FieldsByName.Add(field.Name, field);
+        }
+
+        public void RemoveField(string name) => FieldsByName.Remove(name);
+
+        public void AddMethod(IPatternMethod method)
+        {
+            MethodsBySignature.Add(method.GetSignature(), method);
+        }
+
+        public void RemoveMethod(string signature) => MethodsBySignature.Remove(signature);
     }
 }

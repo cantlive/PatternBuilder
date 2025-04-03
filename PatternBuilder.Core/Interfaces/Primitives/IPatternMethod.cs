@@ -18,6 +18,14 @@ namespace PatternBuilder.Core.Interfaces.Primitives
 
         string GetSignature();
 
+        void RemoveParameter(string name);
+
+        void SetReturnType(string returnType);
+
+        void SetName(string name);
+
+        void SetBody(string body);
+
         void SetAbstract();
 
         void SetNonAbstract();

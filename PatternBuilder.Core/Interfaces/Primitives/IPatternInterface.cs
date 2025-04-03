@@ -9,5 +9,13 @@ namespace PatternBuilder.Core.Interfaces.Primitives
         IEnumerable<PatternParameter> Properties { get; }
 
         IEnumerable<IPatternMethod> Methods { get; }
+
+        void AddProperty(PatternParameter property);
+
+        void RemoveProperty(string name);
+
+        void AddMethod(IPatternMethod method);
+
+        void RemoveMethod(string name);
     }
 }

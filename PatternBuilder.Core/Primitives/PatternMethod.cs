@@ -1,4 +1,5 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
+using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Primitives
 {
@@ -11,23 +12,44 @@ namespace PatternBuilder.Core.Primitives
             
         }
 
-        public string Name { get; internal set; }
+        public string Name { get; private set; }
 
-        public string ReturnType { get; internal set; }
+        public string ReturnType { get; private set; }
 
         public IEnumerable<PatternParameter> Parameters => ParametersByName.Values;
 
-        public bool IsAbstract { get; internal set; }
+        public bool IsAbstract { get; private set; }
 
         public bool HasImplementation { get; internal set; } = true;
 
-        public string Body { get; internal set; }
+        public string Body { get; private set; }
 
-        internal void RemoveParameter(string name) => ParametersByName.Remove(name);
+        public void AddParameter(string type, string name)
+        {
+            ParametersByName.Add(name, new PatternParameter(type, name));
+        }
+
+        public void RemoveParameter(string name) => ParametersByName.Remove(name);
 
         public string GetSignature()
         {
             return $"{ReturnType};{Name};{string.Join(";", Parameters.Select(p => $"{p.Type}{p.Name}"))}";
+        }
+
+        public void SetReturnType(string returnType)
+        {
+            ReturnType = returnType;
+        }
+
+        public void SetName(string name)
+        {
+            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
+            Name = name;
+        }
+
+        public void SetBody(string body)
+        {
+            Body = body;
         }
 
         public void SetAbstract()

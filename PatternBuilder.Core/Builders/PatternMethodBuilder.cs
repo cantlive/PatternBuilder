@@ -6,8 +6,6 @@ namespace PatternBuilder.Core.Builders
 {
     public sealed class PatternMethodBuilder : IPatternMethodBuilder
     {
-        private PatternMethod _patternMethod;
-
         private string _returnType;
         private string _name;
         private Dictionary<string, PatternParameter> _parametersByName = new Dictionary<string, PatternParameter>();
@@ -15,34 +13,31 @@ namespace PatternBuilder.Core.Builders
         private bool _hasImplementation = true;
         private string _body;
 
-        public IPatternMethodBuilder AddParameter(string parameterType, string parameterName)
+        public IPatternMethodBuilder AddParameter(string type, string name)
         {
-            _parametersByName.Add(parameterName, new PatternParameter(parameterType, parameterName));
-
+            _parametersByName.Add(name, new PatternParameter(type, name));
             return this;
         }
 
         public IPatternMethod Build()
         {
-            if (string.IsNullOrWhiteSpace(_returnType) || string.IsNullOrWhiteSpace(_name))
-                throw new InvalidOperationException("The method was not initialized.");
+            var patternMethod = new PatternMethod();
 
-            if (_patternMethod == null)
-                _patternMethod = new PatternMethod();
+            patternMethod.SetReturnType(_returnType);
+            patternMethod.SetName(_name);
+            patternMethod.ParametersByName = new Dictionary<string, PatternParameter>(_parametersByName);
+            patternMethod.HasImplementation = _hasImplementation;
+            patternMethod.SetBody(_body);
+            if (_isAbstract)
+                patternMethod.SetAbstract();
+            else if (_hasImplementation)
+                patternMethod.SetNonAbstract();
 
-            _patternMethod.ReturnType = _returnType;
-            _patternMethod.Name = _name;
-            _patternMethod.ParametersByName = new Dictionary<string, PatternParameter>(_parametersByName);
-            _patternMethod.IsAbstract = _isAbstract;
-            _patternMethod.HasImplementation = _hasImplementation;
-            _patternMethod.Body = _body;
-
-            return _patternMethod;
+            return patternMethod;
         }
 
         public void Clear()
         {
-            _patternMethod = null;
             _returnType = string.Empty;
             _name = string.Empty;
             _isAbstract = false;
@@ -59,15 +54,6 @@ namespace PatternBuilder.Core.Builders
             _name = name;
             _parametersByName = parameters.ToDictionary(p => p.Name);
 
-            return this;
-        }
-
-        public IPatternMethodBuilder SetMethod(IPatternMethod patternMethod)
-        {
-            if (patternMethod == null)
-                throw new ArgumentNullException(nameof(patternMethod));
-
-            _patternMethod = (PatternMethod)patternMethod;
             return this;
         }
 
@@ -91,11 +77,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternMethodBuilder RemoveParameter(string name)
         {
-            if (_patternMethod == null)
-                _parametersByName.Remove(name);
-            else
-                _patternMethod.RemoveParameter(name);
-
+            _parametersByName.Remove(name);
             return this;
         }
 
@@ -109,6 +91,7 @@ namespace PatternBuilder.Core.Builders
         {
             _isAbstract = true;
             _hasImplementation = false;
+            _body = string.Empty;
 
             return this;
         }

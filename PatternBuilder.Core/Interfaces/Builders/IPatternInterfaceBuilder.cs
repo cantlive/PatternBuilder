@@ -6,9 +6,7 @@ namespace PatternBuilder.Core.Interfaces.Builders
     {
         IPatternInterfaceBuilder SetName(string name);
 
-        IPatternInterfaceBuilder SetInterface(IPatternInterface patternInterface);
-
-        IPatternInterfaceBuilder AddField(string parameterType, string parameterName);
+        IPatternInterfaceBuilder AddProperty(string parameterType, string parameterName);
 
         IPatternInterfaceBuilder AddMethod(IPatternMethod method);
 
