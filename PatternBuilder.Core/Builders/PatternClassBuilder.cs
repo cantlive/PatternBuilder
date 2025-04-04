@@ -1,6 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+using System.Xml.Linq;
 
 namespace PatternBuilder.Core.Builders
 {
@@ -21,6 +22,9 @@ namespace PatternBuilder.Core.Builders
         {
             ArgumentNullException.ThrowIfNull(method);
 
+            if (_methodsBySignature.ContainsKey(method.GetSignature()))
+                throw new InvalidOperationException($"Method '{method.Name}' already exists in the class.");
+
             if (_isAbstract && !method.IsAbstract)
                 throw new InvalidOperationException($"Method '{method.Name}' must be abstract.");
 
@@ -34,7 +38,7 @@ namespace PatternBuilder.Core.Builders
             var patternClass = new PatternClass();
 
             patternClass.SetName(_name);
-            patternClass.SetName(_parentClass);
+            patternClass.SetParentClass(_parentClass);
             if (_isAbstract)
                 patternClass.SetAbstract();
             else
@@ -105,6 +109,9 @@ namespace PatternBuilder.Core.Builders
         private PatternClassBuilder AddField(PatternParameter field)
         {
             ArgumentNullException.ThrowIfNull(field);
+
+            if (_fieldsByName.ContainsKey(field.Name))
+                throw new InvalidOperationException($"Field '{field.Name}' already exists in the class.");
 
             _fieldsByName.Add(field.Name, field);
 

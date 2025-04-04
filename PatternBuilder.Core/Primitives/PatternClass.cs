@@ -3,7 +3,7 @@ using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public class PatternClass : IPatternClass
+    public sealed class PatternClass : IPatternClass
     {
         internal Dictionary<string, PatternParameter> FieldsByName = new Dictionary<string, PatternParameter>();
 
@@ -49,6 +49,11 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddField(PatternParameter field)
         {
+            ArgumentNullException.ThrowIfNull(field);
+
+            if (FieldsByName.ContainsKey(field.Name))
+                throw new InvalidOperationException($"Field '{field.Name}' already exists in the class '{Name}'.");
+
             FieldsByName.Add(field.Name, field);
         }
 
@@ -56,6 +61,11 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddMethod(IPatternMethod method)
         {
+            ArgumentNullException.ThrowIfNull(method);
+
+            if (MethodsBySignature.ContainsKey(method.GetSignature()))
+                throw new InvalidOperationException($"Method '{method.Name}' already exists in the class '{Name}'.");
+
             MethodsBySignature.Add(method.GetSignature(), method);
         }
 

@@ -1,35 +1,35 @@
-﻿using PatternBuilder.Core.CodeGenerators.CSharpGenerators;
-using PatternBuilder.Core.Interfaces.Converters;
+﻿using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
-    public class PatternCodeGenerator : IPatternCodeGenerator
+    public class PatternCodeGenerator : BaseCodeGenerator, IPatternCodeGenerator
     {
-        private readonly CSharpMethodCodeGenerator _methodGenerator;
-        private readonly CSharpClassCodeGenerator _classGenerator;
-        private readonly CSharpInterfaceCodeGenerator _interfaceConverter;
+        private readonly BaseClassCodeGenerator _classGenerator;
+        private readonly BaseInterfaceCodeGenerator _interfaceGenerator;
 
-        public PatternCodeGenerator()
+        internal PatternCodeGenerator(BaseClassCodeGenerator classCodeGenerator, 
+            BaseInterfaceCodeGenerator interfaceCodeGenerator)
         {
-            _methodGenerator = new CSharpMethodCodeGenerator();
-            _classGenerator = new CSharpClassCodeGenerator(_methodGenerator);
-            _interfaceConverter = new CSharpInterfaceCodeGenerator(_methodGenerator);
+            _classGenerator = classCodeGenerator;
+            _interfaceGenerator = interfaceCodeGenerator;
         }
 
-        public string Generate(IPatternMethod patternMethod)
+        public string Generate(IPattern pattern)
         {
-            return _methodGenerator.Generate(patternMethod);
-        }
+            Clear();
 
-        public string Generate(IPatternClass patternClass)
-        {
-            return _classGenerator.Generate(patternClass);
-        }
+            foreach (var patternClass in pattern.Classes)
+            {
+                AddLine(_classGenerator.Generate(patternClass));
+            }
 
-        public string Generate(IPatternInterface patternInterface)
-        {
-            return _interfaceConverter.Generate(patternInterface);
+            foreach (var patternInterface in pattern.Interfaces)
+            {
+                AddLine(_interfaceGenerator.Generate(patternInterface));
+            }
+
+            return GetResult();
         }
     }
 }

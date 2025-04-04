@@ -2,8 +2,15 @@
 
 namespace PatternBuilder.Core.CodeGenerators
 {
-    internal abstract class BaseClassCodeGenerator : BasePatternCodeGenerator
+    public abstract class BaseClassCodeGenerator : BaseCodeGenerator
     {
+        protected readonly BaseMethodCodeGenerator _methodGenerator;
+
+        public BaseClassCodeGenerator(BaseMethodCodeGenerator methodGenerator)
+        {
+            _methodGenerator = methodGenerator;
+        }
+
         protected abstract void AddSignature(IPatternClass patternClass);
         protected abstract void AddFields(IPatternClass patternClass);
         protected abstract void AddMethods(IPatternClass patternClass);

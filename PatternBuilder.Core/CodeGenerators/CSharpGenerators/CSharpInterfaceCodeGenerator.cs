@@ -5,12 +5,7 @@ namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
 {
     internal sealed class CSharpInterfaceCodeGenerator : BaseInterfaceCodeGenerator
     {
-        private readonly CSharpMethodCodeGenerator _methodConverter;
-
-        public CSharpInterfaceCodeGenerator(CSharpMethodCodeGenerator methodConverter)
-        {
-            _methodConverter = methodConverter;
-        }
+        public CSharpInterfaceCodeGenerator() : base(new CSharpMethodCodeGenerator()) { }
 
         protected override void AddSignature(IPatternInterface patternInterface)
         {
@@ -31,7 +26,7 @@ namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
         {
             foreach (IPatternMethod method in patternInterface.Methods)
             {
-                AddLine(_methodConverter.Generate(method));
+                AddLine(_methodGenerator.Generate(method));
                 AddLine();
             }
 

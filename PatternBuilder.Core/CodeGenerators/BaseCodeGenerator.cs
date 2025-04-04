@@ -2,7 +2,7 @@
 
 namespace PatternBuilder.Core.CodeGenerators
 {
-    internal class BasePatternCodeGenerator
+    public class BaseCodeGenerator
     {
         protected StringBuilder _stringBuilder = new StringBuilder();
 

@@ -3,7 +3,7 @@ using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public class PatternMethod : IPatternMethod
+    public sealed class PatternMethod : IPatternMethod
     {
         internal Dictionary<string, PatternParameter> ParametersByName = new Dictionary<string, PatternParameter>();
 

@@ -2,6 +2,16 @@
 {
     public interface IPattern
     {
-        string Pattern { get; }
+        IEnumerable<IPatternClass> Classes { get; }
+
+        IEnumerable<IPatternInterface> Interfaces { get; }
+
+        void AddClass(IPatternClass patternClass);
+
+        void AddInterface(IPatternInterface patternInterface);
+
+        void RemoveClass(string name);
+
+        void RemoveInterface(string name);
     }
 }

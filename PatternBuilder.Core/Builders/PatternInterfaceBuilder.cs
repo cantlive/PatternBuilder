@@ -18,6 +18,9 @@ namespace PatternBuilder.Core.Builders
         {
             ArgumentNullException.ThrowIfNull(method);
 
+            if (_methodsBySignature.ContainsKey(method.GetSignature()))
+                throw new InvalidOperationException($"Method '{method.Name}' already exists in the interface.");
+
             if (method.HasImplementation)
                 throw new InvalidOperationException($"Method '{method.Name}' must be without implementation.");
 
@@ -65,6 +68,9 @@ namespace PatternBuilder.Core.Builders
         private PatternInterfaceBuilder AddProperty(PatternParameter field)
         {
             ArgumentNullException.ThrowIfNull(field);
+
+            if (_propertiesByName.ContainsKey(field.Name))
+                throw new InvalidOperationException($"Property '{field.Name}' already exists in the interface.");
 
             _propertiesByName.Add(field.Name, field);
 
