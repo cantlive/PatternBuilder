@@ -1,10 +1,10 @@
 ﻿using PatternBuilder.Core.Builders;
 using PatternBuilder.Core.CodeGenerators;
-using PatternBuilder.Core.CodeGenerators.Factories.Interfaces;
 using PatternBuilder.Core.CodeGenerators.Factories;
 using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
 
 string body = @"_returnType = returnType;
 _name = name;

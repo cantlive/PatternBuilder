@@ -1,4 +1,4 @@
-﻿using PatternBuilder.Core.CodeGenerators.Factories.Interfaces;
+﻿using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
 
 namespace PatternBuilder.Core.CodeGenerators.Factories.LanguageCodeGeneratorFactories
 {
