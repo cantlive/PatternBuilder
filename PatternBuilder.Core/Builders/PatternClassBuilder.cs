@@ -1,7 +1,6 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
-using System.Xml.Linq;
 
 namespace PatternBuilder.Core.Builders
 {
@@ -10,8 +9,8 @@ namespace PatternBuilder.Core.Builders
         private string _name;
         private string _parentClass;
         private bool _isAbstract;
-        private Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
-        private Dictionary<string, PatternParameter> _fieldsByName = new Dictionary<string, PatternParameter>();
+        private readonly Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
+        private readonly Dictionary<string, PatternParameter> _fieldsByName = new Dictionary<string, PatternParameter>();
 
         public IPatternClassBuilder AddField(string parameterType, string parameterName)
         {

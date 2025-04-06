@@ -1,13 +1,14 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+
 namespace PatternBuilder.Core.Builders
 {
     public sealed class PatternInterfaceBuilder : IPatternInterfaceBuilder
     {
         private string _name;
-        private Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
-        private Dictionary<string, PatternParameter> _propertiesByName = new Dictionary<string, PatternParameter>();
+        private readonly Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
+        private readonly Dictionary<string, PatternParameter> _propertiesByName = new Dictionary<string, PatternParameter>();
 
         public IPatternInterfaceBuilder AddProperty(string parameterType, string parameterName)
         {

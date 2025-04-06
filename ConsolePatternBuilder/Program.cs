@@ -4,7 +4,6 @@ using PatternBuilder.Core.CodeGenerators.Factories;
 using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
 using PatternBuilder.Core.Interfaces.Factories;
 
 string body = @"_returnType = returnType;

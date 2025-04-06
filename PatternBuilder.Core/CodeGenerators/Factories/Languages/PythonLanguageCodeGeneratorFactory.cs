@@ -2,7 +2,7 @@
 
 namespace PatternBuilder.Core.CodeGenerators.Factories.Languages
 {
-    public class PythonLanguageCodeGeneratorFactory : ILanguageCodeGeneratorFactory
+    internal class PythonLanguageCodeGeneratorFactory : ILanguageCodeGeneratorFactory
     {
         public BaseClassCodeGenerator CreateClassCodeGenerator()
         {

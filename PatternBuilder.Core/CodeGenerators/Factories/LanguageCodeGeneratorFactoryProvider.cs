@@ -12,7 +12,7 @@ namespace PatternBuilder.Core.CodeGenerators.Factories
             {
                 CodeGeneratorLanguages.CSharp => new CSharpLanguageCodeGeneratorFactory(),
                 CodeGeneratorLanguages.Python => new PythonLanguageCodeGeneratorFactory(),
-                _ => throw new ArgumentOutOfRangeException(nameof(language), language, $"Unsupported language: {language}")
+                _ => throw new ArgumentOutOfRangeException(nameof(language), language, $"Unsupported language: {language}.")
             };
         }
     }

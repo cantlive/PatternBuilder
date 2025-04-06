@@ -3,7 +3,7 @@ using PatternBuilder.Core.CodeGenerators.Languages.CSharp;
 
 namespace PatternBuilder.Core.CodeGenerators.Factories.Languages
 {
-    public class CSharpLanguageCodeGeneratorFactory : ILanguageCodeGeneratorFactory
+    internal class CSharpLanguageCodeGeneratorFactory : ILanguageCodeGeneratorFactory
     {
         public BaseClassCodeGenerator CreateClassCodeGenerator() => new CSharpClassCodeGenerator();
 

@@ -16,6 +16,8 @@ namespace PatternBuilder.Core.CodeGenerators
 
         public string Generate(IPattern pattern, CodeGeneratorLanguages language)
         {
+            ArgumentNullException.ThrowIfNull(pattern);
+
             ILanguageCodeGeneratorFactory languageCodeGeneratorFactory = _languageCodeGeneratorFactoryProvider.GetFactory(language);
 
             var classCodeGenerator = languageCodeGeneratorFactory.CreateClassCodeGenerator();
