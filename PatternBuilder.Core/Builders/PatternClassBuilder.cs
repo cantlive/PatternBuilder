@@ -1,6 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Builders
 {
@@ -19,10 +20,8 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder AddMethod(IPatternMethod method)
         {
-            ArgumentNullException.ThrowIfNull(method);
-
-            if (_methodsBySignature.ContainsKey(method.GetSignature()))
-                throw new InvalidOperationException($"Method '{method.Name}' already exists in the class.");
+            PatternValidator.ThrowIfNullArgument(method, nameof(method));
+            PatternValidator.ValidateUniqueMethod(_methodsBySignature, method, "class");
 
             if (_isAbstract && !method.IsAbstract)
                 throw new InvalidOperationException($"Method '{method.Name}' must be abstract.");
@@ -107,10 +106,8 @@ namespace PatternBuilder.Core.Builders
 
         private PatternClassBuilder AddField(PatternParameter field)
         {
-            ArgumentNullException.ThrowIfNull(field);
-
-            if (_fieldsByName.ContainsKey(field.Name))
-                throw new InvalidOperationException($"Field '{field.Name}' already exists in the class.");
+            PatternValidator.ThrowIfNullArgument(field, nameof(field));
+            PatternValidator.ValidateUniqueField(_fieldsByName, field);
 
             _fieldsByName.Add(field.Name, field);
 

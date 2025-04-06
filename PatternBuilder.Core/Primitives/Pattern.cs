@@ -13,20 +13,16 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddClass(IPatternClass patternClass)
         {
-            ArgumentNullException.ThrowIfNull(patternClass);
-
-            if (_classes.ContainsKey(patternClass.Name))
-                throw new InvalidOperationException($"Class '{patternClass.Name}' already exists in the pattern.");
+            PatternValidator.ThrowIfNullArgument(patternClass, nameof(patternClass));
+            PatternValidator.ValidateUniqueClass(_classes, patternClass);
 
             _classes.Add(patternClass.Name, patternClass);
         }
 
         public void AddInterface(IPatternInterface patternInterface)
         {
-            ArgumentNullException.ThrowIfNull(patternInterface);
-
-            if (_interfaces.ContainsKey(patternInterface.Name))
-                throw new InvalidOperationException($"Interface '{patternInterface.Name}' already exists in the pattern.");
+            PatternValidator.ThrowIfNullArgument(patternInterface, nameof(patternInterface));
+            PatternValidator.ValidateUniqueInterface(_interfaces, patternInterface);
 
             _interfaces.Add(patternInterface.Name, patternInterface);
         }
