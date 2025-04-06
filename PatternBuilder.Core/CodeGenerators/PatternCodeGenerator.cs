@@ -1,32 +1,36 @@
-﻿using PatternBuilder.Core.Interfaces.Converters;
+﻿using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
+using PatternBuilder.Core.Interfaces.Converters;
+using PatternBuilder.Core.Interfaces.Factories;
 using PatternBuilder.Core.Interfaces.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
     public class PatternCodeGenerator : BaseCodeGenerator, IPatternCodeGenerator
     {
-        private readonly BaseClassCodeGenerator _classGenerator;
-        private readonly BaseInterfaceCodeGenerator _interfaceGenerator;
+        private readonly ILanguageCodeGeneratorFactoryProvider _languageCodeGeneratorFactoryProvider;
 
-        internal PatternCodeGenerator(BaseClassCodeGenerator classCodeGenerator, 
-            BaseInterfaceCodeGenerator interfaceCodeGenerator)
+        public PatternCodeGenerator(ILanguageCodeGeneratorFactoryProvider languageCodeGeneratorFactoryProvider)
         {
-            _classGenerator = classCodeGenerator;
-            _interfaceGenerator = interfaceCodeGenerator;
+            _languageCodeGeneratorFactoryProvider = languageCodeGeneratorFactoryProvider;
         }
 
-        public string Generate(IPattern pattern)
+        public string Generate(IPattern pattern, CodeGeneratorLanguages language)
         {
+            ILanguageCodeGeneratorFactory languageCodeGeneratorFactory = _languageCodeGeneratorFactoryProvider.GetFactory(language);
+
+            var classCodeGenerator = languageCodeGeneratorFactory.CreateClassCodeGenerator();
+            var interfaceCodeGenerator = languageCodeGeneratorFactory.CreateInterfaceCodeGenerator();
+
             Clear();
 
             foreach (var patternClass in pattern.Classes)
             {
-                AddLine(_classGenerator.Generate(patternClass));
+                AddLine(classCodeGenerator.Generate(patternClass));
             }
 
             foreach (var patternInterface in pattern.Interfaces)
             {
-                AddLine(_interfaceGenerator.Generate(patternInterface));
+                AddLine(interfaceCodeGenerator.Generate(patternInterface));
             }
 
             return GetResult();

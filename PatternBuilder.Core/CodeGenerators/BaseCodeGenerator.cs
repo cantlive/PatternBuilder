@@ -25,5 +25,12 @@ namespace PatternBuilder.Core.CodeGenerators
         {
             return _stringBuilder.ToString();
         }
+
+        protected void RemoveLastLine()
+        {
+            int lastIndex = _stringBuilder.ToString().LastIndexOf('\n');
+            if (lastIndex >= 0)
+                _stringBuilder.Remove(lastIndex, _stringBuilder.Length - lastIndex);
+        }
     }
 }

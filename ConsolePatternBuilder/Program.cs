@@ -5,6 +5,7 @@ using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
+using PatternBuilder.Core.Interfaces.Factories;
 
 string body = @"_returnType = returnType;
 _name = name;
@@ -83,9 +84,8 @@ var pattern = new Pattern();
 pattern.AddClass(patternClass);
 pattern.AddInterface(patternInterface);
 
-BasePatternCodeGeneratorFactory<ILanguageCodeGeneratorFactory> languageCodeGeneratorFactory = new LanguageCodeGeneratorFactory();
-PatternCodeGeneratorFactory patternCodeGeneratorFactory = new PatternCodeGeneratorFactory(languageCodeGeneratorFactory);
-IPatternCodeGenerator generator = patternCodeGeneratorFactory.Create(CodeGeneratorLanguages.CSharp);
+ILanguageCodeGeneratorFactoryProvider languageCodeGeneratorFactoryProvider = new LanguageCodeGeneratorFactoryProvider();
+IPatternCodeGenerator generator = new PatternCodeGenerator(languageCodeGeneratorFactoryProvider);
 
-Console.WriteLine(generator.Generate(pattern));
+Console.WriteLine(generator.Generate(pattern, CodeGeneratorLanguages.CSharp));
 Console.ReadLine();

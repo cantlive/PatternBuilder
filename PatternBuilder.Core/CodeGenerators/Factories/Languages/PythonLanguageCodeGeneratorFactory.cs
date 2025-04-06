@@ -1,8 +1,8 @@
 ﻿using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
 
-namespace PatternBuilder.Core.CodeGenerators.Factories.LanguageCodeGeneratorFactories
+namespace PatternBuilder.Core.CodeGenerators.Factories.Languages
 {
-    public class PythonLanguageGeneratorFactory : ILanguageCodeGeneratorFactory
+    public class PythonLanguageCodeGeneratorFactory : ILanguageCodeGeneratorFactory
     {
         public BaseClassCodeGenerator CreateClassCodeGenerator()
         {

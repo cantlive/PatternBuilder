@@ -1,7 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
+namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
 {
     internal sealed class CSharpInterfaceCodeGenerator : BaseInterfaceCodeGenerator
     {
@@ -30,6 +30,7 @@ namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
                 AddLine();
             }
 
+            RemoveLastLine();
             AddLine("}");
         }
     }

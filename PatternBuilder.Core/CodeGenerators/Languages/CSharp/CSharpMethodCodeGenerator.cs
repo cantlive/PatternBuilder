@@ -1,6 +1,6 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
+namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
 {
     internal sealed class CSharpMethodCodeGenerator : BaseMethodCodeGenerator
     {

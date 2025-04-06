@@ -1,7 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
+namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
 {
     internal sealed class CSharpClassCodeGenerator : BaseClassCodeGenerator
     {
@@ -34,6 +34,7 @@ namespace PatternBuilder.Core.CodeGenerators.CSharpGenerators
                 AddLine(_methodGenerator.Generate(method));
             }
 
+            RemoveLastLine();
             AddLine("}");
         }
 
