@@ -1,6 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Builders
 {
@@ -17,10 +18,8 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternInterfaceBuilder AddMethod(IPatternMethod method)
         {
-            ArgumentNullException.ThrowIfNull(method);
-
-            if (_methodsBySignature.ContainsKey(method.GetSignature()))
-                throw new InvalidOperationException($"Method '{method.Name}' already exists in the interface.");
+            PatternValidator.ThrowIfNullArgument(method, nameof(method));
+            PatternValidator.ValidateUniqueMethod(_methodsBySignature, method, "interface");
 
             if (method.HasImplementation)
                 throw new InvalidOperationException($"Method '{method.Name}' must be without implementation.");
@@ -66,14 +65,12 @@ namespace PatternBuilder.Core.Builders
             return this;
         }
 
-        private PatternInterfaceBuilder AddProperty(PatternParameter field)
+        private PatternInterfaceBuilder AddProperty(PatternParameter property)
         {
-            ArgumentNullException.ThrowIfNull(field);
+            PatternValidator.ThrowIfNullArgument(property, nameof(property));
+            PatternValidator.ValidateUniqueProperty(_propertiesByName, property);
 
-            if (_propertiesByName.ContainsKey(field.Name))
-                throw new InvalidOperationException($"Property '{field.Name}' already exists in the interface.");
-
-            _propertiesByName.Add(field.Name, field);
+            _propertiesByName.Add(property.Name, property);
 
             return this;
         }

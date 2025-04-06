@@ -22,10 +22,8 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddProperty(PatternParameter property)
         {
-            ArgumentNullException.ThrowIfNull(property);
-
-            if (PropertiesByName.ContainsKey(property.Name))
-                throw new InvalidOperationException($"Field '{property.Name}' already exists in the interface '{Name}'.");
+            PatternValidator.ThrowIfNullArgument(property, nameof(property));
+            PatternValidator.ValidateUniqueProperty(PropertiesByName, property);
 
             PropertiesByName.Add(property.Name, property);
         }
@@ -34,10 +32,8 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddMethod(IPatternMethod method)
         {
-            ArgumentNullException.ThrowIfNull(method);
-
-            if (MethodsBySignature.ContainsKey(method.GetSignature()))
-                throw new InvalidOperationException($"Method '{method.Name}' already exists in the interface '{Name}'.");
+            PatternValidator.ThrowIfNullArgument(method, nameof(method));
+            PatternValidator.ValidateUniqueMethod(MethodsBySignature, method, "interface");
 
             MethodsBySignature.Add(method.GetSignature(), method);
         }
