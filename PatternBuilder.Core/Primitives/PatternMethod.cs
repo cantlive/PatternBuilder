@@ -26,6 +26,9 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddParameter(string type, string name)
         {
+            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
+            PatternValidator.ValidateUniqueParameter(ParametersByName, name);
+
             ParametersByName.Add(name, new PatternParameter(type, name));
         }
 

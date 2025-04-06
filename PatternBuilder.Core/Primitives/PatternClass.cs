@@ -49,10 +49,8 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddField(PatternParameter field)
         {
-            ArgumentNullException.ThrowIfNull(field);
-
-            if (FieldsByName.ContainsKey(field.Name))
-                throw new InvalidOperationException($"Field '{field.Name}' already exists in the class '{Name}'.");
+            PatternValidator.ThrowIfNullArgument(field, nameof(field));
+            PatternValidator.ValidateUniqueField(FieldsByName, field);
 
             FieldsByName.Add(field.Name, field);
         }
@@ -61,10 +59,8 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddMethod(IPatternMethod method)
         {
-            ArgumentNullException.ThrowIfNull(method);
-
-            if (MethodsBySignature.ContainsKey(method.GetSignature()))
-                throw new InvalidOperationException($"Method '{method.Name}' already exists in the class '{Name}'.");
+            PatternValidator.ThrowIfNullArgument(method, nameof(method));
+            PatternValidator.ValidateUniqueMethod(MethodsBySignature, method, "class");
 
             MethodsBySignature.Add(method.GetSignature(), method);
         }

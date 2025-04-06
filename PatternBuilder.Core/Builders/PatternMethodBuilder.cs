@@ -1,6 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+using PatternBuilder.Core.Validators;
 
 namespace PatternBuilder.Core.Builders
 {
@@ -15,7 +16,11 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternMethodBuilder AddParameter(string type, string name)
         {
+            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
+            PatternValidator.ValidateUniqueParameter(_parametersByName, name);
+
             _parametersByName.Add(name, new PatternParameter(type, name));
+
             return this;
         }
 
