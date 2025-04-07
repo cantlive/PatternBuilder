@@ -1,42 +1,25 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Validators;
+using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Primitives
 {
     public sealed class Pattern : IPattern
     {
-        private readonly Dictionary<string, IPatternClass> _classes = new Dictionary<string, IPatternClass>();
-        private readonly Dictionary<string, IPatternInterface> _interfaces = new Dictionary<string, IPatternInterface>();
+        internal ValidatingClassContainer ClassContainer = new ValidatingClassContainer();
 
-        public IEnumerable<IPatternClass> Classes => _classes.Values;
-        public IEnumerable<IPatternInterface> Interfaces => _interfaces.Values;
+        internal ValidatingInterfaceContainer InterfaceContainer = new ValidatingInterfaceContainer();
 
-        public void AddClass(IPatternClass patternClass)
-        {
-            PatternValidator.ThrowIfNullArgument(patternClass, nameof(patternClass));
-            PatternValidator.ValidateUniqueClass(_classes, patternClass);
+        internal Pattern() { }
 
-            _classes.Add(patternClass.Name, patternClass);
-        }
+        public IEnumerable<IPatternClass> Classes => ClassContainer.Items;
+        public IEnumerable<IPatternInterface> Interfaces => InterfaceContainer.Items;
 
-        public void AddInterface(IPatternInterface patternInterface)
-        {
-            PatternValidator.ThrowIfNullArgument(patternInterface, nameof(patternInterface));
-            PatternValidator.ValidateUniqueInterface(_interfaces, patternInterface);
+        public void AddClass(IPatternClass patternClass) => ClassContainer.Add(patternClass);
 
-            _interfaces.Add(patternInterface.Name, patternInterface);
-        }
+        public void AddInterface(IPatternInterface patternInterface) => InterfaceContainer.Add(patternInterface);
 
-        public void RemoveClass(string name)
-        {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            _classes.Remove(name);
-        }
+        public void RemoveClass(string name) => ClassContainer.Remove(name);
 
-        public void RemoveInterface(string name)
-        {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            _interfaces.Remove(name);
-        }
+        public void RemoveInterface(string name) => InterfaceContainer.Remove(name);
     }
 }

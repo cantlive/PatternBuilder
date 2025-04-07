@@ -5,7 +5,7 @@ namespace PatternBuilder.Core.Interfaces.Builders
 {
     public interface IPatternMethodBuilder
     {
-        IPatternMethodBuilder SetMethod(string returnType, string name, params PatternParameter[] parameters);
+        IPatternMethodBuilder SetMethod(string returnType, string name);
 
         IPatternMethodBuilder SetName(string name);
 

@@ -1,4 +1,4 @@
-﻿using PatternBuilder.Core.Validators;
+﻿using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.Primitives
 {
