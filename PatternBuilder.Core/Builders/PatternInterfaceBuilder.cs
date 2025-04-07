@@ -1,15 +1,16 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validators;
+using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Builders
 {
     public sealed class PatternInterfaceBuilder : IPatternInterfaceBuilder
     {
+        private readonly ValidatingParameterContainer _propertyContainer = new ValidatingParameterContainer("property", PatternInterface.CONTAINER_NAME);
+        private readonly ValidatingMethodContainer _methodContainer = new ValidatingMethodContainer(PatternInterface.CONTAINER_NAME);
+
         private string _name;
-        private readonly Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
-        private readonly Dictionary<string, PatternParameter> _propertiesByName = new Dictionary<string, PatternParameter>();
 
         public IPatternInterfaceBuilder AddProperty(string parameterType, string parameterName)
         {
@@ -18,14 +19,11 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternInterfaceBuilder AddMethod(IPatternMethod method)
         {
-            PatternValidator.ThrowIfNullArgument(method, nameof(method));
-            PatternValidator.ValidateUniqueMethod(_methodsBySignature, method, "interface");
-
+            // TODO: Need to validate in PatternValidator
             if (method.HasImplementation)
                 throw new InvalidOperationException($"Method '{method.Name}' must be without implementation.");
 
-            _methodsBySignature.Add(method.GetSignature(), method);
-
+            _methodContainer.Add(method);
             return this;
         }
 
@@ -34,8 +32,8 @@ namespace PatternBuilder.Core.Builders
             var patternInterface = new PatternInterface();
 
             patternInterface.SetName(_name);
-            patternInterface.PropertiesByName = new Dictionary<string, PatternParameter>(_propertiesByName);
-            patternInterface.MethodsBySignature = new Dictionary<string, IPatternMethod>(_methodsBySignature);
+            patternInterface.PropertyContainer = new ValidatingParameterContainer(_propertyContainer);
+            patternInterface.MethodContainer = new ValidatingMethodContainer(_methodContainer);
 
             return patternInterface;
         }
@@ -43,19 +41,19 @@ namespace PatternBuilder.Core.Builders
         public void Clear()
         {
             _name = string.Empty;
-            _methodsBySignature.Clear();
-            _propertiesByName.Clear();
+            _methodContainer.Clear();
+            _propertyContainer.Clear();
         }
 
         public IPatternInterfaceBuilder RemoveProperty(string name)
         {
-            _propertiesByName.Remove(name);
+            _propertyContainer.Remove(name);
             return this;
         }
 
         public IPatternInterfaceBuilder RemoveMethod(string signature)
         {
-            _methodsBySignature.Remove(signature);
+            _methodContainer.Remove(signature);
             return this;
         }
 
@@ -67,11 +65,7 @@ namespace PatternBuilder.Core.Builders
 
         private PatternInterfaceBuilder AddProperty(PatternParameter property)
         {
-            PatternValidator.ThrowIfNullArgument(property, nameof(property));
-            PatternValidator.ValidateUniqueProperty(_propertiesByName, property);
-
-            _propertiesByName.Add(property.Name, property);
-
+            _propertyContainer.Add(property);
             return this;
         }
     }

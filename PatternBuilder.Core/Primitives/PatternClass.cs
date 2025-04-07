@@ -1,24 +1,24 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Validators;
+using PatternBuilder.Core.Validation;
+using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Primitives
 {
     public sealed class PatternClass : IPatternClass
     {
-        internal Dictionary<string, PatternParameter> FieldsByName = new Dictionary<string, PatternParameter>();
+        internal const string CONTAINER_NAME = "class";
 
-        internal Dictionary<string, IPatternMethod> MethodsBySignature = new Dictionary<string, IPatternMethod>();
+        internal ValidatingParameterContainer FieldContainer = new ValidatingParameterContainer("field", CONTAINER_NAME);
 
-        internal PatternClass()
-        {
-            
-        }
+        internal ValidatingMethodContainer MethodContainer = new ValidatingMethodContainer(CONTAINER_NAME);
+
+        internal PatternClass() { }
 
         public string Name { get; private set; }
 
-        public IEnumerable<PatternParameter> Fields => FieldsByName.Values;
+        public IEnumerable<PatternParameter> Fields => FieldContainer.Items;
 
-        public IEnumerable<IPatternMethod> Methods => MethodsBySignature.Values;
+        public IEnumerable<IPatternMethod> Methods => MethodContainer.Items;
 
         public bool IsAbstract { get; private set; }
 
@@ -37,34 +37,20 @@ namespace PatternBuilder.Core.Primitives
 
         public void SetAbstract()
         {
-            foreach (IPatternMethod method in Methods)
-                method.SetAbstract();
+            IsAbstract = true;
         }
 
         public void SetNonAbstract()
         {
-            foreach (IPatternMethod method in Methods)
-                method.SetNonAbstract();
+            IsAbstract = false;
         }
 
-        public void AddField(PatternParameter field)
-        {
-            PatternValidator.ThrowIfNullArgument(field, nameof(field));
-            PatternValidator.ValidateUniqueField(FieldsByName, field);
+        public void AddField(PatternParameter field) => FieldContainer.Add(field);
 
-            FieldsByName.Add(field.Name, field);
-        }
+        public void RemoveField(string name) => FieldContainer.Remove(name);
 
-        public void RemoveField(string name) => FieldsByName.Remove(name);
+        public void AddMethod(IPatternMethod method) => MethodContainer.Add(method);
 
-        public void AddMethod(IPatternMethod method)
-        {
-            PatternValidator.ThrowIfNullArgument(method, nameof(method));
-            PatternValidator.ValidateUniqueMethod(MethodsBySignature, method, "class");
-
-            MethodsBySignature.Add(method.GetSignature(), method);
-        }
-
-        public void RemoveMethod(string signature) => MethodsBySignature.Remove(signature);
+        public void RemoveMethod(string signature) => MethodContainer.Remove(signature);
     }
 }

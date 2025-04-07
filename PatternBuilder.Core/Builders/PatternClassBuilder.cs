@@ -1,17 +1,18 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validators;
+using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Builders
 {
     public sealed class PatternClassBuilder : IPatternClassBuilder
     {
+        private readonly ValidatingParameterContainer _fieldContainer = new ValidatingParameterContainer("field", PatternClass.CONTAINER_NAME);
+        private readonly ValidatingMethodContainer _methodContainer = new ValidatingMethodContainer(PatternClass.CONTAINER_NAME);
+
         private string _name;
         private string _parentClass;
         private bool _isAbstract;
-        private readonly Dictionary<string, IPatternMethod> _methodsBySignature = new Dictionary<string, IPatternMethod>();
-        private readonly Dictionary<string, PatternParameter> _fieldsByName = new Dictionary<string, PatternParameter>();
 
         public IPatternClassBuilder AddField(string parameterType, string parameterName)
         {
@@ -20,14 +21,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternClassBuilder AddMethod(IPatternMethod method)
         {
-            PatternValidator.ThrowIfNullArgument(method, nameof(method));
-            PatternValidator.ValidateUniqueMethod(_methodsBySignature, method, "class");
-
-            if (_isAbstract && !method.IsAbstract)
-                throw new InvalidOperationException($"Method '{method.Name}' must be abstract.");
-
-            _methodsBySignature.Add(method.GetSignature(), method);
-
+            _methodContainer.Add(method);
             return this;
         }
 
@@ -41,8 +35,8 @@ namespace PatternBuilder.Core.Builders
                 patternClass.SetAbstract();
             else
                 patternClass.SetNonAbstract();
-            patternClass.FieldsByName = new Dictionary<string, PatternParameter>(_fieldsByName);
-            patternClass.MethodsBySignature = new Dictionary<string, IPatternMethod>(_methodsBySignature);
+            patternClass.FieldContainer = new ValidatingParameterContainer(_fieldContainer);
+            patternClass.MethodContainer = new ValidatingMethodContainer(_methodContainer);
 
             return patternClass;
         }
@@ -52,19 +46,19 @@ namespace PatternBuilder.Core.Builders
             _name = string.Empty;
             _parentClass = string.Empty;
             _isAbstract = false;
-            _methodsBySignature.Clear();
-            _fieldsByName.Clear();
+            _methodContainer.Clear();
+            _fieldContainer.Clear();
         }
 
         public IPatternClassBuilder RemoveField(string name)
         {
-            _fieldsByName.Remove(name);
+            _fieldContainer.Remove(name);
             return this;
         }
 
         public IPatternClassBuilder RemoveMethod(string signature)
         {
-            _methodsBySignature.Remove(signature);
+            _methodContainer.Remove(signature);
             return this;
         }
 
@@ -77,18 +71,12 @@ namespace PatternBuilder.Core.Builders
         public IPatternClassBuilder SetAbstract()
         {
             _isAbstract = true;
-            foreach (IPatternMethod method in _methodsBySignature.Values)
-                method.SetAbstract();
-
             return this;
         }
 
         public IPatternClassBuilder SetNonAbstract()
         {
             _isAbstract = false;
-            foreach (IPatternMethod method in _methodsBySignature.Values)
-                method.SetNonAbstract();
-
             return this;
         }
 
@@ -106,11 +94,7 @@ namespace PatternBuilder.Core.Builders
 
         private PatternClassBuilder AddField(PatternParameter field)
         {
-            PatternValidator.ThrowIfNullArgument(field, nameof(field));
-            PatternValidator.ValidateUniqueField(_fieldsByName, field);
-
-            _fieldsByName.Add(field.Name, field);
-
+            _fieldContainer.Add(field);
             return this;
         }
     }

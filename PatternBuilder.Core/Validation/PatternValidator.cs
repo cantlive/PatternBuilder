@@ -1,8 +1,9 @@
 ﻿using PatternBuilder.Core.Exceptions;
+using PatternBuilder.Core.Extensions;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.Validators
+namespace PatternBuilder.Core.Validation
 {
     internal static class PatternValidator
     {
@@ -27,19 +28,19 @@ namespace PatternBuilder.Core.Validators
         public static void ValidateUniqueProperty(IDictionary<string, PatternParameter> properties, PatternParameter property, string containerName = "")
         {
             if (properties.ContainsKey(property.Name))
-                throw new DuplicateElementException(nameof(property), property.Name, string.IsNullOrWhiteSpace(containerName) ? "class": containerName);
+                throw new DuplicateElementException(nameof(property), property.Name, containerName.DefaultIfNullOrWhiteSpace("class"));
         }
 
         public static void ValidateUniqueMethod(IDictionary<string, IPatternMethod> methods, IPatternMethod method, string containerName = "")
         {
             if (methods.ContainsKey(method.GetSignature()))
-                throw new DuplicateElementException(nameof(method), method.Name, string.IsNullOrWhiteSpace(containerName) ? "class" : containerName);
+                throw new DuplicateElementException(nameof(method), method.Name, containerName.DefaultIfNullOrWhiteSpace("class"));
         }
 
-        public static void ValidateUniqueParameter(IDictionary<string, PatternParameter> parameters, string parameterName)
+        public static void ValidateUniqueParameter(IDictionary<string, PatternParameter> parameters, PatternParameter parameter, string elementType = "", string containerName = "")
         {
-            if (parameters.ContainsKey(parameterName))
-                throw new DuplicateElementException("parameter", parameterName, "method");
+            if (parameters.ContainsKey(parameter.Name))
+                throw new DuplicateElementException(elementType.DefaultIfNullOrWhiteSpace("parameter"), parameter.Name, containerName.DefaultIfNullOrWhiteSpace("method"));
         }
 
         public static void ThrowIfNullArgument(object argument, string argumentName)
