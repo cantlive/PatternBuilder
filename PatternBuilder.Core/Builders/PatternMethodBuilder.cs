@@ -1,7 +1,7 @@
 ﻿using PatternBuilder.Core.Interfaces.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validators;
+using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Builders
 {
@@ -9,18 +9,14 @@ namespace PatternBuilder.Core.Builders
     {
         private string _returnType;
         private string _name;
-        private Dictionary<string, PatternParameter> _parametersByName = new Dictionary<string, PatternParameter>();
         private bool _isAbstract;
         private bool _hasImplementation = true;
         private string _body;
+        private ValidatingParameterContainer _parameterContainer = new ValidatingParameterContainer("parameter", "method");
 
         public IPatternMethodBuilder AddParameter(string type, string name)
         {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            PatternValidator.ValidateUniqueParameter(_parametersByName, name);
-
-            _parametersByName.Add(name, new PatternParameter(type, name));
-
+            _parameterContainer.Add(new PatternParameter(type, name));
             return this;
         }
 
@@ -30,7 +26,7 @@ namespace PatternBuilder.Core.Builders
 
             patternMethod.SetReturnType(_returnType);
             patternMethod.SetName(_name);
-            patternMethod.ParametersByName = new Dictionary<string, PatternParameter>(_parametersByName);
+            patternMethod.ParameterContainer = new ValidatingParameterContainer(_parameterContainer);
             patternMethod.HasImplementation = _hasImplementation;
             patternMethod.SetBody(_body);
             if (_isAbstract)
@@ -48,16 +44,15 @@ namespace PatternBuilder.Core.Builders
             _isAbstract = false;
             _hasImplementation = true;
             _body = string.Empty;
-            _parametersByName.Clear();
+            _parameterContainer.Clear();
         }
 
         public IPatternMethodBuilder SetVoidMethod(string name) => SetMethod("void", name);
 
-        public IPatternMethodBuilder SetMethod(string returnType, string name, params PatternParameter[] parameters)
+        public IPatternMethodBuilder SetMethod(string returnType, string name)
         {
             _returnType = returnType;
             _name = name;
-            _parametersByName = parameters.ToDictionary(p => p.Name);
 
             return this;
         }
@@ -82,7 +77,7 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternMethodBuilder RemoveParameter(string name)
         {
-            _parametersByName.Remove(name);
+            _parameterContainer.Remove(name);
             return this;
         }
 

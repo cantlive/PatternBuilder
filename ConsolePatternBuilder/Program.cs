@@ -79,9 +79,11 @@ IPatternInterface patternInterface = interfaceBuilder
     .AddMethod(interfaceMethod4)
     .Build();
 
-var pattern = new Pattern();
-pattern.AddClass(patternClass);
-pattern.AddInterface(patternInterface);
+var patternBuilder = new PatternBuilder.Core.Builders.PatternBuilder();
+IPattern pattern = patternBuilder
+    .AddClass(patternClass)
+    .AddInterface(patternInterface)
+    .Build();
 
 ILanguageCodeGeneratorFactoryProvider languageCodeGeneratorFactoryProvider = new LanguageCodeGeneratorFactoryProvider();
 IPatternCodeGenerator generator = new PatternCodeGenerator(languageCodeGeneratorFactoryProvider);

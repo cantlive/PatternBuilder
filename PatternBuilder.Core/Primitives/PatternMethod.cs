@@ -1,22 +1,20 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Validators;
+using PatternBuilder.Core.Validation;
+using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Primitives
 {
     public sealed class PatternMethod : IPatternMethod
     {
-        internal Dictionary<string, PatternParameter> ParametersByName = new Dictionary<string, PatternParameter>();
+        internal ValidatingParameterContainer ParameterContainer = new ValidatingParameterContainer("parameter", "method");
 
-        internal PatternMethod()
-        {
-            
-        }
+        internal PatternMethod() { }
 
         public string Name { get; private set; }
 
         public string ReturnType { get; private set; }
 
-        public IEnumerable<PatternParameter> Parameters => ParametersByName.Values;
+        public IEnumerable<PatternParameter> Parameters => ParameterContainer.Items;
 
         public bool IsAbstract { get; private set; }
 
@@ -24,15 +22,9 @@ namespace PatternBuilder.Core.Primitives
 
         public string Body { get; private set; }
 
-        public void AddParameter(string type, string name)
-        {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            PatternValidator.ValidateUniqueParameter(ParametersByName, name);
+        public void AddParameter(string type, string name) => ParameterContainer.Add(new PatternParameter(type, name));
 
-            ParametersByName.Add(name, new PatternParameter(type, name));
-        }
-
-        public void RemoveParameter(string name) => ParametersByName.Remove(name);
+        public void RemoveParameter(string name) => ParameterContainer.Remove(name);
 
         public string GetSignature()
         {
