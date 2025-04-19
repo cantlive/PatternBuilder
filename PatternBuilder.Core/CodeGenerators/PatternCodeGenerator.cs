@@ -1,7 +1,9 @@
-﻿using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
+﻿using PatternBuilder.Core.CodeGenerators.Factories;
+using PatternBuilder.Core.CodeGenerators.Interfaces.Factories;
 using PatternBuilder.Core.Interfaces.Converters;
 using PatternBuilder.Core.Interfaces.Factories;
 using PatternBuilder.Core.Interfaces.Primitives;
+using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
@@ -9,12 +11,12 @@ namespace PatternBuilder.Core.CodeGenerators
     {
         private readonly ILanguageCodeGeneratorFactoryProvider _languageCodeGeneratorFactoryProvider;
 
-        public PatternCodeGenerator(ILanguageCodeGeneratorFactoryProvider languageCodeGeneratorFactoryProvider)
+        public PatternCodeGenerator()
         {
-            _languageCodeGeneratorFactoryProvider = languageCodeGeneratorFactoryProvider;
+            _languageCodeGeneratorFactoryProvider = new LanguageCodeGeneratorFactoryProvider();
         }
 
-        public string Generate(IPattern pattern, CodeGeneratorLanguages language)
+        public string Generate(IPattern pattern, PatternLanguages language)
         {
             ArgumentNullException.ThrowIfNull(pattern);
 
