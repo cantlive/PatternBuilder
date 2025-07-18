@@ -8,14 +8,14 @@ namespace PatternBuilder.Core.Validation.Containers
 
         public ValidatingInterfaceContainer(ValidatingInterfaceContainer validatingInterfaceContainer) : base(validatingInterfaceContainer) { }
 
-        protected override string GetKey(IPatternInterface iface) => iface.Name;
+        protected override string GetKey(IPatternInterface patternInterface) => patternInterface.Name;
 
         protected override string GetValidatingParameterName() => "interface";
 
-        protected override void ValidateAdd(IPatternInterface iface)
+        protected override void ValidateAdd(IPatternInterface patternInterface)
         {
-            PatternValidator.ThrowIfNullArgument(iface, nameof(iface));
-            PatternValidator.ValidateUniqueInterface(_items, iface);
+            PatternValidator.ThrowIfNullArgument(patternInterface, nameof(patternInterface));
+            PatternValidator.ValidateUniqueInterface(_items, patternInterface);
         }
 
         protected override void ValidateRemove(string key)

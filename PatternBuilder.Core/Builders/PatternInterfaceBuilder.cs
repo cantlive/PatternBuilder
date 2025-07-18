@@ -19,10 +19,6 @@ namespace PatternBuilder.Core.Builders
 
         public IPatternInterfaceBuilder AddMethod(IPatternMethod method)
         {
-            // TODO: Need to validate in PatternValidator
-            if (method.HasImplementation)
-                throw new InvalidOperationException($"Method '{method.Name}' must be without implementation.");
-
             _methodContainer.Add(method);
             return this;
         }
