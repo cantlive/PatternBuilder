@@ -2,7 +2,9 @@
 using PatternBuilder.Core.Extensions;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("PatternBuilder.Core.Tests")]
 namespace PatternBuilder.Core.Validation
 {
     internal static class PatternValidator

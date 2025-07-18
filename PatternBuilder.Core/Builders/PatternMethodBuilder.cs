@@ -14,6 +14,8 @@ namespace PatternBuilder.Core.Builders
         private string _body;
         private ValidatingParameterContainer _parameterContainer = new ValidatingParameterContainer("parameter", "method");
 
+        public static PatternMethod Empty => new PatternMethod();
+
         public IPatternMethodBuilder AddParameter(string type, string name)
         {
             _parameterContainer.Add(new PatternParameter(type, name));
