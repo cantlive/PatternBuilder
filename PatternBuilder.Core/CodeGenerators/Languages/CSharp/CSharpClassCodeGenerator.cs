@@ -1,5 +1,4 @@
-﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
 {
@@ -7,7 +6,7 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
     {
         public CSharpClassCodeGenerator() : base(new CSharpMethodCodeGenerator()) { }
 
-        protected override void AddSignature(IPatternClass patternClass)
+        protected override void AddSignature(PatternClass patternClass)
         {
             string abstractClassDefinition = patternClass.IsAbstract ? " abstract" : string.Empty;
             AddString($"public{abstractClassDefinition} class {patternClass.Name}");
@@ -16,7 +15,7 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
             AddLine("{");
         }
 
-        protected override void AddFields(IPatternClass patternClass)
+        protected override void AddFields(PatternClass patternClass)
         {
             foreach (PatternParameter field in patternClass.Fields)
             {
@@ -27,18 +26,18 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
             AddLine();
         }
 
-        protected override void AddMethods(IPatternClass patternClass)
+        protected override void AddMethods(PatternClass patternClass)
         {
-            foreach (IPatternMethod method in patternClass.Methods)
+            foreach (PatternMethod method in patternClass.Methods)
             {
                 AddLine(_methodGenerator.Generate(method));
             }
 
-            RemoveLastLine();
+            RemoveLastEmptyLine();
             AddLine("}");
         }
 
-        private void AddParentClass(IPatternClass patternClass)
+        private void AddParentClass(PatternClass patternClass)
         {
             if (!string.IsNullOrWhiteSpace(patternClass.ParentClass))
                 AddString($" : {patternClass.ParentClass}");

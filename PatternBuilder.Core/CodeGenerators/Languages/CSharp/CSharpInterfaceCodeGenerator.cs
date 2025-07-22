@@ -1,5 +1,4 @@
-﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
 {
@@ -7,14 +6,14 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
     {
         public CSharpInterfaceCodeGenerator() : base(new CSharpMethodCodeGenerator()) { }
 
-        protected override void AddSignature(IPatternInterface patternInterface)
+        protected override void AddSignature(PatternInterface patternInterface)
         {
             AddString($"public interface {patternInterface.Name}");
             AddLine();
             AddLine("{");
         }
 
-        protected override void AddProperties(IPatternInterface patternInterface)
+        protected override void AddProperties(PatternInterface patternInterface)
         {
             foreach (PatternParameter property in patternInterface.Properties)
             {
@@ -22,15 +21,15 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
             }
         }
 
-        protected override void AddMethods(IPatternInterface patternInterface)
+        protected override void AddMethods(PatternInterface patternInterface)
         {
-            foreach (IPatternMethod method in patternInterface.Methods)
+            foreach (PatternMethod method in patternInterface.Methods)
             {
                 AddLine(_methodGenerator.Generate(method));
                 AddLine();
             }
 
-            RemoveLastLine();
+            RemoveLastEmptyLine();
             AddLine("}");
         }
     }

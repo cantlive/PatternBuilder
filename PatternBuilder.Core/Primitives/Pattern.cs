@@ -1,25 +1,38 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Validation.Containers;
+using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class Pattern : IPattern
+    public sealed class Pattern : IPatternPrimitive
     {
-        internal ValidatingClassContainer ClassContainer = new ValidatingClassContainer();
+        private string _name;
 
-        internal ValidatingInterfaceContainer InterfaceContainer = new ValidatingInterfaceContainer();
+        internal ValidatingPatternPrimitiveContainer<PatternClass> ClassContainer = new ValidatingPatternPrimitiveContainer<PatternClass>(SystemName);
+
+        internal ValidatingPatternPrimitiveContainer<PatternInterface> InterfaceContainer = new ValidatingPatternPrimitiveContainer<PatternInterface>(SystemName);
 
         internal Pattern() { }
 
-        public IEnumerable<IPatternClass> Classes => ClassContainer.Items;
-        public IEnumerable<IPatternInterface> Interfaces => InterfaceContainer.Items;
+        public static string SystemName => "pattern";
 
-        public void AddClass(IPatternClass patternClass) => ClassContainer.Add(patternClass);
+        public string Name { get; private set; }
 
-        public void AddInterface(IPatternInterface patternInterface) => InterfaceContainer.Add(patternInterface);
+        public string UniqueKey => Name;
 
-        public void RemoveClass(string name) => ClassContainer.Remove(name);
+        public IEnumerable<PatternClass> Classes => ClassContainer.Items;
+        public IEnumerable<PatternInterface> Interfaces => InterfaceContainer.Items;
 
-        public void RemoveInterface(string name) => InterfaceContainer.Remove(name);
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void AddClass(PatternClass patternClass) => ClassContainer.Add(patternClass);
+
+        public void AddInterface(PatternInterface patternInterface) => InterfaceContainer.Add(patternInterface);
+
+        public void RemoveClass(PatternClass @class) => ClassContainer.Remove(@class);
+
+        public void RemoveInterface(PatternInterface @interface) => InterfaceContainer.Remove(@interface);
     }
 }

@@ -1,24 +1,25 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Validation;
-using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class PatternClass : IPatternClass
+    public sealed class PatternClass : IPatternPrimitive
     {
-        internal const string CONTAINER_NAME = "class";
+        internal ValidatingPatternPrimitiveContainer<PatternParameter> FieldContainer = new ValidatingPatternPrimitiveContainer<PatternParameter>(SystemName, "field");
 
-        internal ValidatingParameterContainer FieldContainer = new ValidatingParameterContainer("field", CONTAINER_NAME);
-
-        internal ValidatingMethodContainer MethodContainer = new ValidatingMethodContainer(CONTAINER_NAME);
+        internal ValidatingPatternPrimitiveContainer<PatternMethod> MethodContainer = new ValidatingPatternPrimitiveContainer<PatternMethod>(SystemName);
 
         internal PatternClass() { }
 
+        public static string SystemName => "class";
+
         public string Name { get; private set; }
+
+        public string UniqueKey => Name;
 
         public IEnumerable<PatternParameter> Fields => FieldContainer.Items;
 
-        public IEnumerable<IPatternMethod> Methods => MethodContainer.Items;
+        public IEnumerable<PatternMethod> Methods => MethodContainer.Items;
 
         public bool IsAbstract { get; private set; }
 
@@ -47,10 +48,10 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddField(PatternParameter field) => FieldContainer.Add(field);
 
-        public void RemoveField(string name) => FieldContainer.Remove(name);
+        public void RemoveField(PatternParameter parameter) => FieldContainer.Remove(parameter);
 
-        public void AddMethod(IPatternMethod method) => MethodContainer.Add(method);
+        public void AddMethod(PatternMethod method) => MethodContainer.Add(method);
 
-        public void RemoveMethod(string signature) => MethodContainer.Remove(signature);
+        public void RemoveMethod(PatternMethod method) => MethodContainer.Remove(method);
     }
 }

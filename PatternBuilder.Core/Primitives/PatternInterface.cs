@@ -1,32 +1,33 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Validation;
-using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class PatternInterface : IPatternInterface
+    public sealed class PatternInterface : IPatternPrimitive
     {
-        internal const string CONTAINER_NAME = "interface";
+        internal ValidatingPatternPrimitiveContainer<PatternParameter> PropertyContainer = new ValidatingPatternPrimitiveContainer<PatternParameter>(SystemName, "property");
 
-        internal ValidatingParameterContainer PropertyContainer = new ValidatingParameterContainer("property", CONTAINER_NAME);
-
-        internal ValidatingMethodContainer MethodContainer = new ValidatingMethodContainer(CONTAINER_NAME);
+        internal ValidatingPatternPrimitiveContainer<PatternMethod> MethodContainer = new ValidatingPatternPrimitiveContainer<PatternMethod>(SystemName);
 
         internal PatternInterface() { }
 
+        public static string SystemName => "interface";
+
         public string Name { get; private set; }
 
-        public IEnumerable<IPatternMethod> Methods => MethodContainer.Items;
+        public string UniqueKey => Name;
+
+        public IEnumerable<PatternMethod> Methods => MethodContainer.Items;
 
         public IEnumerable<PatternParameter> Properties => PropertyContainer.Items;
 
         public void AddProperty(PatternParameter property) => PropertyContainer.Add(property);
 
-        public void RemoveProperty(string name) => PropertyContainer.Remove(name);
+        public void RemoveProperty(PatternParameter parameter) => PropertyContainer.Remove(parameter);
 
-        public void AddMethod(IPatternMethod method) => MethodContainer.Add(method);
+        public void AddMethod(PatternMethod method) => MethodContainer.Add(method);
 
-        public void RemoveMethod(string signature) => MethodContainer.Remove(signature);
+        public void RemoveMethod(PatternMethod method) => MethodContainer.Remove(method);
 
         public void SetName(string name)
         {

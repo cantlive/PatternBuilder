@@ -1,4 +1,4 @@
-﻿using PatternBuilder.Core.Interfaces.Primitives;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
@@ -11,11 +11,11 @@ namespace PatternBuilder.Core.CodeGenerators
             _methodGenerator = methodGenerator;
         }
 
-        protected abstract void AddSignature(IPatternInterface patterninterface);
-        protected abstract void AddProperties(IPatternInterface patterninterface);
-        protected abstract void AddMethods(IPatternInterface patterninterface);
+        protected abstract void AddSignature(PatternInterface patterninterface);
+        protected abstract void AddProperties(PatternInterface patterninterface);
+        protected abstract void AddMethods(PatternInterface patterninterface);
 
-        public string Generate(IPatternInterface patterninterface)
+        public string Generate(PatternInterface patterninterface)
         {
             Clear();
 

@@ -1,7 +1,5 @@
 ﻿using PatternBuilder.Core.Exceptions;
-using PatternBuilder.Core.Extensions;
 using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("PatternBuilder.Core.Tests")]
@@ -9,40 +7,11 @@ namespace PatternBuilder.Core.Validation
 {
     internal static class PatternValidator
     {
-        public static void ValidateUniqueClass(IDictionary<string, IPatternClass> classes, IPatternClass patternClass)
+        public static void ValidateUniquePatternPrimitive<T>(IDictionary<string, T> primitives, T primitive, string containerName, string parameterName = "") where T : IPatternPrimitive
         {
-            if (classes.ContainsKey(patternClass.Name))
-                throw new DuplicateElementException("class", patternClass.Name, "pattern");
-        }
-
-        public static void ValidateUniqueInterface(IDictionary<string, IPatternInterface> interfaces, IPatternInterface patternInterface)
-        {
-            if (interfaces.ContainsKey(patternInterface.Name))
-                throw new DuplicateElementException("class", patternInterface.Name, "pattern");
-        }
-
-        public static void ValidateUniqueField(IDictionary<string, PatternParameter> fields, PatternParameter field)
-        {
-            if (fields.ContainsKey(field.Name))
-                throw new DuplicateElementException(nameof(field), field.Name, "class");
-        }
-
-        public static void ValidateUniqueProperty(IDictionary<string, PatternParameter> properties, PatternParameter property, string containerName = "")
-        {
-            if (properties.ContainsKey(property.Name))
-                throw new DuplicateElementException(nameof(property), property.Name, containerName.DefaultIfNullOrWhiteSpace("class"));
-        }
-
-        public static void ValidateUniqueMethod(IDictionary<string, IPatternMethod> methods, IPatternMethod method, string containerName = "")
-        {
-            if (methods.ContainsKey(method.GetSignature()))
-                throw new DuplicateElementException(nameof(method), method.Name, containerName.DefaultIfNullOrWhiteSpace("class"));
-        }
-
-        public static void ValidateUniqueParameter(IDictionary<string, PatternParameter> parameters, PatternParameter parameter, string elementType = "", string containerName = "")
-        {
-            if (parameters.ContainsKey(parameter.Name))
-                throw new DuplicateElementException(elementType.DefaultIfNullOrWhiteSpace("parameter"), parameter.Name, containerName.DefaultIfNullOrWhiteSpace("method"));
+            string parameter = string.IsNullOrWhiteSpace(parameterName) ? T.SystemName : parameterName;
+            if (primitives.ContainsKey(primitive.UniqueKey))
+                throw new DuplicateElementException(parameter, primitive.Name, containerName);
         }
 
         public static void ThrowIfNullArgument(object argument, string argumentName)

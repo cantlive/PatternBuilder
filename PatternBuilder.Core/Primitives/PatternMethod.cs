@@ -1,16 +1,19 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Validation;
-using PatternBuilder.Core.Validation.Containers;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class PatternMethod : IPatternMethod
+    public sealed class PatternMethod : IPatternPrimitive
     {
-        internal ValidatingParameterContainer ParameterContainer = new ValidatingParameterContainer("parameter", "method");
+        internal ValidatingPatternPrimitiveContainer<PatternParameter> ParameterContainer = new ValidatingPatternPrimitiveContainer<PatternParameter>("method");
 
         internal PatternMethod() { }
 
+        public static string SystemName => "method";
+
         public string Name { get; private set; }
+
+        public string UniqueKey => GetSignature();
 
         public string ReturnType { get; private set; }
 
@@ -22,14 +25,15 @@ namespace PatternBuilder.Core.Primitives
 
         public string Body { get; private set; }
 
-        public void AddParameter(string type, string name) => ParameterContainer.Add(new PatternParameter(type, name));
-
-        public void RemoveParameter(string name) => ParameterContainer.Remove(name);
-
-        public string GetSignature()
+        public PatternParameter AddParameter(string type, string name)
         {
-            return $"{ReturnType};{Name};{string.Join(";", Parameters.Select(p => $"{p.Type}{p.Name}"))}";
+            var parameter = new PatternParameter(type, name);
+            ParameterContainer.Add(parameter);
+
+            return parameter;
         }
+
+        public void RemoveParameter(PatternParameter parameter) => ParameterContainer.Remove(parameter);
 
         public void SetReturnType(string returnType)
         {
@@ -58,6 +62,24 @@ namespace PatternBuilder.Core.Primitives
         {
             IsAbstract = false;
             HasImplementation = true;
+        }
+
+        public void SetHasImplementation()
+        {
+            HasImplementation = true;
+        }
+
+        public void SetHasNoImplementation()
+        {
+            HasImplementation = false;
+        }
+
+        private string GetSignature()
+        {
+            if (string.IsNullOrWhiteSpace(Name) && string.IsNullOrWhiteSpace(ReturnType) && ParameterContainer.Count == 0)
+                return string.Empty;
+
+            return $"{ReturnType};{Name};{string.Join(";", Parameters.Select(p => $"{p.Type}{p.Name}"))}";
         }
     }
 }

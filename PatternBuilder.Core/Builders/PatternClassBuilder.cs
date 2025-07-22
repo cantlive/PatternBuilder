@@ -1,100 +1,77 @@
-﻿using PatternBuilder.Core.Interfaces.Builders;
-using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validation.Containers;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternClassBuilder : IPatternClassBuilder
+    public sealed class PatternClassBuilder
     {
-        private readonly ValidatingParameterContainer _fieldContainer = new ValidatingParameterContainer("field", PatternClass.CONTAINER_NAME);
-        private readonly ValidatingMethodContainer _methodContainer = new ValidatingMethodContainer(PatternClass.CONTAINER_NAME);
+        private PatternClass _patternClass = new PatternClass();
 
-        private string _name;
-        private string _parentClass;
-        private bool _isAbstract;
-
-        public IPatternClassBuilder AddField(string parameterType, string parameterName)
+        public PatternClassBuilder AddField(string parameterType, string parameterName)
         {
             return AddField(new PatternParameter(parameterType, parameterName));
         }
 
-        public IPatternClassBuilder AddMethod(IPatternMethod method)
+        public PatternClassBuilder AddField(PatternParameter field)
         {
-            _methodContainer.Add(method);
+            _patternClass.AddField(field);
             return this;
         }
 
-        public IPatternClass Build()
+        public PatternClassBuilder AddMethod(PatternMethod method)
         {
-            var patternClass = new PatternClass();
+            _patternClass.AddMethod(method);
+            return this;
+        }
 
-            patternClass.SetName(_name);
-            patternClass.SetParentClass(_parentClass);
-            if (_isAbstract)
-                patternClass.SetAbstract();
-            else
-                patternClass.SetNonAbstract();
-            patternClass.FieldContainer = new ValidatingParameterContainer(_fieldContainer);
-            patternClass.MethodContainer = new ValidatingMethodContainer(_methodContainer);
-
-            return patternClass;
+        public PatternClass Build()
+        {
+            return _patternClass;
         }
 
         public void Clear()
         {
-            _name = string.Empty;
-            _parentClass = string.Empty;
-            _isAbstract = false;
-            _methodContainer.Clear();
-            _fieldContainer.Clear();
+            _patternClass = new PatternClass();
         }
 
-        public IPatternClassBuilder RemoveField(string name)
+        public PatternClassBuilder RemoveField(PatternParameter field)
         {
-            _fieldContainer.Remove(name);
+            _patternClass.RemoveField(field);
             return this;
         }
 
-        public IPatternClassBuilder RemoveMethod(string signature)
+        public PatternClassBuilder RemoveMethod(PatternMethod method)
         {
-            _methodContainer.Remove(signature);
+            _patternClass.RemoveMethod(method);
             return this;
         }
 
-        public IPatternClassBuilder RemoveParentClass()
+        public PatternClassBuilder RemoveParentClass()
         {
-            _parentClass = string.Empty;
+            _patternClass.SetParentClass(string.Empty);
             return this;
         }
 
-        public IPatternClassBuilder SetAbstract()
+        public PatternClassBuilder SetAbstract()
         {
-            _isAbstract = true;
+            _patternClass.SetAbstract();
             return this;
         }
 
-        public IPatternClassBuilder SetNonAbstract()
+        public PatternClassBuilder SetNonAbstract()
         {
-            _isAbstract = false;
+            _patternClass.SetNonAbstract();
             return this;
         }
 
-        public IPatternClassBuilder SetName(string name)
+        public PatternClassBuilder SetName(string name)
         {
-            _name = name;
+            _patternClass.SetName(name);
             return this;
         }
 
-        public IPatternClassBuilder SetParentClass(string parentClass)
+        public PatternClassBuilder SetParentClass(string parentClass)
         {
-            _parentClass = parentClass;
-            return this;
-        }
-
-        private PatternClassBuilder AddField(PatternParameter field)
-        {
-            _fieldContainer.Add(field);
+            _patternClass.SetParentClass(parentClass);
             return this;
         }
     }

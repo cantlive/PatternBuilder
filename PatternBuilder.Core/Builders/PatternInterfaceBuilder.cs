@@ -1,67 +1,52 @@
-﻿using PatternBuilder.Core.Interfaces.Builders;
-using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validation.Containers;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternInterfaceBuilder : IPatternInterfaceBuilder
+    public sealed class PatternInterfaceBuilder
     {
-        private readonly ValidatingParameterContainer _propertyContainer = new ValidatingParameterContainer("property", PatternInterface.CONTAINER_NAME);
-        private readonly ValidatingMethodContainer _methodContainer = new ValidatingMethodContainer(PatternInterface.CONTAINER_NAME);
+        private PatternInterface _patternInterface = new PatternInterface();
 
-        private string _name;
-
-        public IPatternInterfaceBuilder AddProperty(string parameterType, string parameterName)
+        public PatternInterfaceBuilder AddProperty(string parameterType, string parameterName)
         {
             return AddProperty(new PatternParameter(parameterType, parameterName));
         }
-
-        public IPatternInterfaceBuilder AddMethod(IPatternMethod method)
+        public PatternInterfaceBuilder AddProperty(PatternParameter property)
         {
-            _methodContainer.Add(method);
+            _patternInterface.AddProperty(property);
             return this;
         }
 
-        public IPatternInterface Build()
+        public PatternInterfaceBuilder AddMethod(PatternMethod method)
         {
-            var patternInterface = new PatternInterface();
+            _patternInterface.AddMethod(method);
+            return this;
+        }
 
-            patternInterface.SetName(_name);
-            patternInterface.PropertyContainer = new ValidatingParameterContainer(_propertyContainer);
-            patternInterface.MethodContainer = new ValidatingMethodContainer(_methodContainer);
-
-            return patternInterface;
+        public PatternInterface Build()
+        {
+            return _patternInterface;
         }
 
         public void Clear()
         {
-            _name = string.Empty;
-            _methodContainer.Clear();
-            _propertyContainer.Clear();
+            _patternInterface = new PatternInterface();
         }
 
-        public IPatternInterfaceBuilder RemoveProperty(string name)
+        public PatternInterfaceBuilder RemoveProperty(PatternParameter property)
         {
-            _propertyContainer.Remove(name);
+            _patternInterface.RemoveProperty(property);
             return this;
         }
 
-        public IPatternInterfaceBuilder RemoveMethod(string signature)
+        public PatternInterfaceBuilder RemoveMethod(PatternMethod method)
         {
-            _methodContainer.Remove(signature);
+            _patternInterface.RemoveMethod(method);
             return this;
         }
 
-        public IPatternInterfaceBuilder SetName(string name)
+        public PatternInterfaceBuilder SetName(string name)
         {
-            _name = name;
-            return this;
-        }
-
-        private PatternInterfaceBuilder AddProperty(PatternParameter property)
-        {
-            _propertyContainer.Add(property);
+            _patternInterface.SetName(name);
             return this;
         }
     }

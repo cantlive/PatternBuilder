@@ -1,24 +1,24 @@
-﻿using PatternBuilder.Core.Interfaces.Primitives;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
 {
     internal sealed class CSharpMethodCodeGenerator : BaseMethodCodeGenerator
     {
-        protected override void AddSignature(IPatternMethod patternMethod)
+        protected override void AddSignature(PatternMethod patternMethod)
         {
             AddTab();
             string abstractMethodDefinition = patternMethod.IsAbstract ? " abstract" : string.Empty;
             AddString($"public{abstractMethodDefinition} {patternMethod.ReturnType} {patternMethod.Name}");
         }
 
-        protected override void AddParameters(IPatternMethod patternMethod)
+        protected override void AddParameters(PatternMethod patternMethod)
         {
             AddString("(");
             AddString(string.Join(", ", patternMethod.Parameters.Select(p => $"{p.Type} {p.Name}")));
             AddString(")");
         }
 
-        protected override void AddBody(IPatternMethod patternMethod)
+        protected override void AddBody(PatternMethod patternMethod)
         {
             if (!patternMethod.HasImplementation)
             {
@@ -34,7 +34,7 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
             AddLine("}");
         }
 
-        private void AddBodyContent(IPatternMethod patternMethod)
+        private void AddBodyContent(PatternMethod patternMethod)
         {
             if (string.IsNullOrWhiteSpace(patternMethod.Body))
                 return;

@@ -1,53 +1,48 @@
-﻿using PatternBuilder.Core.Interfaces.Builders;
-using PatternBuilder.Core.Interfaces.Primitives;
-using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validation.Containers;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.Builders
 {
-    public class PatternBuilder : IPatternBuilder
+    public class PatternBuilder
     {
-        private readonly ValidatingClassContainer _classContainer = new ValidatingClassContainer();
+        private Pattern _pattern = new Pattern();
 
-        private readonly ValidatingInterfaceContainer _interfaceContainer = new ValidatingInterfaceContainer();
-
-        public IPatternBuilder AddClass(IPatternClass patternClass)
+        public PatternBuilder AddClass(PatternClass patternClass)
         {
-            _classContainer.Add(patternClass);
+            _pattern.AddClass(patternClass);
             return this;
         }
 
-        public IPatternBuilder AddInterface(IPatternInterface patternInterface)
+        public PatternBuilder AddInterface(PatternInterface patternInterface)
         {
-            _interfaceContainer.Add(patternInterface);
+            _pattern.AddInterface(patternInterface);
             return this;
         }
 
-        public IPatternBuilder RemoveClass(string className)
+        public PatternBuilder RemoveClass(PatternClass @class)
         {
-            _classContainer.Remove(className);
+            _pattern.RemoveClass(@class);
             return this;
         }
 
-        public IPatternBuilder RemoveInterface(string interfaceName)
+        public PatternBuilder RemoveInterface(PatternInterface @interface)
         {
-            _interfaceContainer.Remove(interfaceName);
+            _pattern.RemoveInterface(@interface);
             return this;
         }
 
-        public IPattern Build()
+        public Pattern Build()
         {
-            var pattern = new Pattern();
-            pattern.ClassContainer = new ValidatingClassContainer(_classContainer);
-            pattern.InterfaceContainer = new ValidatingInterfaceContainer(_interfaceContainer);
-
-            return pattern;
+            return _pattern;
         }
 
         public void Clear()
         {
-            _classContainer.Clear();
-            _interfaceContainer.Clear();
+            _pattern = new Pattern();
+        }
+
+        public void SetName(string name)
+        {
+            _pattern.SetName(name);
         }
     }
 }

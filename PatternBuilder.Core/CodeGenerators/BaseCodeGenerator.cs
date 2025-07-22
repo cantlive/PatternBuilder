@@ -26,7 +26,7 @@ namespace PatternBuilder.Core.CodeGenerators
             return _stringBuilder.ToString();
         }
 
-        protected void RemoveLastLine()
+        protected void RemoveLastEmptyLine()
         {
             int lastIndex = _stringBuilder.ToString().LastIndexOf('\n');
             if (lastIndex >= 0)

@@ -65,8 +65,8 @@ namespace PatternBuilderTests.PrimitivesTests
         [Fact]
         public void RemoveParameter_RemovesFromContainer()
         {
-            _emptyMethod.AddParameter("int", "number");
-            _emptyMethod.RemoveParameter("number");
+            var parameter = _emptyMethod.AddParameter("int", "number");
+            _emptyMethod.RemoveParameter(parameter);
 
             Assert.Empty(_emptyMethod.Parameters);
         }
@@ -77,7 +77,7 @@ namespace PatternBuilderTests.PrimitivesTests
             _emptyMethod.SetReturnType("void");
             _emptyMethod.SetName("Test");
 
-            Assert.Equal("void;Test;", _emptyMethod.GetSignature());
+            Assert.Equal("void;Test;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace PatternBuilderTests.PrimitivesTests
             _emptyMethod.AddParameter("int", "a");
             _emptyMethod.AddParameter("int", "b");
 
-            Assert.Equal("int;Calculate;inta;intb", _emptyMethod.GetSignature());
+            Assert.Equal("int;Calculate;inta;intb", _emptyMethod.UniqueKey);
         }
 
         [Fact]

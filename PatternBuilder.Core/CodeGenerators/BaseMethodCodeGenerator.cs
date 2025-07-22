@@ -1,14 +1,14 @@
-﻿using PatternBuilder.Core.Interfaces.Primitives;
+﻿using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
     public abstract class BaseMethodCodeGenerator : BaseCodeGenerator
     {
-        protected abstract void AddSignature(IPatternMethod method);
-        protected abstract void AddParameters(IPatternMethod method);
-        protected abstract void AddBody(IPatternMethod method);
+        protected abstract void AddSignature(PatternMethod method);
+        protected abstract void AddParameters(PatternMethod method);
+        protected abstract void AddBody(PatternMethod method);
 
-        public string Generate(IPatternMethod method)
+        public string Generate(PatternMethod method)
         {
             Clear();
 

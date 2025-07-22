@@ -1,7 +1,6 @@
 ﻿using PatternBuilder.Core.Builders;
 using PatternBuilder.Core.CodeGenerators;
 using PatternBuilder.Core.Interfaces.Converters;
-using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 
 string body = @"_returnType = returnType;
@@ -10,7 +9,7 @@ _name = name;
 return this;";
 
 var methodBuilder = new PatternMethodBuilder();
-IPatternMethod method1 = methodBuilder
+PatternMethod method1 = methodBuilder
     .SetMethod("IPatternMethodBuilder", "SetMethod")
     .AddParameter("string", "returnType")
     .AddParameter("string", "name")
@@ -19,14 +18,14 @@ IPatternMethod method1 = methodBuilder
 
 methodBuilder.Clear();
 
-IPatternMethod method2 = methodBuilder
+PatternMethod method2 = methodBuilder
     .SetMethod("IPatternMethodBuilder", "AddParameter")
     .AddParameter("string", "parameterType")
     .AddParameter("string", "parameterName")
     .Build();
 
 var classBuilder = new PatternClassBuilder();
-IPatternClass patternClass = classBuilder
+PatternClass patternClass = classBuilder
     .SetName("PatternMethodBuilder")
     .SetParentClass("IPatternMethodBuilder")
     .AddField("string", "_returnType")
@@ -38,7 +37,7 @@ IPatternClass patternClass = classBuilder
 
 methodBuilder.Clear();
 
-IPatternMethod interfaceMethod1 = methodBuilder
+PatternMethod interfaceMethod1 = methodBuilder
     .SetMethod("IPatternMethodBuilder", "AddParameter")
     .HasNoImplementation()
     .AddParameter("string", "returnType")
@@ -47,7 +46,7 @@ IPatternMethod interfaceMethod1 = methodBuilder
 
 methodBuilder.Clear();
 
-IPatternMethod interfaceMethod2 = methodBuilder
+PatternMethod interfaceMethod2 = methodBuilder
     .SetMethod("IPatternMethodBuilder", "AddParameter")
     .HasNoImplementation()
     .AddParameter("string", "parameterType")
@@ -56,20 +55,20 @@ IPatternMethod interfaceMethod2 = methodBuilder
 
 methodBuilder.Clear();
 
-IPatternMethod interfaceMethod3 = methodBuilder
+PatternMethod interfaceMethod3 = methodBuilder
     .SetVoidMethod("Build")
     .HasNoImplementation()
     .Build();
 
 methodBuilder.Clear();
 
-IPatternMethod interfaceMethod4 = methodBuilder
+PatternMethod interfaceMethod4 = methodBuilder
     .SetVoidMethod("Clear")
     .HasNoImplementation()
     .Build();
 
 var interfaceBuilder = new PatternInterfaceBuilder();
-IPatternInterface patternInterface = interfaceBuilder
+PatternInterface patternInterface = interfaceBuilder
     .SetName("IPatternMethodBuilder")
     .AddMethod(interfaceMethod1)
     .AddMethod(interfaceMethod2)
@@ -78,7 +77,7 @@ IPatternInterface patternInterface = interfaceBuilder
     .Build();
 
 var patternBuilder = new PatternBuilder.Core.Builders.PatternBuilder();
-IPattern pattern = patternBuilder
+Pattern pattern = patternBuilder
     .AddClass(patternClass)
     .AddInterface(patternInterface)
     .Build();
