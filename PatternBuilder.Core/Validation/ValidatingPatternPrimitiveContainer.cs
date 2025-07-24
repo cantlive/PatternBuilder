@@ -1,6 +1,6 @@
 ﻿using PatternBuilder.Core.Interfaces.Primitives;
 using System.Runtime.CompilerServices;
-[assembly: InternalsVisibleTo("PatternBuilderTests")]
+[assembly: InternalsVisibleTo("PatternBuilder.Tests")]
 
 namespace PatternBuilder.Core.Validation
 {
@@ -15,13 +15,6 @@ namespace PatternBuilder.Core.Validation
             _items = new Dictionary<string, T>();
             _containerName = containerName;
             _parameterName = parameterName;
-        }
-
-        internal ValidatingPatternPrimitiveContainer(ValidatingPatternPrimitiveContainer<T> validatingPatternPrimitiveContainer)
-        {
-            _items = new Dictionary<string, T>(validatingPatternPrimitiveContainer._items);
-            _containerName = validatingPatternPrimitiveContainer._containerName;
-            _parameterName = validatingPatternPrimitiveContainer._parameterName;
         }
 
         private string ParameterName => string.IsNullOrWhiteSpace(_parameterName) ? T.SystemName : _parameterName;

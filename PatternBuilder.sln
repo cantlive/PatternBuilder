@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternBuilder.Core", "Patt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsolePatternBuilder", "ConsolePatternBuilder\ConsolePatternBuilder.csproj", "{397400F4-166E-4C20-AB95-56D6298AAA47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternBuilderTests", "PatternBuilderTests\PatternBuilderTests.csproj", "{D961630E-ADF2-4939-84FC-7C3BE248478B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternBuilder.Tests", "PatternBuilderTests\PatternBuilder.Tests.csproj", "{D961630E-ADF2-4939-84FC-7C3BE248478B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

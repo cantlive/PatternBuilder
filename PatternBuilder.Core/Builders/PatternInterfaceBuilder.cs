@@ -2,51 +2,39 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternInterfaceBuilder
+    public sealed class PatternInterfaceBuilder : PatternBuilderBase<PatternInterface>
     {
-        private PatternInterface _patternInterface = new PatternInterface();
-
-        public PatternInterfaceBuilder AddProperty(string parameterType, string parameterName)
+        public PatternInterfaceBuilder AddProperty(string parameterName, string parameterType = "")
         {
-            return AddProperty(new PatternParameter(parameterType, parameterName));
+            return AddProperty(new PatternParameter(parameterName, parameterType));
         }
         public PatternInterfaceBuilder AddProperty(PatternParameter property)
         {
-            _patternInterface.AddProperty(property);
+            _value.AddProperty(property);
             return this;
         }
 
         public PatternInterfaceBuilder AddMethod(PatternMethod method)
         {
-            _patternInterface.AddMethod(method);
+            _value.AddMethod(method);
             return this;
-        }
-
-        public PatternInterface Build()
-        {
-            return _patternInterface;
-        }
-
-        public void Clear()
-        {
-            _patternInterface = new PatternInterface();
         }
 
         public PatternInterfaceBuilder RemoveProperty(PatternParameter property)
         {
-            _patternInterface.RemoveProperty(property);
+            _value.RemoveProperty(property);
             return this;
         }
 
         public PatternInterfaceBuilder RemoveMethod(PatternMethod method)
         {
-            _patternInterface.RemoveMethod(method);
+            _value.RemoveMethod(method);
             return this;
         }
 
         public PatternInterfaceBuilder SetName(string name)
         {
-            _patternInterface.SetName(name);
+            _value.SetName(name);
             return this;
         }
     }

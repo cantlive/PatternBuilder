@@ -2,76 +2,64 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternClassBuilder
+    public sealed class PatternClassBuilder : PatternBuilderBase<PatternClass>
     {
-        private PatternClass _patternClass = new PatternClass();
-
-        public PatternClassBuilder AddField(string parameterType, string parameterName)
+        public PatternClassBuilder AddField(string parameterName, string parameterType = "")
         {
-            return AddField(new PatternParameter(parameterType, parameterName));
+            return AddField(new PatternParameter(parameterName, parameterType));
         }
 
         public PatternClassBuilder AddField(PatternParameter field)
         {
-            _patternClass.AddField(field);
+            _value.AddField(field);
             return this;
         }
 
         public PatternClassBuilder AddMethod(PatternMethod method)
         {
-            _patternClass.AddMethod(method);
+            _value.AddMethod(method);
             return this;
-        }
-
-        public PatternClass Build()
-        {
-            return _patternClass;
-        }
-
-        public void Clear()
-        {
-            _patternClass = new PatternClass();
         }
 
         public PatternClassBuilder RemoveField(PatternParameter field)
         {
-            _patternClass.RemoveField(field);
+            _value.RemoveField(field);
             return this;
         }
 
         public PatternClassBuilder RemoveMethod(PatternMethod method)
         {
-            _patternClass.RemoveMethod(method);
+            _value.RemoveMethod(method);
             return this;
         }
 
         public PatternClassBuilder RemoveParentClass()
         {
-            _patternClass.SetParentClass(string.Empty);
+            _value.SetParentClass(string.Empty);
             return this;
         }
 
         public PatternClassBuilder SetAbstract()
         {
-            _patternClass.SetAbstract();
+            _value.SetAbstract();
             return this;
         }
 
         public PatternClassBuilder SetNonAbstract()
         {
-            _patternClass.SetNonAbstract();
+            _value.SetNonAbstract();
             return this;
         }
 
         public PatternClassBuilder SetName(string name)
         {
-            _patternClass.SetName(name);
+            _value.SetName(name);
             return this;
         }
 
         public PatternClassBuilder SetParentClass(string parentClass)
         {
-            _patternClass.SetParentClass(parentClass);
+            _value.SetParentClass(parentClass);
             return this;
         }
     }

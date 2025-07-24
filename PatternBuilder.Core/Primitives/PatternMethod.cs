@@ -3,19 +3,19 @@ using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class PatternMethod : IPatternPrimitive
+    public sealed class PatternMethod : PatternPrimitiveBase, IPatternPrimitive
     {
         internal ValidatingPatternPrimitiveContainer<PatternParameter> ParameterContainer = new ValidatingPatternPrimitiveContainer<PatternParameter>("method");
 
-        internal PatternMethod() { }
+        internal PatternMethod(string name) : base(name) { }
 
         public static string SystemName => "method";
 
-        public string Name { get; private set; }
+        public static string DefaultName => "Method1";
 
-        public string UniqueKey => GetSignature();
+        public override string UniqueKey => GetSignature();
 
-        public string ReturnType { get; private set; }
+        public string ReturnType { get; private set; } = "void";
 
         public IEnumerable<PatternParameter> Parameters => ParameterContainer.Items;
 
@@ -25,9 +25,9 @@ namespace PatternBuilder.Core.Primitives
 
         public string Body { get; private set; }
 
-        public PatternParameter AddParameter(string type, string name)
+        public PatternParameter AddParameter(string name, string type = "")
         {
-            var parameter = new PatternParameter(type, name);
+            var parameter = new PatternParameter(name, type);
             ParameterContainer.Add(parameter);
 
             return parameter;
@@ -38,12 +38,6 @@ namespace PatternBuilder.Core.Primitives
         public void SetReturnType(string returnType)
         {
             ReturnType = returnType;
-        }
-
-        public void SetName(string name)
-        {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            Name = name;
         }
 
         public void SetBody(string body)
@@ -79,7 +73,7 @@ namespace PatternBuilder.Core.Primitives
             if (string.IsNullOrWhiteSpace(Name) && string.IsNullOrWhiteSpace(ReturnType) && ParameterContainer.Count == 0)
                 return string.Empty;
 
-            return $"{ReturnType};{Name};{string.Join(";", Parameters.Select(p => $"{p.Type}{p.Name}"))}";
+            return string.Join(";", ReturnType, Name, string.Join(";", Parameters.Select(p => $"{p.Type}{p.Name}")));
         }
     }
 }

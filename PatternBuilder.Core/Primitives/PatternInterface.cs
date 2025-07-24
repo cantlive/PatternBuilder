@@ -3,19 +3,17 @@ using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class PatternInterface : IPatternPrimitive
+    public sealed class PatternInterface : PatternPrimitiveBase, IPatternPrimitive
     {
         internal ValidatingPatternPrimitiveContainer<PatternParameter> PropertyContainer = new ValidatingPatternPrimitiveContainer<PatternParameter>(SystemName, "property");
 
         internal ValidatingPatternPrimitiveContainer<PatternMethod> MethodContainer = new ValidatingPatternPrimitiveContainer<PatternMethod>(SystemName);
 
-        internal PatternInterface() { }
+        internal PatternInterface(string name) : base(name) { }
 
         public static string SystemName => "interface";
 
-        public string Name { get; private set; }
-
-        public string UniqueKey => Name;
+        public static string DefaultName => "IInterface1";
 
         public IEnumerable<PatternMethod> Methods => MethodContainer.Items;
 
@@ -28,11 +26,5 @@ namespace PatternBuilder.Core.Primitives
         public void AddMethod(PatternMethod method) => MethodContainer.Add(method);
 
         public void RemoveMethod(PatternMethod method) => MethodContainer.Remove(method);
-
-        public void SetName(string name)
-        {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            Name = name;
-        }
     }
 }

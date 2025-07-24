@@ -2,84 +2,59 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternMethodBuilder
+    public sealed class PatternMethodBuilder : PatternBuilderBase<PatternMethod>
     {
-        private PatternMethod _patternMethod = new PatternMethod();
-
-        public static PatternMethod Empty => new PatternMethod();
-
         public PatternMethodBuilder AddParameter(string type, string name)
         {
-            _patternMethod.AddParameter(type, name);
-            return this;
-        }
-
-        public PatternMethod Build()
-        {
-            return _patternMethod;
-        }
-
-        public void Clear()
-        {
-            _patternMethod = new PatternMethod();
-        }
-
-        public PatternMethodBuilder SetVoidMethod(string name) => SetMethod("void", name);
-
-        public PatternMethodBuilder SetMethod(string returnType, string name)
-        {
-            _patternMethod = new PatternMethod();
-            _patternMethod.SetName(name);
-            _patternMethod.SetReturnType(returnType);
-
+            _value.AddParameter(type, name);
             return this;
         }
 
         public PatternMethodBuilder SetName(string name)
         {
-            _patternMethod.SetName(name);
+            _value.SetName(name);
             return this;
         }
 
         public PatternMethodBuilder SetReturnType(string returnType)
         {
-            _patternMethod.SetReturnType(returnType);
+            _value.SetReturnType(returnType);
             return this;
         }
 
         public PatternMethodBuilder SetBody(string body)
         {
-            _patternMethod.SetBody(body);
+            _value.SetBody(body);
             return this;
         }
 
         public PatternMethodBuilder RemoveParameter(PatternParameter parameter)
         {
-            _patternMethod.RemoveParameter(parameter);
+            _value.RemoveParameter(parameter);
             return this;
         }
 
         public PatternMethodBuilder HasImplementation()
         {
-            _patternMethod.SetHasImplementation();
+            _value.SetHasImplementation();
             return this;
         }
 
         public PatternMethodBuilder HasNoImplementation()
         {
-            _patternMethod.SetHasNoImplementation();
+            _value.SetHasNoImplementation();
             return this;
         }
 
         public PatternMethodBuilder SetAbstarct()
         {
-            _patternMethod.SetAbstract();
+            _value.SetAbstract();
             return this;
         }
 
         public PatternMethodBuilder SetNonAbstarct()
         {
-            _patternMethod.SetNonAbstract();
+            _value.SetNonAbstract();
             return this;
         }
     }

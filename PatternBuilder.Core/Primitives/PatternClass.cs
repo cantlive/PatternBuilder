@@ -3,19 +3,17 @@ using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class PatternClass : IPatternPrimitive
+    public sealed class PatternClass : PatternPrimitiveBase, IPatternPrimitive
     {
         internal ValidatingPatternPrimitiveContainer<PatternParameter> FieldContainer = new ValidatingPatternPrimitiveContainer<PatternParameter>(SystemName, "field");
 
         internal ValidatingPatternPrimitiveContainer<PatternMethod> MethodContainer = new ValidatingPatternPrimitiveContainer<PatternMethod>(SystemName);
 
-        internal PatternClass() { }
+        internal PatternClass(string name) : base(name) { }
 
         public static string SystemName => "class";
 
-        public string Name { get; private set; }
-
-        public string UniqueKey => Name;
+        public static string DefaultName => "Class1";
 
         public IEnumerable<PatternParameter> Fields => FieldContainer.Items;
 
@@ -24,12 +22,6 @@ namespace PatternBuilder.Core.Primitives
         public bool IsAbstract { get; private set; }
 
         public string ParentClass { get; private set; }
-
-        public void SetName(string name)
-        {
-            PatternValidator.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            Name = name;
-        }
 
         public void SetParentClass(string parentClass)
         {

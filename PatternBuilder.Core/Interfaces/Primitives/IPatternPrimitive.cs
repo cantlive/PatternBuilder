@@ -4,6 +4,7 @@
     {
         string Name { get; }
         static abstract string SystemName { get; }
+        static abstract string DefaultName { get; }
         string UniqueKey { get; }
     }
 }

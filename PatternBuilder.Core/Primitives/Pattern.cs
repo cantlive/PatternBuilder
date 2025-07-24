@@ -3,29 +3,20 @@ using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.Primitives
 {
-    public sealed class Pattern : IPatternPrimitive
+    public sealed class Pattern : PatternPrimitiveBase, IPatternPrimitive
     {
-        private string _name;
-
         internal ValidatingPatternPrimitiveContainer<PatternClass> ClassContainer = new ValidatingPatternPrimitiveContainer<PatternClass>(SystemName);
 
         internal ValidatingPatternPrimitiveContainer<PatternInterface> InterfaceContainer = new ValidatingPatternPrimitiveContainer<PatternInterface>(SystemName);
 
-        internal Pattern() { }
+        internal Pattern(string name) : base(name) { }
 
         public static string SystemName => "pattern";
 
-        public string Name { get; private set; }
-
-        public string UniqueKey => Name;
+        public static string DefaultName => "Pattern1";
 
         public IEnumerable<PatternClass> Classes => ClassContainer.Items;
         public IEnumerable<PatternInterface> Interfaces => InterfaceContainer.Items;
-
-        public void SetName(string name)
-        {
-            Name = name;
-        }
 
         public void AddClass(PatternClass patternClass) => ClassContainer.Add(patternClass);
 

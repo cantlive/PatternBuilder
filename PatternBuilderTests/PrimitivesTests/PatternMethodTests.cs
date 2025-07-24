@@ -15,12 +15,22 @@ namespace PatternBuilderTests.PrimitivesTests
         [Fact]
         public void Constructor_InitializesCorrectly()
         {
-            Assert.Null(_emptyMethod.Name);
-            Assert.Null(_emptyMethod.ReturnType);
+            Assert.Equal("Method1", _emptyMethod.Name);
+            Assert.Equal("void;Method1;", _emptyMethod.UniqueKey);
+            Assert.Equal("void", _emptyMethod.ReturnType);
             Assert.Empty(_emptyMethod.Parameters);
             Assert.False(_emptyMethod.IsAbstract);
             Assert.True(_emptyMethod.HasImplementation);
             Assert.Null(_emptyMethod.Body);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public void Constructor_NullOrWhiteSpaceName_ThrowsException(string name)
+        {
+            Assert.Throws<ArgumentException>(() => new PatternMethod(name));
         }
 
         [Fact]
@@ -30,12 +40,13 @@ namespace PatternBuilderTests.PrimitivesTests
             Assert.Equal("TestMethod", _emptyMethod.Name);
         }
 
-        [Fact]
-        public void SetName_NullOrWhiteSpace_ThrowsException()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public void SetName_NullOrWhiteSpace_ThrowsException(string name)
         {
-            Assert.Throws<ArgumentException>(() => _emptyMethod.SetName(null));
-            Assert.Throws<ArgumentException>(() => _emptyMethod.SetName(""));
-            Assert.Throws<ArgumentException>(() => _emptyMethod.SetName("   "));
+            Assert.Throws<ArgumentException>(() => _emptyMethod.SetName(name));
         }
 
         [Fact]
@@ -55,7 +66,7 @@ namespace PatternBuilderTests.PrimitivesTests
         [Fact]
         public void AddParameter_AddsToContainer()
         {
-            _emptyMethod.AddParameter("int", "number");
+            _emptyMethod.AddParameter("number", "int");
 
             var param = Assert.Single(_emptyMethod.Parameters);
             Assert.Equal("int", param.Type);
@@ -72,12 +83,43 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
+        public void AddParameter_WithoutType_AllowsEmptyType()
+        {
+            var parameter = _emptyMethod.AddParameter("param");
+
+            Assert.Single(_emptyMethod.Parameters);
+            Assert.Equal("param", parameter.Name);
+            Assert.Equal(string.Empty, parameter.Type);
+        }
+
+        [Fact]
+        public void GetSignature_EmptyMethod_ReturnsCorrectFormat()
+        {
+            Assert.Equal("void;Method1;", _emptyMethod.UniqueKey);
+        }
+
+        [Fact]
+        public void GetSignature_MethodWithoutReturnType_ReturnsCorrectFormat()
+        {
+            _emptyMethod.SetReturnType("");
+            Assert.Equal(";Method1;", _emptyMethod.UniqueKey);
+        }
+
+        [Fact]
         public void GetSignature_NoParameters_ReturnsCorrectFormat()
         {
-            _emptyMethod.SetReturnType("void");
             _emptyMethod.SetName("Test");
-
             Assert.Equal("void;Test;", _emptyMethod.UniqueKey);
+        }
+
+        [Fact]
+        public void GetSignature_WithUntypedParameter_ReturnsCorrectFormat()
+        {
+            _emptyMethod.SetName("Process");
+            _emptyMethod.SetReturnType("void");
+            _emptyMethod.AddParameter("input");
+
+            Assert.Equal("void;Process;input", _emptyMethod.UniqueKey);
         }
 
         [Fact]
@@ -85,8 +127,8 @@ namespace PatternBuilderTests.PrimitivesTests
         {
             _emptyMethod.SetReturnType("int");
             _emptyMethod.SetName("Calculate");
-            _emptyMethod.AddParameter("int", "a");
-            _emptyMethod.AddParameter("int", "b");
+            _emptyMethod.AddParameter("a", "int");
+            _emptyMethod.AddParameter("b", "int");
 
             Assert.Equal("int;Calculate;inta;intb", _emptyMethod.UniqueKey);
         }
@@ -113,10 +155,25 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
+        public void SetHasImplementation_SetsProperties()
+        {
+            _emptyMethod.SetHasImplementation();
+            Assert.True(_emptyMethod.HasImplementation);
+        }
+
+        [Fact]
+        public void SetHasNoImplementation_SetsProperties()
+        {
+            _emptyMethod.SetHasImplementation();
+            _emptyMethod.SetHasNoImplementation();
+            Assert.False(_emptyMethod.HasImplementation);
+        }
+
+        [Fact]
         public void Parameters_Property_ReturnsAllAddedParameters()
         {
-            _emptyMethod.AddParameter("string", "text");
-            _emptyMethod.AddParameter("bool", "flag");
+            _emptyMethod.AddParameter("text", "string");
+            _emptyMethod.AddParameter("flag", "bool");
 
             Assert.Collection(_emptyMethod.Parameters,
                 p1 =>
@@ -128,7 +185,8 @@ namespace PatternBuilderTests.PrimitivesTests
                 {
                     Assert.Equal("bool", p2.Type);
                     Assert.Equal("flag", p2.Name);
-                });
+                }
+            );
         }
     }
 }
