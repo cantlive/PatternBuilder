@@ -9,7 +9,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
 
         public PatternTests()
         {
-            _pattern = Core.Builders.PatternBuilder.Empty;
+            _pattern = Core.Builders.PatternPrimitiveBuilder.Empty;
         }
 
         [Fact]

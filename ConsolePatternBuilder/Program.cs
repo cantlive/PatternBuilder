@@ -80,7 +80,7 @@ PatternInterface patternInterface = interfaceBuilder
     .AddMethod(interfaceMethod4)
     .Build();
 
-var patternBuilder = new PatternBuilder.Core.Builders.PatternBuilder();
+var patternBuilder = new PatternPrimitiveBuilder();
 Pattern pattern = patternBuilder
     .AddClass(patternClass)
     .AddInterface(patternInterface)

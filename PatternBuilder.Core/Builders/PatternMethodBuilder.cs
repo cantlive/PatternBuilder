@@ -4,9 +4,9 @@ namespace PatternBuilder.Core.Builders
 {
     public sealed class PatternMethodBuilder : PatternPrimitiveBuilderBase<PatternMethodBuilder, PatternMethod>
     {
-        public PatternMethodBuilder AddParameter(string type, string name)
+        public PatternMethodBuilder AddParameter(string name, string type = "")
         {
-            _value.AddParameter(type, name);
+            _value.AddParameter(name, type);
             return this;
         }
 

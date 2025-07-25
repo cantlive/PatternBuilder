@@ -2,27 +2,27 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public class PatternBuilder : PatternPrimitiveBuilderBase<PatternBuilder, Pattern>
+    public class PatternPrimitiveBuilder : PatternPrimitiveBuilderBase<PatternPrimitiveBuilder, Pattern>
     {
-        public PatternBuilder AddClass(PatternClass patternClass)
+        public PatternPrimitiveBuilder AddClass(PatternClass patternClass)
         {
             _value.AddClass(patternClass);
             return this;
         }
 
-        public PatternBuilder AddInterface(PatternInterface patternInterface)
+        public PatternPrimitiveBuilder AddInterface(PatternInterface patternInterface)
         {
             _value.AddInterface(patternInterface);
             return this;
         }
 
-        public PatternBuilder RemoveClass(PatternClass @class)
+        public PatternPrimitiveBuilder RemoveClass(PatternClass @class)
         {
             _value.RemoveClass(@class);
             return this;
         }
 
-        public PatternBuilder RemoveInterface(PatternInterface @interface)
+        public PatternPrimitiveBuilder RemoveInterface(PatternInterface @interface)
         {
             _value.RemoveInterface(@interface);
             return this;
