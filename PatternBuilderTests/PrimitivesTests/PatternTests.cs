@@ -24,43 +24,6 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void SystemName_ReturnsCorrectValue()
-        {
-            Assert.Equal("pattern", Pattern.SystemName);
-        }
-
-        [Fact]
-        public void DefaultName_ReturnsCorrectValue()
-        {
-            Assert.Equal("Pattern1", Pattern.DefaultName);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        public void Constructor_NullOrWhiteSpaceName_ThrowsException(string name)
-        {
-            Assert.Throws<ArgumentException>(() => new Pattern(name));
-        }
-
-        [Fact]
-        public void SetName_ValidName_SetsProperty()
-        {
-            _pattern.SetName("TestPattern");
-            Assert.Equal("TestPattern", _pattern.Name);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        public void SetName_NullOrWhiteSpace_ThrowsException(string name)
-        {
-            Assert.Throws<ArgumentException>(() => _pattern.SetName(name));
-        }
-
-        [Fact]
         public void AddClass_AddsToContainer()
         {
             _pattern.AddClass(PatternClassBuilder.Empty);

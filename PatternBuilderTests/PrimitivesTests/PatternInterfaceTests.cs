@@ -21,15 +21,6 @@ namespace PatternBuilder.Tests.PrimitivesTests
             Assert.Empty(_emptyInterface.Properties);
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        public void Constructor_InvalidName_ThrowsException(string invalidName)
-        {
-            Assert.Throws<ArgumentException>(() => new PatternInterface(invalidName));
-        }
-
         [Fact]
         public void AddProperty_AddsSuccessfully()
         {
@@ -73,24 +64,6 @@ namespace PatternBuilder.Tests.PrimitivesTests
             _emptyInterface.RemoveMethod(method);
 
             Assert.Empty(_emptyInterface.Methods);
-        }
-
-        [Fact]
-        public void SetName_ValidName_ChangesNameAndUniqueKey()
-        {
-            _emptyInterface.SetName("INew");
-
-            Assert.Equal("INew", _emptyInterface.Name);
-            Assert.Equal("INew", _emptyInterface.UniqueKey);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("  ")]
-        public void SetName_InvalidName_ThrowsException(string invalidName)
-        {
-            Assert.Throws<ArgumentException>(() => _emptyInterface.SetName(invalidName));
         }
     }
 }

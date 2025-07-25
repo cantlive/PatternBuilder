@@ -21,7 +21,7 @@ namespace PatternBuilder.Core.Primitives
             Name = name;
         }
 
-        public static T CreateWithName<T>(string name) where T : IPatternPrimitive
+        public static T CreateWithName<T>(string name) where T : PatternPrimitiveBase, IPatternPrimitive
         {
             var ctor = typeof(T).GetConstructor(
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,

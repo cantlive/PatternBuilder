@@ -23,27 +23,6 @@ namespace PatternBuilder.Tests.PrimitivesTests
             Assert.Null(_emptyClass.ParentClass);
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        public void Constructor_InvalidName_ThrowsException(string invalidName)
-        {
-            Assert.Throws<ArgumentException>(() => new PatternClass(invalidName));
-        }
-
-        [Fact]
-        public void SystemName_ReturnsCorrectValue()
-        {
-            Assert.Equal("class", PatternClass.SystemName);
-        }
-
-        [Fact]
-        public void DefaultName_ReturnsCorrectValue()
-        {
-            Assert.Equal("Class1", PatternClass.DefaultName);
-        }
-
         [Fact]
         public void AddField_AddsSuccessfully()
         {

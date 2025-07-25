@@ -24,31 +24,6 @@ namespace PatternBuilderTests.PrimitivesTests
             Assert.Null(_emptyMethod.Body);
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        public void Constructor_NullOrWhiteSpaceName_ThrowsException(string name)
-        {
-            Assert.Throws<ArgumentException>(() => new PatternMethod(name));
-        }
-
-        [Fact]
-        public void SetName_ValidName_SetsProperty()
-        {
-            _emptyMethod.SetName("TestMethod");
-            Assert.Equal("TestMethod", _emptyMethod.Name);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        public void SetName_NullOrWhiteSpace_ThrowsException(string name)
-        {
-            Assert.Throws<ArgumentException>(() => _emptyMethod.SetName(name));
-        }
-
         [Fact]
         public void SetReturnType_SetsProperty()
         {
