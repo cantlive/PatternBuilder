@@ -2,7 +2,7 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternClassBuilder : PatternBuilderBase<PatternClass>
+    public sealed class PatternClassBuilder : PatternPrimitiveBuilderBase<PatternClassBuilder, PatternClass>
     {
         public PatternClassBuilder AddField(string parameterName, string parameterType = "")
         {
@@ -48,12 +48,6 @@ namespace PatternBuilder.Core.Builders
         public PatternClassBuilder SetNonAbstract()
         {
             _value.SetNonAbstract();
-            return this;
-        }
-
-        public PatternClassBuilder SetName(string name)
-        {
-            _value.SetName(name);
             return this;
         }
 

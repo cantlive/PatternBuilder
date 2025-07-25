@@ -93,27 +93,27 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void GetSignature_EmptyMethod_ReturnsCorrectFormat()
+        public void UniqueKey_EmptyMethod_ReturnsCorrectFormat()
         {
             Assert.Equal("void;Method1;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
-        public void GetSignature_MethodWithoutReturnType_ReturnsCorrectFormat()
+        public void UniqueKey_MethodWithoutReturnType_ReturnsCorrectFormat()
         {
             _emptyMethod.SetReturnType("");
             Assert.Equal(";Method1;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
-        public void GetSignature_NoParameters_ReturnsCorrectFormat()
+        public void UniqueKey_NoParameters_ReturnsCorrectFormat()
         {
             _emptyMethod.SetName("Test");
             Assert.Equal("void;Test;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
-        public void GetSignature_WithUntypedParameter_ReturnsCorrectFormat()
+        public void UniqueKey_WithUntypedParameter_ReturnsCorrectFormat()
         {
             _emptyMethod.SetName("Process");
             _emptyMethod.SetReturnType("void");
@@ -123,7 +123,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void GetSignature_WithParameters_ReturnsCorrectFormat()
+        public void UniqueKey_WithParameters_ReturnsCorrectFormat()
         {
             _emptyMethod.SetReturnType("int");
             _emptyMethod.SetName("Calculate");

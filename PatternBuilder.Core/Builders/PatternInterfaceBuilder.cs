@@ -2,7 +2,7 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternInterfaceBuilder : PatternBuilderBase<PatternInterface>
+    public sealed class PatternInterfaceBuilder : PatternPrimitiveBuilderBase<PatternInterfaceBuilder, PatternInterface>
     {
         public PatternInterfaceBuilder AddProperty(string parameterName, string parameterType = "")
         {
@@ -29,12 +29,6 @@ namespace PatternBuilder.Core.Builders
         public PatternInterfaceBuilder RemoveMethod(PatternMethod method)
         {
             _value.RemoveMethod(method);
-            return this;
-        }
-
-        public PatternInterfaceBuilder SetName(string name)
-        {
-            _value.SetName(name);
             return this;
         }
     }

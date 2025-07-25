@@ -16,5 +16,10 @@ namespace PatternBuilder.Core.Primitives
         {
             Type = type;
         }
+
+        public void SetType(string type)
+        {
+            Type = type;
+        }
     }
 }

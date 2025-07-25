@@ -2,7 +2,7 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public class PatternBuilder : PatternBuilderBase<Pattern>
+    public class PatternBuilder : PatternPrimitiveBuilderBase<PatternBuilder, Pattern>
     {
         public PatternBuilder AddClass(PatternClass patternClass)
         {
@@ -26,11 +26,6 @@ namespace PatternBuilder.Core.Builders
         {
             _value.RemoveInterface(@interface);
             return this;
-        }
-
-        public void SetName(string name)
-        {
-            _value.SetName(name);
         }
     }
 }

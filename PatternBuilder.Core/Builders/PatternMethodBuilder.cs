@@ -2,17 +2,11 @@
 
 namespace PatternBuilder.Core.Builders
 {
-    public sealed class PatternMethodBuilder : PatternBuilderBase<PatternMethod>
+    public sealed class PatternMethodBuilder : PatternPrimitiveBuilderBase<PatternMethodBuilder, PatternMethod>
     {
         public PatternMethodBuilder AddParameter(string type, string name)
         {
             _value.AddParameter(type, name);
-            return this;
-        }
-
-        public PatternMethodBuilder SetName(string name)
-        {
-            _value.SetName(name);
             return this;
         }
 

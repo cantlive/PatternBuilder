@@ -4,37 +4,58 @@ namespace PatternBuilderTests.PrimitivesTests
 {
     public class PatternParameterTests
     {
+        private PatternParameter _parameterWithType;
+        private PatternParameter _parameterWithoutType;
+        private PatternParameter _parameterWithEmptyType;
+
+        public PatternParameterTests()
+        {
+            _parameterWithType = new PatternParameter("Name", "Type");
+            _parameterWithoutType = new PatternParameter("Name");
+            _parameterWithEmptyType = new PatternParameter("Name", string.Empty);
+        }
+
         [Fact]
         public void Constructor_WithoutType_InitializesCorrectly()
         {
-            var param1 = new PatternParameter("Name");
-            Assert.Equal("Name", param1.Name);
-            Assert.Equal("Name", param1.UniqueKey);
-            Assert.True(string.IsNullOrWhiteSpace(param1.Type));
+            Assert.Equal("Name", _parameterWithoutType.Name);
+            Assert.Equal("Name", _parameterWithoutType.UniqueKey);
+            Assert.True(string.IsNullOrWhiteSpace(_parameterWithoutType.Type));
 
-            var param2 = new PatternParameter("Name", string.Empty);
-            Assert.Equal("Name", param2.Name);
-            Assert.Equal("Name", param1.UniqueKey);
-            Assert.True(string.IsNullOrWhiteSpace(param2.Type));
-
-            Assert.Throws<ArgumentException>(() =>
-            {
-                new PatternParameter(string.Empty);
-            });
+            Assert.Equal("Name", _parameterWithEmptyType.Name);
+            Assert.Equal("Name", _parameterWithEmptyType.UniqueKey);
+            Assert.True(string.IsNullOrWhiteSpace(_parameterWithEmptyType.Type));
         }
 
         [Fact]
         public void Constructor_WithType_InitializesCorrectly()
         {
-            var param = new PatternParameter("Name", "Type");
-            Assert.Equal("Name", param.Name);
-            Assert.Equal("Name", param.UniqueKey);
-            Assert.Equal("Type", param.Type);
+            Assert.Equal("Name", _parameterWithType.Name);
+            Assert.Equal("Name", _parameterWithType.UniqueKey);
+            Assert.Equal("Type", _parameterWithType.Type);
+        }
 
-            Assert.Throws<ArgumentException>(() =>
-            {
-                new PatternParameter(string.Empty, "Type");
-            });
+        [Fact]
+        public void SetType_Valid_ChangeProperty()
+        {
+            _parameterWithType.SetType("int");
+            _parameterWithoutType.SetType("int");
+
+            Assert.Equal("int", _parameterWithType.Type);
+            Assert.Equal("int", _parameterWithoutType.Type);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public void SetType_NullOrWhiteSpace_ChangeProperty(string type)
+        {
+            _parameterWithType.SetType(type);
+            _parameterWithoutType.SetType(type);
+
+            Assert.True(string.IsNullOrWhiteSpace(_parameterWithType.Type));
+            Assert.True(string.IsNullOrWhiteSpace(_parameterWithoutType.Type));
         }
     }
 }
