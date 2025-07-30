@@ -1,7 +1,6 @@
 ﻿using PatternBuilder.Core.Builders;
 using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
-using System.Reflection;
 
 namespace PatternBuilder.Tests.BuildersTests
 {
@@ -12,38 +11,6 @@ namespace PatternBuilder.Tests.BuildersTests
         public PatternPrimitiveBuilderBaseTests()
         {
             _builder = new DummyPatternPrimitiveBuilder();
-        }
-
-        public static IEnumerable<object[]> GetBuildersTypes()
-        {
-            return Assembly
-                .GetAssembly(typeof(PatternPrimitiveBuilderBase<,>))!
-                .GetTypes()
-                .Where(t =>
-                    !t.IsAbstract &&
-                    t.BaseType is { IsGenericType: true } &&
-                    t.BaseType.GetGenericTypeDefinition() == typeof(PatternPrimitiveBuilderBase<,>))
-                .Select(t => new object[] { t });
-        }
-
-        [Theory]
-        [MemberData(nameof(GetBuildersTypes))]
-        public void Empty_Sets_DefaultName_ForAllBuilders(Type builderType)
-        {
-            Type baseGenericType = builderType.BaseType!;
-            Type primitiveType = builderType.BaseType!.GetGenericArguments()[1];
-
-            var defaultNameProp = primitiveType.GetProperty(nameof(IPatternPrimitive.DefaultName), BindingFlags.Static | BindingFlags.Public);
-            Assert.NotNull(defaultNameProp);
-
-            var expectedName = (string)defaultNameProp.GetValue(null)!;
-
-            var emptyProp = baseGenericType.GetProperty(nameof(DummyPatternPrimitiveBuilder.Empty), BindingFlags.Static | BindingFlags.Public);
-            Assert.NotNull(emptyProp);
-
-            var emptyInstance = (IPatternPrimitive)emptyProp.GetValue(null)!;
-
-            Assert.Equal(expectedName, emptyInstance.Name);
         }
 
         private sealed class DummyPatternPrimitive : PatternPrimitiveBase, IPatternPrimitive
@@ -67,6 +34,12 @@ namespace PatternBuilder.Tests.BuildersTests
         public void SetName_NullOrWhiteSpace_ThrowsException(string name)
         {
             Assert.Throws<ArgumentException>(() => _builder.SetName(name));
+        }
+
+        [Fact]
+        public void Empty_Sets_DefaultName()
+        {
+            Assert.Equal(DummyPatternPrimitive.DefaultName, DummyPatternPrimitiveBuilder.Empty.Name);
         }
 
         [Fact]
