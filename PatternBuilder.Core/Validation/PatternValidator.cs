@@ -1,11 +1,9 @@
 ﻿using PatternBuilder.Core.Exceptions;
 using PatternBuilder.Core.Interfaces.Primitives;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("PatternBuilder.Core.Tests")]
 namespace PatternBuilder.Core.Validation
 {
-    internal static class PatternValidator
+    public static class PatternValidator
     {
         public static void ValidateUniquePatternPrimitive<T>(IDictionary<string, T> primitives, T primitive, string containerName, string parameterName = "") where T : IPatternPrimitive
         {
