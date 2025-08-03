@@ -31,19 +31,19 @@ namespace PatternBuilder.Tests.BuildersTests
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public void SetName_NullOrWhiteSpace_ThrowsException(string name)
+        public void SetName_WhenNullOrWhiteSpace_ThrowsArgumentException(string name)
         {
             Assert.Throws<ArgumentException>(() => _builder.SetName(name));
         }
 
         [Fact]
-        public void Empty_Sets_DefaultName()
+        public void Empty_WhenAccessed_SetsDefaultName()
         {
             Assert.Equal(DummyPatternPrimitive.DefaultName, DummyPatternPrimitiveBuilder.Empty.Name);
         }
 
         [Fact]
-        public void Build_ReturnsCurrentValue()
+        public void Build_WhenCalled_ReturnsCurrentValue()
         {
             _builder.SetName("CustomName");
 
@@ -53,18 +53,18 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void Clear_SetsToEmpty()
+        public void Clear_WhenCalled_SetsToEmpty()
         {
             _builder.SetName("TempName");
-
             _builder.Clear();
+
             var result = _builder.Build();
 
             Assert.Equal("DummyDefaultName", result.Name);
         }
 
         [Fact]
-        public void Build_ReturnsSameReferenceIfUnchanged()
+        public void Build_WhenUnchanged_ReturnsSameReference()
         {
             var result1 = _builder.Build();
             var result2 = _builder.Build();

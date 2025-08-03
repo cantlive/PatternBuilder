@@ -11,8 +11,8 @@ var methodBuilder = new PatternMethodBuilder();
 PatternMethod method1 = methodBuilder
     .SetName("SetMethod")
     .SetReturnType("IPatternMethodBuilder")
-    .AddParameter("string", "returnType")
-    .AddParameter("string", "name")
+    .AddParameter("returnType", "string")
+    .AddParameter("name", "string")
     .SetBody(body)
     .Build();
 
@@ -21,17 +21,17 @@ methodBuilder.Clear();
 PatternMethod method2 = methodBuilder
     .SetName("AddParameter")
     .SetReturnType("IPatternMethodBuilder")
-    .AddParameter("string", "parameterType")
-    .AddParameter("string", "parameterName")
+    .AddParameter("parameterType", "string")
+    .AddParameter("parameterName", "string")
     .Build();
 
 var classBuilder = new PatternClassBuilder();
 PatternClass patternClass = classBuilder
     .SetName("PatternMethodBuilder")
     .SetParentClass("IPatternMethodBuilder")
-    .AddField("string", "_returnType")
-    .AddField("string", "_name")
-    .AddField("List<PatternParameter>", "_parameters")
+    .AddField("_returnType", "string")
+    .AddField("_name", "string")
+    .AddField("_parameters", "List<PatternParameter>")
     .AddMethod(method1)
     .AddMethod(method2)
     .Build();
@@ -42,8 +42,8 @@ PatternMethod interfaceMethod1 = methodBuilder
     .SetName("AddParameter")
     .SetReturnType("IPatternMethodBuilder")
     .HasNoImplementation()
-    .AddParameter("string", "returnType")
-    .AddParameter("string", "name")
+    .AddParameter("returnType", "string")
+    .AddParameter("name", "string")
     .Build();
 
 methodBuilder.Clear();
@@ -52,8 +52,8 @@ PatternMethod interfaceMethod2 = methodBuilder
     .SetName("AddParameter")
     .SetReturnType("IPatternMethodBuilder")
     .HasNoImplementation()
-    .AddParameter("string", "parameterType")
-    .AddParameter("string", "parameterName")
+    .AddParameter("parameterType", "string")
+    .AddParameter("parameterName", "string")
     .Build();
 
 methodBuilder.Clear();

@@ -5,7 +5,7 @@ namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 {
     internal sealed class CSharpClassCodeGenerator : ClassCodeGeneratorBase
     {
-        public CSharpClassCodeGenerator(LanguageCodeGeneratorRegistry generatorRegistry) : base(generatorRegistry) { }
+        public CSharpClassCodeGenerator(CodeGeneratorRegistry generatorRegistry) : base(generatorRegistry) { }
 
         protected override void AddSignature(PatternClass patternClass)
         {

@@ -4,9 +4,9 @@ namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
     internal abstract class ClassCodeGeneratorBase : PatternPrimitiveCodeGeneratorBase<PatternClass>
     {
-        protected readonly LanguageCodeGeneratorRegistry _generatorRegistry;
+        protected readonly CodeGeneratorRegistry _generatorRegistry;
 
-        public ClassCodeGeneratorBase(LanguageCodeGeneratorRegistry generatorRegistry)
+        public ClassCodeGeneratorBase(CodeGeneratorRegistry generatorRegistry)
         {
             _generatorRegistry = generatorRegistry;
         }

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
+[assembly: InternalsVisibleTo("PatternBuilder.Tests")]
 
 namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
@@ -6,32 +8,32 @@ namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
     {
         protected StringBuilder _stringBuilder = new StringBuilder();
 
-        protected void AddLine(string line = "")
+        internal void AddLine(string line = "")
         {
             _stringBuilder.AppendLine(line);
         }
 
-        protected void AddString(string value)
+        internal void AddString(string value)
         {
             _stringBuilder.Append(value);
         }
 
-        protected void AddTab()
+        internal void AddTab()
         {
             AddString("\t");
         }
 
-        protected void Clear()
+        internal void Clear()
         {
             _stringBuilder.Clear();
         }
 
-        protected string GetResult()
+        internal string GetResult()
         {
             return _stringBuilder.ToString();
         }
 
-        protected void RemoveLastEmptyLine()
+        internal void RemoveLastEmptyLine()
         {
             string newLine = Environment.NewLine;
             string result = _stringBuilder.ToString();

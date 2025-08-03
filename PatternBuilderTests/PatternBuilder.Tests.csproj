@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PatternBuilder.CodeGeneration\PatternBuilder.CodeGeneration.csproj" />
     <ProjectReference Include="..\PatternBuilder.Core\PatternBuilder.Core.csproj" />
   </ItemGroup>
 

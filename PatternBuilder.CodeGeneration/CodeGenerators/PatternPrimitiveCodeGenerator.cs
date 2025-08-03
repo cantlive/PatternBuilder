@@ -6,9 +6,9 @@ namespace PatternBuilder.Core.CodeGenerators
 {
     internal class PatternPrimitiveCodeGenerator : PatternPrimitiveCodeGeneratorBase<Pattern>
     {
-        private readonly LanguageCodeGeneratorRegistry _generatorRegistry;
+        private readonly CodeGeneratorRegistry _generatorRegistry;
 
-        internal PatternPrimitiveCodeGenerator(LanguageCodeGeneratorRegistry generatorRegistry)
+        internal PatternPrimitiveCodeGenerator(CodeGeneratorRegistry generatorRegistry)
         {
             PatternValidator.ThrowIfNullArgument(generatorRegistry, nameof(generatorRegistry));
             _generatorRegistry = generatorRegistry;
