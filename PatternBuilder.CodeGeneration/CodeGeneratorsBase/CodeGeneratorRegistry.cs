@@ -3,7 +3,7 @@ using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
-    internal class CodeGeneratorRegistry
+    internal sealed class CodeGeneratorRegistry
     {
         private readonly Dictionary<Type, object> _generators = new Dictionary<Type, object>();
 

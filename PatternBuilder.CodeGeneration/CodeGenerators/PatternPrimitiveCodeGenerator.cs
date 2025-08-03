@@ -4,7 +4,7 @@ using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
-    internal class PatternPrimitiveCodeGenerator : PatternPrimitiveCodeGeneratorBase<Pattern>
+    internal sealed class PatternPrimitiveCodeGenerator : PatternPrimitiveCodeGeneratorBase<Pattern>
     {
         private readonly CodeGeneratorRegistry _generatorRegistry;
 
