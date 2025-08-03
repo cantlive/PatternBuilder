@@ -1,10 +1,11 @@
-﻿using PatternBuilder.Core.Primitives;
+﻿using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
+using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
+namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 {
-    internal sealed class CSharpInterfaceCodeGenerator : BaseInterfaceCodeGenerator
+    internal sealed class CSharpInterfaceCodeGenerator : InterfaceCodeGeneratorBase
     {
-        public CSharpInterfaceCodeGenerator() : base(new CSharpMethodCodeGenerator()) { }
+        public CSharpInterfaceCodeGenerator(LanguageCodeGeneratorRegistry generatorRegistry) : base(generatorRegistry) { }
 
         protected override void AddSignature(PatternInterface patternInterface)
         {
@@ -25,7 +26,7 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
         {
             foreach (PatternMethod method in patternInterface.Methods)
             {
-                AddLine(_methodGenerator.Generate(method));
+                AddLine(_generatorRegistry.GetGenerator<PatternMethod>().Generate(method));
                 AddLine();
             }
 

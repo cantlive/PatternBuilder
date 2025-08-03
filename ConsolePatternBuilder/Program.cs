@@ -1,6 +1,5 @@
 ﻿using PatternBuilder.Core.Builders;
-using PatternBuilder.Core.CodeGenerators;
-using PatternBuilder.Core.Interfaces.Converters;
+using PatternBuilder.Core.CodeGeneration;
 using PatternBuilder.Core.Primitives;
 
 string body = @"_returnType = returnType;
@@ -86,7 +85,5 @@ Pattern pattern = patternBuilder
     .AddInterface(patternInterface)
     .Build();
 
-IPatternCodeGenerator generator = new PatternCodeGenerator();
-
-Console.WriteLine(generator.Generate(pattern, PatternLanguages.CSharp));
+Console.WriteLine(PatternCodeGenerator.Generate(pattern, PatternLanguages.CSharp));
 Console.ReadLine();

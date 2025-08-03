@@ -1,21 +1,21 @@
 ﻿using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators
+namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
-    public abstract class BaseClassCodeGenerator : BaseCodeGenerator
+    internal abstract class ClassCodeGeneratorBase : PatternPrimitiveCodeGeneratorBase<PatternClass>
     {
-        protected readonly BaseMethodCodeGenerator _methodGenerator;
+        protected readonly LanguageCodeGeneratorRegistry _generatorRegistry;
 
-        public BaseClassCodeGenerator(BaseMethodCodeGenerator methodGenerator)
+        public ClassCodeGeneratorBase(LanguageCodeGeneratorRegistry generatorRegistry)
         {
-            _methodGenerator = methodGenerator;
+            _generatorRegistry = generatorRegistry;
         }
 
         protected abstract void AddSignature(PatternClass patternClass);
         protected abstract void AddFields(PatternClass patternClass);
         protected abstract void AddMethods(PatternClass patternClass);
 
-        public string Generate(PatternClass patternClass)
+        internal override string InternalGenerate(PatternClass patternClass)
         {
             Clear();
 

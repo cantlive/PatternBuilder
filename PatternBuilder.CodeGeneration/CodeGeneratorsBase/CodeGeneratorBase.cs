@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace PatternBuilder.Core.CodeGenerators
+namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
-    public class BaseCodeGenerator
+    internal class CodeGeneratorBase
     {
         protected StringBuilder _stringBuilder = new StringBuilder();
 
@@ -14,6 +14,11 @@ namespace PatternBuilder.Core.CodeGenerators
         protected void AddString(string value)
         {
             _stringBuilder.Append(value);
+        }
+
+        protected void AddTab()
+        {
+            AddString("\t");
         }
 
         protected void Clear()
@@ -28,9 +33,11 @@ namespace PatternBuilder.Core.CodeGenerators
 
         protected void RemoveLastEmptyLine()
         {
-            int lastIndex = _stringBuilder.ToString().LastIndexOf('\n');
-            if (lastIndex >= 0)
-                _stringBuilder.Remove(lastIndex, _stringBuilder.Length - lastIndex);
+            string newLine = Environment.NewLine;
+            string result = _stringBuilder.ToString();
+
+            if (result.EndsWith(newLine))
+                _stringBuilder.Remove(result.Length - newLine.Length, newLine.Length);
         }
     }
 }

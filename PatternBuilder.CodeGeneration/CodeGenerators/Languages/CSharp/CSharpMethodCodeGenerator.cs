@@ -1,8 +1,9 @@
-﻿using PatternBuilder.Core.Primitives;
+﻿using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
+using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
+namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 {
-    internal sealed class CSharpMethodCodeGenerator : BaseMethodCodeGenerator
+    internal sealed class CSharpMethodCodeGenerator : MethodCodeGeneratorBase
     {
         protected override void AddSignature(PatternMethod patternMethod)
         {
@@ -45,11 +46,6 @@ namespace PatternBuilder.Core.CodeGenerators.Languages.CSharp
                 AddTab();
                 AddLine(row);
             }
-        }
-
-        private void AddTab()
-        {
-            AddString("\t");
         }
     }
 }

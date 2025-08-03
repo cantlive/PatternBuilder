@@ -1,14 +1,14 @@
 ﻿using PatternBuilder.Core.Primitives;
 
-namespace PatternBuilder.Core.CodeGenerators
+namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
-    public abstract class BaseMethodCodeGenerator : BaseCodeGenerator
+    internal abstract class MethodCodeGeneratorBase : PatternPrimitiveCodeGeneratorBase<PatternMethod>
     {
         protected abstract void AddSignature(PatternMethod method);
         protected abstract void AddParameters(PatternMethod method);
         protected abstract void AddBody(PatternMethod method);
 
-        public string Generate(PatternMethod method)
+        internal override string InternalGenerate(PatternMethod method)
         {
             Clear();
 
