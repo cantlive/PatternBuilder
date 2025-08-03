@@ -12,7 +12,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void AddLine_Appends_Line_With_NewLine()
+        public void AddLine_WhenCalledWithText_AppendsLineWithNewLine()
         {
             _generator.AddLine("Hello");
             string result = _generator.GetResult();
@@ -21,7 +21,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void AddLine_Without_Argument_Appends_EmptyLine()
+        public void AddLine_WhenCalledWithoutArgument_AppendsEmptyLine()
         {
             _generator.AddLine();
             string result = _generator.GetResult();
@@ -30,7 +30,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void AddString_Appends_Without_NewLine()
+        public void AddString_WhenCalled_AppendsWithoutNewLine()
         {
             _generator.AddString("Hello");
             string result = _generator.GetResult();
@@ -39,7 +39,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void AddLine_NullInput_AddsEmptyLine()
+        public void AddLine_WhenCalledWithNull_AddsEmptyLine()
         {
             _generator.AddLine(null);
             string result = _generator.GetResult();
@@ -48,7 +48,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void AddString_NullInput_AddsNothing()
+        public void AddString_WhenCalledWithNull_AddsNothing()
         {
             _generator.AddString(null);
             string result = _generator.GetResult();
@@ -57,7 +57,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void Clear_Removes_All_Content()
+        public void Clear_WhenCalled_RemovesAllContent()
         {
             _generator.AddLine("Test");
             _generator.Clear();
@@ -67,7 +67,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void GetResult_Returns_Current_String()
+        public void GetResult_WhenCalled_ReturnsCurrentString()
         {
             _generator.AddLine("Code");
             string result = _generator.GetResult();
@@ -76,7 +76,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void RemoveLastEmptyLine_Removes_Trailing_Newline()
+        public void RemoveLastEmptyLine_WhenCalled_RemovesTrailingNewLine()
         {
             _generator.AddLine("Line1");
             _generator.AddLine("Line2");
@@ -90,7 +90,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void AddTab_Appends_Tab_Character()
+        public void AddTab_WhenCalled_AppendsTabCharacter()
         {
             _generator.AddTab();
             _generator.AddString("IndentedLine");

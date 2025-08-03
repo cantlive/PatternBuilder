@@ -13,7 +13,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void Constructor_InitializesCorrectly()
+        public void Constructor_WhenCalled_InitializesCorrectly()
         {
             Assert.Equal("Method1", _emptyMethod.Name);
             Assert.Equal("void;Method1;", _emptyMethod.UniqueKey);
@@ -25,21 +25,21 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void SetReturnType_SetsProperty()
+        public void SetReturnType_WhenCalled_SetsReturnTypeProperty()
         {
             _emptyMethod.SetReturnType("int");
             Assert.Equal("int", _emptyMethod.ReturnType);
         }
 
         [Fact]
-        public void SetBody_SetsProperty()
+        public void SetBody_WhenCalled_SetsBodyProperty()
         {
             _emptyMethod.SetBody("return 42;");
             Assert.Equal("return 42;", _emptyMethod.Body);
         }
 
         [Fact]
-        public void AddParameter_AddsToContainer()
+        public void AddParameter_WhenCalled_AddsParameterToContainer()
         {
             _emptyMethod.AddParameter("number", "int");
 
@@ -49,7 +49,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveParameter_RemovesFromContainer()
+        public void RemoveParameter_WhenCalled_RemovesParameterFromContainer()
         {
             var parameter = _emptyMethod.AddParameter("int", "number");
             _emptyMethod.RemoveParameter(parameter);
@@ -58,7 +58,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void AddParameter_WithoutType_AllowsEmptyType()
+        public void AddParameter_WhenCalledWithoutType_AllowsEmptyType()
         {
             var parameter = _emptyMethod.AddParameter("param");
 
@@ -68,27 +68,27 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void UniqueKey_EmptyMethod_ReturnsCorrectFormat()
+        public void UniqueKey_WhenEmptyMethod_ReturnsCorrectFormat()
         {
             Assert.Equal("void;Method1;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
-        public void UniqueKey_MethodWithoutReturnType_ReturnsCorrectFormat()
+        public void UniqueKey_WhenMethodWithoutReturnType_ReturnsCorrectFormat()
         {
             _emptyMethod.SetReturnType("");
             Assert.Equal(";Method1;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
-        public void UniqueKey_NoParameters_ReturnsCorrectFormat()
+        public void UniqueKey_WhenNoParameters_ReturnsCorrectFormat()
         {
             _emptyMethod.SetName("Test");
             Assert.Equal("void;Test;", _emptyMethod.UniqueKey);
         }
 
         [Fact]
-        public void UniqueKey_WithUntypedParameter_ReturnsCorrectFormat()
+        public void UniqueKey_WhenHasUntypedParameter_ReturnsCorrectFormat()
         {
             _emptyMethod.SetName("Process");
             _emptyMethod.SetReturnType("void");
@@ -98,7 +98,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void UniqueKey_WithParameters_ReturnsCorrectFormat()
+        public void UniqueKey_WhenHasParameters_ReturnsCorrectFormat()
         {
             _emptyMethod.SetReturnType("int");
             _emptyMethod.SetName("Calculate");
@@ -109,7 +109,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void SetAbstract_SetsPropertiesAndClearsBody()
+        public void SetAbstract_WhenCalled_SetsPropertiesAndClearsBody()
         {
             _emptyMethod.SetBody("return;");
             _emptyMethod.SetAbstract();
@@ -120,7 +120,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void SetNonAbstract_SetsProperties()
+        public void SetNonAbstract_WhenCalled_SetsPropertiesCorrectly()
         {
             _emptyMethod.SetAbstract();
             _emptyMethod.SetNonAbstract();
@@ -130,14 +130,14 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void SetHasImplementation_SetsProperties()
+        public void SetHasImplementation_WhenCalled_SetsHasImplementationTrue()
         {
             _emptyMethod.SetHasImplementation();
             Assert.True(_emptyMethod.HasImplementation);
         }
 
         [Fact]
-        public void SetHasNoImplementation_SetsProperties()
+        public void SetHasNoImplementation_WhenCalled_SetsHasImplementationFalse()
         {
             _emptyMethod.SetHasImplementation();
             _emptyMethod.SetHasNoImplementation();
@@ -145,7 +145,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void Parameters_Property_ReturnsAllAddedParameters()
+        public void Parameters_WhenCalled_ReturnsAllAddedParameters()
         {
             _emptyMethod.AddParameter("text", "string");
             _emptyMethod.AddParameter("flag", "bool");

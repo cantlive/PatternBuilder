@@ -17,7 +17,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddProperty_Adds_Property_To_Interface()
+        public void AddProperty_WhenCalled_AddsPropertyToInterface()
         {
             var patternInterface = _builder
                 .AddProperty(_property)
@@ -27,7 +27,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddMethod_Adds_Method_To_Interface()
+        public void AddMethod_WhenCalled_AddsMethodToInterface()
         {
             var patternInterface = _builder
                 .AddMethod(_method)
@@ -37,7 +37,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveProperty_Removes_Property_From_Interface()
+        public void RemoveProperty_WhenCalled_RemovesPropertyFromInterface()
         {
             var builder = _builder
                 .AddProperty(_property)
@@ -49,7 +49,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveMethod_Removes_Method_From_Interface()
+        public void RemoveMethod_WhenCalled_RemovesMethodFromInterface()
         {
             var builder = _builder
                 .AddMethod(_method)

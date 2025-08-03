@@ -17,7 +17,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddField_Adds_Field_To_Class()
+        public void AddField_WhenCalled_AddsFieldToClass()
         {
             var patternClass = _builder
                 .AddField(_field)
@@ -27,7 +27,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveField_Removes_Field_From_Class()
+        public void RemoveField_WhenCalled_RemovesFieldFromClass()
         {
             var patternClass = _builder
                 .AddField(_field)
@@ -38,7 +38,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddMethod_Adds_Method_To_Class()
+        public void AddMethod_WhenCalled_AddsMethodToClass()
         {
             var patternClass = _builder
                 .AddMethod(_method)
@@ -48,7 +48,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveMethod_Removes_Method_From_Class()
+        public void RemoveMethod_WhenCalled_RemovesMethodFromClass()
         {
             var patternClass = _builder
                 .AddMethod(_method)
@@ -59,7 +59,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetParentClass_Sets_ParentClass()
+        public void SetParentClass_WhenCalled_SetsParentClass()
         {
             var patternClass = _builder
                 .SetParentClass("BaseClass")
@@ -69,7 +69,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveParentClass_Clears_ParentClass()
+        public void RemoveParentClass_WhenCalled_ClearsParentClass()
         {
             var patternClass = _builder
                 .SetParentClass("BaseClass")
@@ -80,7 +80,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetAbstract_Marks_Class_As_Abstract()
+        public void SetAbstract_WhenCalled_MarksClassAsAbstract()
         {
             var patternClass = _builder
                 .SetAbstract()
@@ -90,7 +90,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetNonAbstract_Marks_Class_As_NonAbstract()
+        public void SetNonAbstract_WhenCalled_MarksClassAsNonAbstract()
         {
             var patternClass = _builder
                 .SetAbstract()

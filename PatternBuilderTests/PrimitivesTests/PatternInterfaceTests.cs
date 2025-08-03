@@ -13,7 +13,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void Constructor_InitializesCorrectly()
+        public void Constructor_WhenCalled_InitializesCorrectly()
         {
             Assert.Equal("IInterface1", _emptyInterface.Name);
             Assert.Equal("IInterface1", _emptyInterface.UniqueKey);
@@ -22,7 +22,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void AddProperty_AddsSuccessfully()
+        public void AddProperty_WhenCalled_AddsPropertySuccessfully()
         {
             var property = new PatternParameter("Id", "int");
 
@@ -34,7 +34,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveProperty_RemovesSuccessfully()
+        public void RemoveProperty_WhenCalled_RemovesPropertySuccessfully()
         {
             var property = new PatternParameter("Name", "string");
 
@@ -45,7 +45,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void AddMethod_AddsSuccessfully()
+        public void AddMethod_WhenCalled_AddsMethodSuccessfully()
         {
             var method = new PatternMethod("DoWork");
 
@@ -56,7 +56,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveMethod_RemovesSuccessfully()
+        public void RemoveMethod_WhenCalled_RemovesMethodSuccessfully()
         {
             var method = new PatternMethod("Run");
 

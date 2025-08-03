@@ -13,7 +13,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void Constructor_InitializesCorrectly()
+        public void Constructor_WhenCalled_InitializesCorrectly()
         {
             Assert.Equal("Class1", _emptyClass.Name);
             Assert.Equal("Class1", _emptyClass.UniqueKey);
@@ -24,7 +24,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void AddField_AddsSuccessfully()
+        public void AddField_WhenCalled_AddsFieldSuccessfully()
         {
             var field = new PatternParameter("age", "int");
 
@@ -36,7 +36,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveField_RemovesSuccessfully()
+        public void RemoveField_WhenCalled_RemovesFieldSuccessfully()
         {
             var field = new PatternParameter("name", "string");
 
@@ -47,7 +47,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void AddMethod_AddsSuccessfully()
+        public void AddMethod_WhenCalled_AddsMethodSuccessfully()
         {
             var method = new PatternMethod("Execute");
 
@@ -58,7 +58,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveMethod_RemovesSuccessfully()
+        public void RemoveMethod_WhenCalled_RemovesMethodSuccessfully()
         {
             var method = new PatternMethod("Reset");
 
@@ -69,21 +69,21 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void SetParentClass_SetsCorrectly()
+        public void SetParentClass_WhenCalled_SetsParentClassCorrectly()
         {
             _emptyClass.SetParentClass("BaseClass");
             Assert.Equal("BaseClass", _emptyClass.ParentClass);
         }
 
         [Fact]
-        public void SetAbstract_SetsFlagTrue()
+        public void SetAbstract_WhenCalled_SetsIsAbstractTrue()
         {
             _emptyClass.SetAbstract();
             Assert.True(_emptyClass.IsAbstract);
         }
 
         [Fact]
-        public void SetNonAbstract_SetsFlagFalse()
+        public void SetNonAbstract_WhenCalled_SetsIsAbstractFalse()
         {
             _emptyClass.SetAbstract();
             _emptyClass.SetNonAbstract();

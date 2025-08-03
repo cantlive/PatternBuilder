@@ -15,7 +15,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ThrowIfNullArgument_Throws_WhenNull()
+        public void ThrowIfNullArgument_WhenCalledWithNull_ThrowsArgumentNullException()
         {
             var ex = Assert.Throws<ArgumentNullException>(() =>
                 PatternValidator.ThrowIfNullArgument(null, "myParam"));
@@ -24,17 +24,16 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ThrowIfNullArgument_DoesNotThrow_WhenNotNull()
+        public void ThrowIfNullArgument_WhenCalledWithNonNull_DoesNotThrow()
         {
             PatternValidator.ThrowIfNullArgument("not null", "myParam");
-            // No exception expected
         }
 
         [Theory]
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public void ThrowIfNullOrWhiteSpace_Throws(string input)
+        public void ThrowIfNullOrWhiteSpace_WhenCalledWithNullOrWhiteSpace_ThrowsArgumentException(string input)
         {
             var ex = Assert.Throws<ArgumentException>(() =>
                 PatternValidator.ThrowIfNullOrWhiteSpace(input, "valueName"));
@@ -43,14 +42,13 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ThrowIfNullOrWhiteSpace_DoesNotThrow_WhenValid()
+        public void ThrowIfNullOrWhiteSpace_WhenCalledWithValidValue_DoesNotThrow()
         {
             PatternValidator.ThrowIfNullOrWhiteSpace("something", "valueName");
-            // No exception expected
         }
 
         [Fact]
-        public void ValidateUniquePatternPrimitive_Throws_WhenDuplicate_FallbackSystemName()
+        public void ValidateUniquePatternPrimitive_WhenDuplicateWithFallbackSystemName_ThrowsDuplicateElementException()
         {
             var existing = new Dummy { UniqueKey = "dup", Name = "Name1" };
             var primitives = new Dictionary<string, Dummy> { { existing.UniqueKey, existing } };
@@ -64,7 +62,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ValidateUniquePatternPrimitive_Throws_WhenDuplicate_CustomParameterName()
+        public void ValidateUniquePatternPrimitive_WhenDuplicateWithCustomParameterName_ThrowsDuplicateElementException()
         {
             var existing = new Dummy { UniqueKey = "dup", Name = "Name1" };
             var primitives = new Dictionary<string, Dummy> { { existing.UniqueKey, existing } };
@@ -78,13 +76,12 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ValidateUniquePatternPrimitive_DoesNotThrow_WhenUnique()
+        public void ValidateUniquePatternPrimitive_WhenUnique_DoesNotThrow()
         {
             var primitives = new Dictionary<string, Dummy>();
             var newItem = new Dummy { UniqueKey = "key1", Name = "Name1" };
 
             PatternValidator.ValidateUniquePatternPrimitive(primitives, newItem, "myContainer");
-            // No exception expected
         }
     }
 }

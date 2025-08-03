@@ -34,7 +34,8 @@ namespace PatternBuilder.Tests.PrimitivesTests
 
         [Theory]
         [MemberData(nameof(PrimitiveTestList))]
-        public void PrimitiveConstructor_InitializesCorrectly<T>(PrimitiveTestData<T> data) where T : PatternPrimitiveBase, IPatternPrimitive
+        public void Constructor_WhenCalled_InitializesCorrectly<T>(PrimitiveTestData<T> data) 
+            where T : PatternPrimitiveBase, IPatternPrimitive
         {
             Assert.NotNull(data.Instance);
             Assert.Equal(data.Name, data.Instance.Name);
@@ -52,16 +53,18 @@ namespace PatternBuilder.Tests.PrimitivesTests
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public void Constructor_Throws_WhenNameIsEmpty(string name)
+        public void Constructor_WhenCalledWithEmptyName_ThrowsArgumentException(string name)
         {
             Assert.Throws<ArgumentException>(() => new DummyPatternPrimitive(name));
         }
 
         [Fact]
-        public void SetName_ValidName_SetsProperty()
+        public void SetName_WhenCalledWithValidName_SetsProperty()
         {
             var primitive = new DummyPatternPrimitive("Name");
+
             primitive.SetName("NewName");
+
             Assert.Equal("NewName", primitive.Name);
         }
 
@@ -69,16 +72,17 @@ namespace PatternBuilder.Tests.PrimitivesTests
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public void SetName_NullOrWhiteSpace_ThrowsException(string name)
+        public void SetName_WhenCalledWithNullOrWhiteSpace_ThrowsArgumentException(string name)
         {
             var primitive = new DummyPatternPrimitive("Name");
             Assert.Throws<ArgumentException>(() => primitive.SetName(null));
         }
 
         [Fact]
-        public void SetName_ValidName_ChangesNameAndUniqueKey()
+        public void SetName_WhenCalledWithValidName_ChangesNameAndUniqueKey()
         {
             var patternPrimitive = new DummyPatternPrimitive("Name");
+
             patternPrimitive.SetName("NewName");
 
             Assert.Equal("NewName", patternPrimitive.Name);
@@ -86,7 +90,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void CreateWithName_ValidPrimitive_ReturnsInstanceWithCorrectName()
+        public void CreateWithName_WhenCalled_ReturnsInstanceWithCorrectName()
         {
             string expectedName = "MyClass";
 

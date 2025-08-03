@@ -1,5 +1,4 @@
 ﻿using PatternBuilder.Core.Builders;
-using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Tests.BuildersTests
 {
@@ -13,7 +12,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddParameter_WithNameOnly_Adds_Parameter()
+        public void AddParameter_WhenCalledWithNameOnly_AddsParameter()
         {
             var method = _builder
                 .AddParameter("value")
@@ -25,7 +24,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddParameter_WithNameAndType_Adds_Parameter()
+        public void AddParameter_WhenCalledWithNameAndType_AddsParameter()
         {
             var method = _builder
                 .AddParameter("value", "int")
@@ -37,7 +36,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveParameter_Removes_Existing_Parameter()
+        public void RemoveParameter_WhenCalled_RemovesExistingParameter()
         {
             var method = _builder
                 .AddParameter("id", "int")
@@ -53,7 +52,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetReturnType_Sets_ReturnType()
+        public void SetReturnType_WhenCalled_SetsReturnType()
         {
             var method = _builder
                 .SetReturnType("string")
@@ -63,7 +62,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetBody_Sets_MethodBody()
+        public void SetBody_WhenCalled_SetsMethodBody()
         {
             var method = _builder
                 .SetBody("return 42;")
@@ -73,7 +72,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void HasImplementation_Sets_HasImplementation_True()
+        public void HasImplementation_WhenCalled_SetsHasImplementationTrue()
         {
             var method = _builder
                 .HasImplementation()
@@ -83,7 +82,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void HasNoImplementation_Sets_HasImplementation_False()
+        public void HasNoImplementation_WhenCalled_SetsHasImplementationFalse()
         {
             var method = _builder
                 .HasNoImplementation()
@@ -93,7 +92,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetAbstarct_Sets_IsAbstract_True_And_Clears_Body()
+        public void SetAbstarct_WhenCalled_SetsIsAbstractTrueAndClearsBody()
         {
             var method = _builder
                 .SetBody("return x;")
@@ -106,7 +105,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void SetNonAbstarct_Sets_IsAbstract_False_And_EnablesImplementation()
+        public void SetNonAbstarct_WhenCalled_SetsIsAbstractFalseAndEnablesImplementation()
         {
             var method = _builder
                 .SetAbstarct()

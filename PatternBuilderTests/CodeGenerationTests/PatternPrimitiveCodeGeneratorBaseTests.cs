@@ -22,7 +22,7 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         }
 
         [Fact]
-        public void Generate_Throws_If_Null()
+        public void Generate_WhenCalledWithNull_ThrowsArgumentNullException()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => new DummyPatternPrimitiveCodeGenerator().Generate(null));
             Assert.Equal("PrimitiveName cannot be null. (Parameter 'PrimitiveName')", ex.Message);

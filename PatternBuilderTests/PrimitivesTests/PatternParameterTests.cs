@@ -16,7 +16,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void Constructor_WithoutType_InitializesCorrectly()
+        public void Constructor_WhenCalledWithoutType_InitializesCorrectly()
         {
             Assert.Equal("Name", _parameterWithoutType.Name);
             Assert.Equal("Name", _parameterWithoutType.UniqueKey);
@@ -28,7 +28,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void Constructor_WithType_InitializesCorrectly()
+        public void Constructor_WhenCalledWithType_InitializesCorrectly()
         {
             Assert.Equal("Name", _parameterWithType.Name);
             Assert.Equal("Name", _parameterWithType.UniqueKey);
@@ -36,7 +36,7 @@ namespace PatternBuilderTests.PrimitivesTests
         }
 
         [Fact]
-        public void SetType_Valid_ChangeProperty()
+        public void SetType_WhenCalledWithValidValue_ChangesProperty()
         {
             _parameterWithType.SetType("int");
             _parameterWithoutType.SetType("int");
@@ -49,7 +49,7 @@ namespace PatternBuilderTests.PrimitivesTests
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public void SetType_NullOrWhiteSpace_ChangeProperty(string type)
+        public void SetType_WhenCalledWithNullOrWhiteSpace_ChangesPropertyToEmpty(string type)
         {
             _parameterWithType.SetType(type);
             _parameterWithoutType.SetType(type);

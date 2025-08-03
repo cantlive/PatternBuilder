@@ -9,11 +9,11 @@ namespace PatternBuilder.Tests.PrimitivesTests
 
         public PatternTests()
         {
-            _pattern = Core.Builders.PatternPrimitiveBuilder.Empty;
+            _pattern = PatternPrimitiveBuilder.Empty;
         }
 
         [Fact]
-        public void Constructor_InitializesCorrectly()
+        public void Constructor_WhenCalled_InitializesCorrectly()
         {
             Assert.Equal("Pattern1", _pattern.Name);
             Assert.Equal("Pattern1", _pattern.UniqueKey);
@@ -24,7 +24,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void AddClass_AddsToContainer()
+        public void AddClass_WhenCalled_AddsClassToContainer()
         {
             _pattern.AddClass(PatternClassBuilder.Empty);
 
@@ -33,7 +33,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveClass_RemovesFromContainer()
+        public void RemoveClass_WhenCalled_RemovesClassFromContainer()
         {
             PatternClass patternClass = PatternClassBuilder.Empty;
 
@@ -44,7 +44,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void AddInterface_AddsToContainer()
+        public void AddInterface_WhenCalled_AddsInterfaceToContainer()
         {
             _pattern.AddInterface(PatternInterfaceBuilder.Empty);
 
@@ -53,7 +53,7 @@ namespace PatternBuilder.Tests.PrimitivesTests
         }
 
         [Fact]
-        public void RemoveInterface_RemovesFromContainer()
+        public void RemoveInterface_WhenCalled_RemovesInterfaceFromContainer()
         {
             PatternInterface patternInterface = PatternInterfaceBuilder.Empty;
 

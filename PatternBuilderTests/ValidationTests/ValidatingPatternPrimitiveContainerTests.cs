@@ -22,7 +22,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ParameterName_UsesSystemName_WhenNotProvided()
+        public void Constructor_WhenParameterNameNotProvided_UsesSystemName()
         {
             var container = new ValidatingPatternPrimitiveContainer<DummyPatternPrimitive>("testContainer");
 
@@ -32,7 +32,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ParameterName_UsesProvidedName_WhenGiven()
+        public void Constructor_WhenParameterNameProvided_UsesProvidedName()
         {
             var container = new ValidatingPatternPrimitiveContainer<DummyPatternPrimitive>("testContainer", "CustomParam");
 
@@ -42,7 +42,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void ParameterName_InKeyValidation()
+        public void Add_WhenPrimitiveKeyIsInvalid_ThrowsArgumentExceptionWithCustomParameterName()
         {
             var container = new ValidatingPatternPrimitiveContainer<DummyPatternPrimitive>("testContainer", "CustomParam");
             var primitive = new DummyPatternPrimitive();
@@ -53,14 +53,14 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void Add_NullPrimitive_ThrowsArgumentNullException()
+        public void Add_WhenPrimitiveIsNull_ThrowsArgumentNullException()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => _container.Add(null));
             Assert.Equal("dummy cannot be null. (Parameter 'dummy')", ex.Message);
         }
 
         [Fact]
-        public void Add_PrimitiveWithEmptyKey_ThrowsArgumentException()
+        public void Add_WhenPrimitiveKeyIsEmpty_ThrowsArgumentException()
         {
             var primitive = new DummyPatternPrimitive();
             var ex = Assert.Throws<ArgumentException>(() => _container.Add(primitive));
@@ -68,14 +68,14 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void NullPrimitive_ThrowsArgumentNullException()
+        public void Remove_WhenPrimitiveIsNull_ThrowsArgumentNullException()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => _container.Remove(null));
             Assert.Equal("dummy cannot be null. (Parameter 'dummy')", ex.Message);
         }
 
         [Fact]
-        public void Remove_PrimitiveWithEmptyKey_ThrowsArgumentException()
+        public void Remove_WhenPrimitiveKeyIsEmpty_ThrowsArgumentException()
         {
             var primitive = new DummyPatternPrimitive();
             var ex = Assert.Throws<ArgumentException>(() => _container.Remove(primitive));
@@ -83,7 +83,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void Add_ValidPrimitive_AddsSuccessfully()
+        public void Add_WhenPrimitiveIsValid_AddsSuccessfully()
         {
             var primitive = new DummyPatternPrimitive { UniqueKey = "key1", Name = "Name1" };
             _container.Add(primitive);
@@ -94,7 +94,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void Add_DuplicatePrimitive_ThrowsDuplicateException()
+        public void Add_WhenPrimitiveIsDuplicate_ThrowsDuplicateElementException()
         {
             var primitive = new DummyPatternPrimitive { UniqueKey = "key1", Name = "Name1" };
             _container.Add(primitive);
@@ -104,7 +104,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void Remove_ValidPrimitive_RemovesSuccessfully()
+        public void Remove_WhenPrimitiveIsValid_RemovesSuccessfully()
         {
             var primitive = new DummyPatternPrimitive { UniqueKey = "key1", Name = "Name1" };
             _container.Add(primitive);
@@ -115,7 +115,7 @@ namespace PatternBuilderTests.ValidationTests
         }
 
         [Fact]
-        public void Clear_RemovesAllItems()
+        public void Clear_WhenCalled_RemovesAllItems()
         {
             _container.Add(new DummyPatternPrimitive { UniqueKey = "key1", Name = "Name1" });
             _container.Add(new DummyPatternPrimitive { UniqueKey = "key2", Name = "Name2" });

@@ -17,7 +17,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddClass_Adds_Class_To_Pattern()
+        public void AddClass_WhenCalled_AddsClassToPattern()
         {
             var pattern = _builder
                 .AddClass(_emptyClass)
@@ -27,7 +27,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void AddInterface_Adds_Interface_To_Pattern()
+        public void AddInterface_WhenCalled_AddsInterfaceToPattern()
         {
             var pattern = _builder
                 .AddInterface(_emptyInterface)
@@ -37,7 +37,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveClass_Removes_Class_From_Pattern()
+        public void RemoveClass_WhenCalled_RemovesClassFromPattern()
         {
             var builder = _builder
                 .AddClass(_emptyClass)
@@ -49,7 +49,7 @@ namespace PatternBuilder.Tests.BuildersTests
         }
 
         [Fact]
-        public void RemoveInterface_Removes_Interface_From_Pattern()
+        public void RemoveInterface_WhenCalled_RemovesInterfaceFromPattern()
         {
             var builder = _builder
                 .AddInterface(_emptyInterface)
