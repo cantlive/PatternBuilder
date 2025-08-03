@@ -19,8 +19,11 @@ namespace PatternBuilder.Core.CodeGenerators
             Clear();
 
             AddString(pattern.Name);
-            if (pattern.Classes.Count() > 0 && pattern.Interfaces.Count() > 0)
+            if (pattern.Classes.Count() > 0 || pattern.Interfaces.Count() > 0)
+            {
                 AddLine();
+                AddLine();
+            }
 
             foreach (var patternClass in pattern.Classes)
                 AddLine(_generatorRegistry.GetGenerator<PatternClass>().Generate(patternClass));

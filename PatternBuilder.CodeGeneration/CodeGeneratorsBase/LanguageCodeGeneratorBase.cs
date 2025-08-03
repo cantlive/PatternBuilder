@@ -11,6 +11,7 @@ namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 
         protected LanguageCodeGeneratorBase()
         {
+            GeneratorRegistry = new CodeGeneratorRegistry();
             RegisterGenerators();
         }
 
