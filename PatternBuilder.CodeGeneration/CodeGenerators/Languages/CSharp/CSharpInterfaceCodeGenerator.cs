@@ -17,9 +17,7 @@ namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
         protected override void AddProperties(PatternInterface patternInterface)
         {
             foreach (PatternParameter property in patternInterface.Properties)
-            {
                 AddLine($"\t{property.Type} {property.Name} {{ get; set; }}");
-            }
         }
 
         protected override void AddMethods(PatternInterface patternInterface)

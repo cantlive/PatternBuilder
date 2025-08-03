@@ -22,8 +22,8 @@ namespace PatternBuilder.Core.Primitives
 
         public void AddInterface(PatternInterface patternInterface) => InterfaceContainer.Add(patternInterface);
 
-        public void RemoveClass(PatternClass @class) => ClassContainer.Remove(@class);
+        public void RemoveClass(PatternClass patternClass) => ClassContainer.Remove(patternClass);
 
-        public void RemoveInterface(PatternInterface @interface) => InterfaceContainer.Remove(@interface);
+        public void RemoveInterface(PatternInterface patternInterface) => InterfaceContainer.Remove(patternInterface);
     }
 }

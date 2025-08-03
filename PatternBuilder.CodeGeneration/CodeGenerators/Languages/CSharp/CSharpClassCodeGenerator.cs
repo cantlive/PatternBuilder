@@ -30,9 +30,7 @@ namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
         protected override void AddMethods(PatternClass patternClass)
         {
             foreach (PatternMethod method in patternClass.Methods)
-            {
                 AddLine(_generatorRegistry.GetGenerator<PatternMethod>().Generate(method));
-            }
 
             RemoveLastEmptyLine();
             AddLine("}");
