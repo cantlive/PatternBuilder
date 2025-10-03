@@ -3,10 +3,9 @@ using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 {
+    [PatternLanguage(PatternLanguages.CSharp)]
     internal sealed class CSharpInterfaceCodeGenerator : InterfaceCodeGeneratorBase
     {
-        public CSharpInterfaceCodeGenerator(CodeGeneratorRegistry generatorRegistry) : base(generatorRegistry) { }
-
         protected override void AddSignature(PatternInterface patternInterface)
         {
             AddString($"public interface {patternInterface.Name}");
@@ -24,7 +23,7 @@ namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
         {
             foreach (PatternMethod method in patternInterface.Methods)
             {
-                AddLine(_generatorRegistry.GetGenerator<PatternMethod>().Generate(method));
+                AddLine(PatternCodeGenerator.Generate(method, Language));
                 AddLine();
             }
 

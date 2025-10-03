@@ -3,6 +3,7 @@ using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 {
+    [PatternLanguage(PatternLanguages.CSharp)]
     internal sealed class CSharpMethodCodeGenerator : MethodCodeGeneratorBase
     {
         protected override void AddSignature(PatternMethod patternMethod)

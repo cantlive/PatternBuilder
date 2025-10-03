@@ -1,18 +1,18 @@
 ﻿using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
 using PatternBuilder.Core.Primitives;
-using PatternBuilder.Core.Validation;
 
 namespace PatternBuilder.Core.CodeGenerators
 {
     internal sealed class PatternPrimitiveCodeGenerator : PatternPrimitiveCodeGeneratorBase<Pattern>
     {
-        private readonly CodeGeneratorRegistry _generatorRegistry;
+        private readonly PatternLanguages _language;
 
-        internal PatternPrimitiveCodeGenerator(CodeGeneratorRegistry generatorRegistry)
+        internal PatternPrimitiveCodeGenerator(PatternLanguages language)
         {
-            PatternValidator.ThrowIfNullArgument(generatorRegistry, nameof(generatorRegistry));
-            _generatorRegistry = generatorRegistry;
+            _language = language;
         }
+
+        internal override PatternLanguages Language => _language;
 
         internal override string InternalGenerate(Pattern pattern)
         {
@@ -26,10 +26,10 @@ namespace PatternBuilder.Core.CodeGenerators
             }
 
             foreach (var patternClass in pattern.Classes)
-                AddLine(_generatorRegistry.GetGenerator<PatternClass>().Generate(patternClass));
+                AddLine(PatternCodeGenerator.Generate(patternClass, _language));
 
             foreach (var patternInterface in pattern.Interfaces)
-                AddLine(_generatorRegistry.GetGenerator<PatternInterface>().Generate(patternInterface));
+                AddLine(PatternCodeGenerator.Generate(patternInterface, _language));
 
             return GetResult();
         }

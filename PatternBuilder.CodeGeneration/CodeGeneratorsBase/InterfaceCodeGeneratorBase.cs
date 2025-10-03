@@ -4,13 +4,6 @@ namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
     internal abstract class InterfaceCodeGeneratorBase : PatternPrimitiveCodeGeneratorBase<PatternInterface>
     {
-        protected readonly CodeGeneratorRegistry _generatorRegistry;
-
-        public InterfaceCodeGeneratorBase(CodeGeneratorRegistry generatorRegistry)
-        {
-            _generatorRegistry = generatorRegistry;
-        }
-
         protected abstract void AddSignature(PatternInterface patterninterface);
         protected abstract void AddProperties(PatternInterface patterninterface);
         protected abstract void AddMethods(PatternInterface patterninterface);

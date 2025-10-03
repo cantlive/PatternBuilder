@@ -2,7 +2,9 @@
 {
     public enum PatternLanguages
     {
-        CSharp = 1,
-        Python = 2
+        None = 0,
+        Any = 1,
+        CSharp = 2,
+        Python = 3
     }
 }

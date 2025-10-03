@@ -5,13 +5,10 @@ namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 {
     internal abstract class LanguageCodeGeneratorBase
     {
-        protected readonly CodeGeneratorRegistry GeneratorRegistry;
-
         public abstract PatternLanguages Language { get; }
 
         protected LanguageCodeGeneratorBase()
         {
-            GeneratorRegistry = new CodeGeneratorRegistry();
             RegisterGenerators();
         }
 
@@ -19,8 +16,7 @@ namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
 
         public string Generate<T>(T primitive) where T : IPatternPrimitive
         {
-            var generator = GeneratorRegistry.GetGenerator<T>();
-            return generator.Generate(primitive);
+            return PatternCodeGenerator.Generate(primitive, Language);
         }
     }
 }

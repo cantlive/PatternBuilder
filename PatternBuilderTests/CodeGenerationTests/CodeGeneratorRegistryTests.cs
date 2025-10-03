@@ -1,37 +1,34 @@
 ﻿using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
 using PatternBuilder.Core.Interfaces.Primitives;
+using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Tests.CodeGenerationTests
 {
     public class CodeGeneratorRegistryTests
     {
-        private readonly CodeGeneratorRegistry _registry;
-
-        public CodeGeneratorRegistryTests()
-        {
-            _registry = new CodeGeneratorRegistry();
-        }
-
         private class DummyPrimitive : IPatternPrimitive
         {
-            public static string SystemName => throw new NotImplementedException();
+            public static string SystemName => nameof(SystemName);
 
-            public static string DefaultName => throw new NotImplementedException();
+            public static string DefaultName => nameof(DefaultName);
 
-            public string Name => throw new NotImplementedException();
+            public string Name => nameof(Name);
 
-            public string UniqueKey => throw new NotImplementedException();
+            public string UniqueKey => nameof(UniqueKey);
         }
 
         private class DummyGenerator : PatternPrimitiveCodeGeneratorBase<DummyPrimitive>
         {
+            internal override PatternLanguages Language => PatternLanguages.Any;
+
             internal override string InternalGenerate(DummyPrimitive patternPrimitive) => "dummy code";
         }
 
         [Fact]
         public void RegisterGenerator_WhenGeneratorIsNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => _registry.RegisterGenerator<DummyPrimitive>(null));
+            CodeGeneratorRegistry.Clear();
+            Assert.Throws<ArgumentNullException>(() => CodeGeneratorRegistry.RegisterGenerator<DummyPrimitive>(null));
         }
 
         [Fact]
@@ -39,11 +36,13 @@ namespace PatternBuilder.Tests.CodeGenerationTests
         {
             var generator = new DummyGenerator();
 
-            _registry.RegisterGenerator(generator);
+            CodeGeneratorRegistry.Clear();
+            CodeGeneratorRegistry.RegisterGenerator(generator);
 
-            var result = _registry.GetGenerator<DummyPrimitive>();
+            var result = CodeGeneratorRegistry.GetGenerator<DummyPrimitive>(generator.Language);
 
             Assert.Same(generator, result);
+            CodeGeneratorRegistry.Clear();
         }
 
         [Fact]
@@ -52,18 +51,21 @@ namespace PatternBuilder.Tests.CodeGenerationTests
             var first = new DummyGenerator();
             var second = new DummyGenerator();
 
-            _registry.RegisterGenerator(first);
-            _registry.RegisterGenerator(second);
+            CodeGeneratorRegistry.Clear();
+            CodeGeneratorRegistry.RegisterGenerator(first);
+            CodeGeneratorRegistry.RegisterGenerator(second);
 
-            var result = _registry.GetGenerator<DummyPrimitive>();
+            var result = CodeGeneratorRegistry.GetGenerator<DummyPrimitive>(second.Language);
 
             Assert.Same(second, result);
+            CodeGeneratorRegistry.Clear();
         }
 
         [Fact]
         public void GetGenerator_WhenTypeNotRegistered_ThrowsKeyNotFoundException()
         {
-            Assert.Throws<KeyNotFoundException>(() => _registry.GetGenerator<DummyPrimitive>());
+            CodeGeneratorRegistry.Clear();
+            Assert.Throws<KeyNotFoundException>(() => CodeGeneratorRegistry.GetGenerator<DummyPrimitive>(PatternLanguages.Any));
         }
     }
 }

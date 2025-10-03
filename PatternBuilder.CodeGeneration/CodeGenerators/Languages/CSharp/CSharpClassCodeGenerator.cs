@@ -3,10 +3,9 @@ using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 {
+    [PatternLanguage(PatternLanguages.CSharp)]
     internal sealed class CSharpClassCodeGenerator : ClassCodeGeneratorBase
     {
-        public CSharpClassCodeGenerator(CodeGeneratorRegistry generatorRegistry) : base(generatorRegistry) { }
-
         protected override void AddSignature(PatternClass patternClass)
         {
             string abstractClassDefinition = patternClass.IsAbstract ? " abstract" : string.Empty;
@@ -30,7 +29,7 @@ namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
         protected override void AddMethods(PatternClass patternClass)
         {
             foreach (PatternMethod method in patternClass.Methods)
-                AddLine(_generatorRegistry.GetGenerator<PatternMethod>().Generate(method));
+                AddLine(PatternCodeGenerator.Generate(method, Language));
 
             RemoveLastEmptyLine();
             AddLine("}");

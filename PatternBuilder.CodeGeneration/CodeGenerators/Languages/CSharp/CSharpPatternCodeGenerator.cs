@@ -28,10 +28,7 @@ namespace PatternBuilder.CodeGeneration.CodeGenerators.Languages.CSharp
 
             protected override void RegisterGenerators()
             {
-                GeneratorRegistry.RegisterGenerator(new CSharpMethodCodeGenerator());
-                GeneratorRegistry.RegisterGenerator(new CSharpClassCodeGenerator(GeneratorRegistry));
-                GeneratorRegistry.RegisterGenerator(new CSharpInterfaceCodeGenerator(GeneratorRegistry));
-                GeneratorRegistry.RegisterGenerator(new PatternPrimitiveCodeGenerator(GeneratorRegistry));
+                CodeGeneratorRegistry.RegisterGeneratorsFor(Language);
             }
         }
     }
