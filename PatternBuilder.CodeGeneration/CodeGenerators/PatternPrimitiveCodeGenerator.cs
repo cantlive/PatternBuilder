@@ -1,4 +1,5 @@
-﻿using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
+﻿using PatternBuilder.CodeGeneration.CodeGenerators;
+using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
 using PatternBuilder.Core.Primitives;
 
 namespace PatternBuilder.Core.CodeGenerators

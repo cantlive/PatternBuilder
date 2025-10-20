@@ -1,9 +1,10 @@
-﻿using PatternBuilder.Core.Interfaces.Primitives;
+﻿using PatternBuilder.CodeGeneration.CodeGeneratorsBase;
+using PatternBuilder.Core.Interfaces.Primitives;
 using PatternBuilder.Core.Primitives;
 using PatternBuilder.Core.Validation;
 using System.Reflection;
 
-namespace PatternBuilder.CodeGeneration.CodeGeneratorsBase
+namespace PatternBuilder.CodeGeneration.CodeGenerators
 {
     internal static class CodeGeneratorRegistry
     {
